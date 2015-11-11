@@ -105,7 +105,7 @@ class MineralType(models.Model):
         verbose_name=_("last modified")
     )
 
-    def __unicode__(self):
+    def __str__(self):
         return self.trivial_name
 
 
@@ -156,7 +156,7 @@ class Handpiece(models.Model):
         verbose_name=_("last modified")
     )
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def list_mineral_types(self):

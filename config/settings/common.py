@@ -13,7 +13,7 @@ from __future__ import absolute_import, unicode_literals
 import environ
 
 ROOT_DIR = environ.Path(__file__) - 3  # (/a/b/myfile.py - 3 = /)
-APPS_DIR = ROOT_DIR.path('django-geomat')
+APPS_DIR = ROOT_DIR.path('geomat')
 
 env = environ.Env()
 
@@ -43,8 +43,9 @@ THIRD_PARTY_APPS = (
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
-    'django-geomat.users',  # custom users app
+    'geomat.users',  # custom users app
     # Your stuff: custom apps go here
+    'geomat.stein',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -65,7 +66,7 @@ MIDDLEWARE_CLASSES = (
 # MIGRATIONS CONFIGURATION
 # ------------------------------------------------------------------------------
 MIGRATION_MODULES = {
-    'sites': 'django-geomat.contrib.sites.migrations'
+    'sites': 'geomat.contrib.sites.migrations'
 }
 
 # DEBUG

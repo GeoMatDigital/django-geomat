@@ -1,3 +1,3 @@
 [run]
-include = geomat/*
+include = django-geomat/*
 omit = *migrations*

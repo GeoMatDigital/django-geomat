@@ -57,4 +57,4 @@ node_modules/
 .env
 
 # User-uploaded media
-django-geomat/media/
+geomat/media/

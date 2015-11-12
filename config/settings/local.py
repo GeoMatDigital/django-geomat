@@ -19,10 +19,11 @@ TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 # Note: This key only used for development and testing.
-SECRET_KEY = env("DJANGO_SECRET_KEY", default='$nbsgx13n49$ylq+0^za)v$p4c@8qi&a7x)2rno6vjgfl+tg(j')
+SECRET_KEY = env("DJANGO_SECRET_KEY", default='CHANGEME!!!^e8je^d8+us-s9!j3ks@h2h1(*^kr$-jocui3wam6%i=+^mti9')
 
 # Mail settings
 # ------------------------------------------------------------------------------
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
 
@@ -52,7 +53,7 @@ DEBUG_TOOLBAR_CONFIG = {
 
 # django-extensions
 # ------------------------------------------------------------------------------
-INSTALLED_APPS += ('django_extensions', )
+INSTALLED_APPS += ('django_extensions', 'rosetta',)
 
 # TESTING
 # ------------------------------------------------------------------------------

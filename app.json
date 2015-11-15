@@ -10,7 +10,7 @@
     },
     "DJANGO_ALLOWED_HOSTS": {
       "description": "Comma-separated list of hosts",
-      "value": ".herokuapp.com"
+      "value": ".baeu.me"
     },
     "DJANGO_ADMIN_URL": {
       "description": "A secret URL for the Django admin",
@@ -20,9 +20,9 @@
     "DJANGO_AWS_SECRET_ACCESS_KEY": "",
     "DJANGO_AWS_STORAGE_BUCKET_NAME": "",
     "DJANGO_MAILGUN_SERVER_NAME": "",
-    
+
     "DJANGO_MAILGUN_API_KEY": "",
-    "DJANGO_SENTRY_DSN": "" 
+    "DJANGO_SENTRY_DSN": ""
   },
   "scripts": {
     "postdeploy": "python manage.py migrate"

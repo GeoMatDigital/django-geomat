@@ -6,6 +6,7 @@ ENV PYTHONUNBUFFERED 1
 COPY ./requirements /requirements
 
 RUN pip install -r /requirements/production.txt
+RUN apt-get update && apt-get -y install gettext
 
 RUN groupadd -r django && useradd -r -g django django
 COPY . /app

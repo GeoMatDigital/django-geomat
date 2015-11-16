@@ -10,7 +10,7 @@
         id_password2: password
     - Click: sign-up-button
     - Wait for email:
-        containing: Please Confirm Your E-mail Address
+        Containing: Please Confirm Your E-mail Address
     - Click on link in last email
     - Click: confirm-button
     - Fill form:

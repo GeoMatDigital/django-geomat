@@ -21,6 +21,15 @@ urlpatterns = [
 
     # Your stuff: custom urls includes go here
 
+    # Let's fix this stupid issue with Google Chrome and make a redirect from /favicon.ico to our /img/favicon.ico file!
+    # Google Chrome ignores the favicon file defined in HTML and always looks for it in /
+    url(
+        r'^favicon.ico$',
+        RedirectView.as_view(
+            url=staticfiles_storage.url('img/favicon.ico'),
+            permanent=False),
+        name="favicon"
+    ),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

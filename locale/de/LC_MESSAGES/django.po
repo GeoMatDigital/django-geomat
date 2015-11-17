@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-11 19:52+0200\n"
+"POT-Creation-Date: 2015-11-17 12:27+0200\n"
 "PO-Revision-Date: 2015-11-11 19:57+0053\n"
 "Last-Translator:   <mgecht@stud.uni-frankfurt.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -189,12 +189,10 @@ msgid "mineral type"
 msgstr "Mineralart"
 
 #: .\geomat\stein\models.py:107
-#| msgid "mineral type"
 msgid "mineral types"
 msgstr "Mineralarten"
 
 #: .\geomat\stein\models.py:120
-#| msgid "name of Handpiece"
 msgid "name of handpiece"
 msgstr "Name des Handstücks"
 
@@ -219,12 +217,10 @@ msgid "MineralienAtlas ID"
 msgstr "MineralienAtlas ID"
 
 #: .\geomat\stein\models.py:161
-#| msgid "name of Handpiece"
 msgid "Handpiece"
 msgstr "Handstück"
 
 #: .\geomat\stein\models.py:162
-#| msgid "name of Handpiece"
 msgid "Handpieces"
 msgstr "Handstücke"
 
@@ -277,12 +273,10 @@ msgid "active photograph?"
 msgstr "Aktiv?"
 
 #: .\geomat\stein\models.py:217
-#| msgid "active photograph?"
 msgid "Photograph"
 msgstr "Foto"
 
 #: .\geomat\stein\models.py:218
-#| msgid "active photograph?"
 msgid "Photographs"
 msgstr "Fotos"
 
@@ -329,8 +323,7 @@ msgstr ""
 #: .\geomat\templates\account\email.html:48
 msgid ""
 "You currently do not have any e-mail address set up. You should really add "
-"an e-mail address so you can receive notifications, reset your password, "
-"etc."
+"an e-mail address so you can receive notifications, reset your password, etc."
 msgstr ""
 
 #: .\geomat\templates\account\email.html:53
@@ -366,15 +359,15 @@ msgstr ""
 #: .\geomat\templates\account\email_confirm.html:31
 #, python-format
 msgid ""
-"This e-mail confirmation link expired or is invalid. Please <a "
-"href=\"%(email_url)s\">issue a new e-mail confirmation request</a>."
+"This e-mail confirmation link expired or is invalid. Please <a href=\"%"
+"(email_url)s\">issue a new e-mail confirmation request</a>."
 msgstr ""
 
 #: .\geomat\templates\account\email_confirmed.html:17
 #, python-format
 msgid ""
-"You have confirmed that <a href=\"mailto:%(email)s\">%(email)s</a> is an "
-"e-mail address for user %(user_display)s."
+"You have confirmed that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-"
+"mail address for user %(user_display)s."
 msgstr ""
 
 #: .\geomat\templates\account\login.html:9
@@ -387,7 +380,8 @@ msgstr ""
 #, python-format
 msgid ""
 "Please sign in with one\n"
-"      of your existing third party accounts. Or, <a href=\"%(signup_url)s\">sign up</a>\n"
+"      of your existing third party accounts. Or, <a href=\"%(signup_url)s"
+"\">sign up</a>\n"
 "      for a %(site_name)s account and sign in below:"
 msgstr ""
 
@@ -428,8 +422,8 @@ msgstr ""
 
 #: .\geomat\templates\account\password_reset.html:19
 msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll send you"
-" an e-mail allowing you to reset it."
+"Forgotten your password? Enter your e-mail address below, and we'll send you "
+"an e-mail allowing you to reset it."
 msgstr ""
 
 #: .\geomat\templates\account\password_reset.html:24
@@ -454,8 +448,8 @@ msgstr ""
 #, python-format
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
-"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password "
-"reset</a>."
+"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
+"a>."
 msgstr ""
 
 #: .\geomat\templates\account\password_reset_from_key.html:23
@@ -478,7 +472,7 @@ msgid "Signup"
 msgstr ""
 
 #: .\geomat\templates\account\signup.html:14
-#: .\geomat\templates\account\signup.html:24 .\geomat\templates\base.html:63
+#: .\geomat\templates\account\signup.html:24 .\geomat\templates\base.html:65
 msgid "Sign Up"
 msgstr ""
 
@@ -529,19 +523,27 @@ msgstr ""
 #: .\geomat\templates\account\verified_email_required.html:24
 #, python-format
 msgid ""
-"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your "
-"e-mail address</a>."
+"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your e-"
+"mail address</a>."
 msgstr ""
 
-#: .\geomat\templates\base.html:56
+#: .\geomat\templates\base.html:48
+msgid "Home"
+msgstr "Home"
+
+#: .\geomat\templates\base.html:51
+msgid "About"
+msgstr "Über"
+
+#: .\geomat\templates\base.html:58
 msgid "My Profile"
-msgstr ""
+msgstr "Mein Profil"
 
-#: .\geomat\templates\base.html:59
+#: .\geomat\templates\base.html:61
 msgid "Logout"
 msgstr ""
 
-#: .\geomat\templates\base.html:66
+#: .\geomat\templates\base.html:68
 msgid "Log In"
 msgstr ""
 

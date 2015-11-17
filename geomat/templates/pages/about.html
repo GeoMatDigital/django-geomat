@@ -1,1 +1,8 @@
 {% extends "base.html" %}
+
+{% block content %}
+<h1>Is it me you're looking for?</h1>
+<p>Die Entwicklung der Seite findet mit Hilfe von <a href="https://www.djangoproject.com" title="Django">Django</a> (einem Python Web-Framework) statt. Als Datenbank wird PostgreSQL genutzt und die gesamte Installation läuft in einem <a href="http://www.docker.com" title="Docker Homepage">Docker Container</a> aktuell auf einem Server, der bei <a href="https://www.digitalocean.com/" title="DigitalOcean Homepage">DigitalOcean</a> gemietet ist. Der eigentliche Server wird aus einem Rechenzentrum in Frankfurt am Main gestellt. Alle hochgeladenen Bilder landen aktuell auf einem kostenlosen Account bei <a href="https://aws.amazon.com/de/" title="Amazon Web Services">Amazon Web Services</a> und werden für das fertige Produkt auf einen anderen Server kopiert.</p>
+<p>Durch die Nutzung eines Docker Containers ist es für die Zukunft möglich das gesamte System ohne größere Probleme auf einen anderen Server zu portieren.</p>
+<p>Aktuell wird nach einer Lösung gesucht, um einen eigenen Server innerhalb des Universitätsnetzwerkes zu erhalten. Dazu soll das fertige Produkt unter eine *.uni-frankfurt.de erreichbar sein (z.B. http://geomat.uni-frankfurt.de). Die aktuelle Domain (geomat.baeu.me) ist in Besitz von Michael Gecht und dient zu reinen Testzwecken.</p>
+{% endblock content %}

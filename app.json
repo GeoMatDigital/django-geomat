@@ -10,7 +10,7 @@
     },
     "DJANGO_ALLOWED_HOSTS": {
       "description": "Comma-separated list of hosts",
-      "value": ".baeu.me"
+      "value": ".uni-frankfurt.de"
     },
     "DJANGO_ADMIN_URL": {
       "description": "A secret URL for the Django admin",

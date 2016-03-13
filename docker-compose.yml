@@ -17,8 +17,6 @@ nginx:
   build: ./compose/nginx
   links:
     - django
-  ports:
-    - "0.0.0.0:8001:80"
 
 redis:
   image: redis:3.0

@@ -23,10 +23,10 @@ SECRET_KEY = env("DJANGO_SECRET_KEY", default='CHANGEME!!!^e8je^d8+us-s9!j3ks@h2
 
 # Mail settings
 # ------------------------------------------------------------------------------
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
-
+EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND',
+                    default='django.core.mail.backends.console.EmailBackend')
 
 # CACHING
 # ------------------------------------------------------------------------------
@@ -53,10 +53,11 @@ DEBUG_TOOLBAR_CONFIG = {
 
 # django-extensions
 # ------------------------------------------------------------------------------
-INSTALLED_APPS += ('django_extensions', 'rosetta',)
+INSTALLED_APPS += ('django_extensions', 'rosetta')
 
 # TESTING
 # ------------------------------------------------------------------------------
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 # Your local stuff: Below this line define 3rd party library settings
+ROSETTA_ENABLE_TRANSLATION_SUGGESTIONS = True

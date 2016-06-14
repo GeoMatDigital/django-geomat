@@ -490,3 +490,7 @@ body {
 .keep-inline {
   display: inline;
 }
+
+a.contact-a {
+  color: #cc5400;
+}

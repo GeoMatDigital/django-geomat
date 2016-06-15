@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+
 # Mostly all fields are defined as CharFields, so the input is easier.
 # The max_length is a total arbitrary value that I defined in the beginning.
 
@@ -11,6 +12,18 @@ class MineralType(models.Model):
     ManyToMany-field inside the Handpiece model.
     """
 
+    MINERAL_CATEGORIES = (
+        ('EL', _("Elements")),
+        ('SF', _("Sulfides & Sulfosalts")),
+        ('HG', _("Halogenides")),
+        ('OH', _("Oxides and Hydroxides")),
+        ('CN', _("Carbonates and Nitrates")),
+        ('BR', _("Borates")),
+        ('SL', _("Sulfates")),
+        ('PV', _("Phosphates, Arsenates & Vanadates")),
+        ('SG', _("Silicates & Germanates")),
+        ('OC', _("Organic Compounds")),
+    )
     CRYSTAL_SYSTEM_CHOICES = (
         ('TC', _("Triclinic")),
         ('MC', _("Monoclinic")),
@@ -49,24 +62,43 @@ class MineralType(models.Model):
 
     trivial_name = models.CharField(
         max_length=100,
+        blank=True,
         verbose_name=_("trivial name")
     )
-    # Do we need some more data here? My notes say "Aufdroeselung der
-    # Familien/Gattung des Stuecks"
-    variety = models.CharField(max_length=100, verbose_name=_("variety"))
-    minerals = models.CharField(max_length=100, verbose_name=_("minerals"))
+    systematics = models.CharField(
+        max_length=2,
+        choices=MINERAL_CATEGORIES,
+        default="EL",
+        verbose_name=_("systematics")
+    )
+    variety = models.CharField(
+        max_length=100,
+        blank=True,
+        verbose_name=_("variety"))
+    minerals = models.CharField(
+        max_length=100,
+        blank=True,
+        verbose_name=_("minerals"))
     classification = models.CharField(
         max_length=100,
         verbose_name=_("classification")
     )
     crystal_system = models.CharField(
         max_length=2,
+        blank=True,
         choices=CRYSTAL_SYSTEM_CHOICES,
-        default="TC",
         verbose_name=_("crystal system")
-        )
-    mohs_scale = models.CharField(max_length=20, verbose_name=_("mohs scale"))
-    streak = models.CharField(max_length=100, verbose_name=_("streak"))
+    )
+    mohs_scale = models.CharField(
+        max_length=20,
+        verbose_name=_("mohs scale"))
+    density = models.CharField(
+        max_length=20,
+        default=0,
+        verbose_name=_("density"))
+    streak = models.CharField(
+        max_length=100,
+        verbose_name=_("streak"))
     normal_color = models.CharField(
         max_length=100,
         verbose_name=_("normal color")
@@ -77,11 +109,23 @@ class MineralType(models.Model):
         default="CF",
         verbose_name=_("fracture")
     )
+    fracture2 = models.CharField(
+        max_length=2,
+        choices=FRACTURE_CHOICES,
+        blank=True,
+        verbose_name=_("fracture 2")
+    )
     cleavage = models.CharField(
         max_length=2,
         choices=CLEAVAGE_CHOICES,
         default="BP",
         verbose_name=_("cleavage")
+    )
+    cleavage2 = models.CharField(
+        max_length=2,
+        choices=CLEAVAGE_CHOICES,
+        blank=True,
+        verbose_name=_("cleavage 2")
     )
     lustre = models.CharField(
         max_length=2,
@@ -89,9 +133,30 @@ class MineralType(models.Model):
         default="AM",
         verbose_name=_("lustre")
     )
+    lustre2 = models.CharField(
+        max_length=2,
+        choices=LUSTRE_CHOICES,
+        blank=True,
+        verbose_name=_("lustre 2")
+    )
     chemical_formula = models.CharField(
         max_length=100,
         verbose_name=_("chemical formula")
+    )
+    other = models.CharField(
+        max_length=100,
+        blank=True,
+        verbose_name=_("other")
+    )
+    resource_mindat = models.CharField(
+        max_length=100,
+        blank=True,
+        verbose_name=_("MinDat ID")
+    )
+    resource_mineralienatlas = models.CharField(
+        max_length=100,
+        blank=True,
+        verbose_name=_("MineralienAtlas ID")
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
@@ -118,36 +183,38 @@ class Handpiece(models.Model):
     name = models.CharField(
         max_length=100,
         verbose_name=_("name of handpiece")
-        )
+    )
     mineral_type = models.ManyToManyField(
         MineralType,
         verbose_name=_("mineral type")
-        )
+    )
     # We will need to maybe change the finding_place to some kind of
     # geolocation.
     finding_place = models.CharField(
         max_length=200,
+        blank=True,
         verbose_name=_("place of discovery")
-        )
+    )
     current_location = models.CharField(
         max_length=200,
+        blank=True,
         verbose_name=_("current location")
-        )
+    )
     old_inventory_number = models.CharField(
         blank=True,
         max_length=100,
         verbose_name=_("old inventory number")
-        )
+    )
     resource_mindat = models.CharField(
         max_length=100,
         blank=True,
         verbose_name=_("MinDat ID")
-        )
+    )
     resource_mineralienatlas = models.CharField(
         max_length=100,
         blank=True,
         verbose_name=_("MineralienAtlas ID")
-        )
+    )
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name=_("created at")
@@ -167,6 +234,7 @@ class Handpiece(models.Model):
     def list_mineral_types(self):
         # Snippet found here: http://stackoverflow.com/a/18108586/4791226
         return ", ".join([p.trivial_name for p in self.mineral_type.all()])
+
     list_mineral_types.short_description = _("mineral type(s)")
 
 

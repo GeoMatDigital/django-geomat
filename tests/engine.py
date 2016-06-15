@@ -1,13 +1,12 @@
-from subprocess import call
 from os import path
-import hitchpostgres
-import hitchselenium
-import hitchpython
-import hitchserve
-import hitchredis
-import hitchtest
-import hitchsmtp
+from subprocess import call
 
+import hitchpostgres
+import hitchpython
+import hitchselenium
+import hitchserve
+import hitchsmtp
+import hitchtest
 
 # Get directory above this file
 PROJECT_DIRECTORY = path.abspath(path.join(path.dirname(__file__), '..'))
@@ -31,9 +30,6 @@ class ExecutionEngine(hitchtest.ExecutionEngine):
         postgres_package = hitchpostgres.PostgresPackage()
         postgres_package.build()
 
-        redis_package = hitchredis.RedisPackage()
-        redis_package.build()
-
         self.services = hitchserve.ServiceBundle(
             project_directory=PROJECT_DIRECTORY,
             startup_timeout=float(self.settings["startup_timeout"]),
@@ -56,11 +52,6 @@ class ExecutionEngine(hitchtest.ExecutionEngine):
             settings="config.settings.local",
             needs=[self.services['Postgres'], ],
             env_vars=self.settings['environment_variables'],
-        )
-
-        self.services['Redis'] = hitchredis.RedisService(
-            redis_package=redis_package,
-            port=16379,
         )
 
         self.services['Firefox'] = hitchselenium.SeleniumService(

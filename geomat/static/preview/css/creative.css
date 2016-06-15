@@ -251,6 +251,23 @@ header .header-content .header-content-inner p {
   margin-top: 50px;
 }
 
+/**
+* GEOMAT digital custom line-breaks
+**/
+.rwd-line {
+  display: block;
+}
+
+@media screen and (min-width: 768px) {
+  .rwd-line {
+    display: inline;
+  }
+}
+
+a.contact-a {
+  color: #cc5400;
+}
+
 .section-heading:first-of-type {
   margin-top: 0;
 }
@@ -485,12 +502,4 @@ img::-moz-selection {
 
 body {
   webkit-tap-highlight-color: #222;
-}
-
-.keep-inline {
-  display: inline;
-}
-
-a.contact-a {
-  color: #cc5400;
 }

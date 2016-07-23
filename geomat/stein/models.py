@@ -171,7 +171,7 @@ class MineralType(models.Model):
         verbose_name = _("mineral type")
         verbose_name_plural = _("mineral types")
 
-    def __str__(self):
+    def __unicode__(self):
         return self.trivial_name
 
 
@@ -228,7 +228,7 @@ class Handpiece(models.Model):
         verbose_name = _("Handpiece")
         verbose_name_plural = _("Handpieces")
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     def list_mineral_types(self):

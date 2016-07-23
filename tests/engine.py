@@ -1,13 +1,12 @@
-from subprocess import call
 from os import path
-import hitchpostgres
-import hitchselenium
-import hitchpython
-import hitchserve
-import hitchredis
-import hitchtest
-import hitchsmtp
+from subprocess import call
 
+import hitchpostgres
+import hitchpython
+import hitchselenium
+import hitchserve
+import hitchsmtp
+import hitchtest
 
 # Get directory above this file
 PROJECT_DIRECTORY = path.abspath(path.join(path.dirname(__file__), '..'))
@@ -31,21 +30,18 @@ class ExecutionEngine(hitchtest.ExecutionEngine):
         postgres_package = hitchpostgres.PostgresPackage()
         postgres_package.build()
 
-        redis_package = hitchredis.RedisPackage()
-        redis_package.build()
-
         self.services = hitchserve.ServiceBundle(
             project_directory=PROJECT_DIRECTORY,
             startup_timeout=float(self.settings["startup_timeout"]),
             shutdown_timeout=float(self.settings["shutdown_timeout"]),
         )
 
-        postgres_user = hitchpostgres.PostgresUser("geomat", "password")
+        postgres_user = hitchpostgres.PostgresUser("clock", "password")
 
         self.services['Postgres'] = hitchpostgres.PostgresService(
             postgres_package=postgres_package,
             users=[postgres_user, ],
-            databases=[hitchpostgres.PostgresDatabase("geomat", postgres_user), ]
+            databases=[hitchpostgres.PostgresDatabase("clock", postgres_user), ]
         )
 
         self.services['HitchSMTP'] = hitchsmtp.HitchSMTPService(port=1025)
@@ -56,11 +52,6 @@ class ExecutionEngine(hitchtest.ExecutionEngine):
             settings="config.settings.local",
             needs=[self.services['Postgres'], ],
             env_vars=self.settings['environment_variables'],
-        )
-
-        self.services['Redis'] = hitchredis.RedisService(
-            redis_package=redis_package,
-            port=16379,
         )
 
         self.services['Firefox'] = hitchselenium.SeleniumService(
@@ -93,7 +84,7 @@ class ExecutionEngine(hitchtest.ExecutionEngine):
         self.click_and_dont_wait_for_page_load = self.webapp.click_and_dont_wait_for_page_load
 
         # Configure selenium driver
-        self.driver.set_window_size(self.settings['window_size']['height'], self.settings['window_size']['width'])
+        self.driver.set_window_size(self.settings['window_size']['width'], self.settings['window_size']['height'])
         self.driver.set_window_position(0, 0)
         self.driver.implicitly_wait(2.0)
         self.driver.accept_next_alert = True
@@ -109,6 +100,7 @@ class ExecutionEngine(hitchtest.ExecutionEngine):
     def load_website(self):
         """Navigate to website in Firefox."""
         self.driver.get(self.services['Django'].url())
+        self.click("djHideToolBarButton")
 
     def fill_form(self, **kwargs):
         """Fill in a form with id=value."""

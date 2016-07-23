@@ -6,11 +6,12 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.staticfiles.storage import staticfiles_storage
-from django.views.generic import RedirectView, TemplateView
 from django.views import defaults as default_views
+from django.views.generic import RedirectView, TemplateView
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='pages/home.html'), name="home"),
+                  url(r'^preview$', TemplateView.as_view(template_name='pages/preview.html'), name="preview"),
     url(r'^about/$', TemplateView.as_view(template_name='pages/about.html'), name="about"),
 
     # Django Admin, use {% url 'admin:index' %}

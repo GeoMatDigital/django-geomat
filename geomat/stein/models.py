@@ -175,6 +175,36 @@ class MineralType(models.Model):
         return self.trivial_name
 
 
+class CrystalSystem(models.Model):
+    """
+    Defines a crystal system, which then should be used as a ForeignKey
+    inside the MineralType class.
+    """
+    CRYSTAL_SYSTEM_CHOICES = (
+        ('TC', _("Triclinic")),
+        ('MC', _("Monoclinic")),
+        ('OR', _("Orthorhombic")),
+        ('TT', _("Tetragonal")),
+        ('TR', _("Trigonal")),
+        ('HG', _("Hexagonal")),
+        ('CB', _("Cubic")),
+    )
+
+    mineral_type = models.ForeignKey(
+        MineralType,
+        null=True,
+        verbose_name=_('mineral type')
+    )
+    crystal_system = models.CharField(
+        max_length=2,
+        blank=True,
+        choices=CRYSTAL_SYSTEM_CHOICES,
+        verbose_name=_("crystal system")
+    )
+    temperature = models.IntegerField(verbose_name=_('temperature'))
+    pressure = models.IntegerField(verbose_name=_('pressure'))
+
+
 class Handpiece(models.Model):
     """
     A model for the geological handpieces. Each handpiece

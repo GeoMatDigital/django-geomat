@@ -103,7 +103,7 @@ class MineralType(models.Model):
         max_length=100,
         verbose_name=_("normal color")
     )
-    fracture = models.CharField(
+    fracture1 = models.CharField(
         max_length=2,
         choices=FRACTURE_CHOICES,
         default="CF",
@@ -115,7 +115,7 @@ class MineralType(models.Model):
         blank=True,
         verbose_name=_("fracture 2")
     )
-    cleavage = models.CharField(
+    cleavage1 = models.CharField(
         max_length=2,
         choices=CLEAVAGE_CHOICES,
         default="BP",
@@ -127,7 +127,7 @@ class MineralType(models.Model):
         blank=True,
         verbose_name=_("cleavage 2")
     )
-    lustre = models.CharField(
+    lustre1 = models.CharField(
         max_length=2,
         choices=LUSTRE_CHOICES,
         default="AM",

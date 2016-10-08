@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from geomat.stein.fields import ChoiceArrayField
+
 
 # Mostly all fields are defined as CharFields, so the input is easier.
 # The max_length is a total arbitrary value that I defined in the beginning.
@@ -103,6 +105,14 @@ class MineralType(models.Model):
         max_length=100,
         verbose_name=_("normal color")
     )
+    fracture = ChoiceArrayField(
+        models.CharField(
+            max_length=2,
+            choices=FRACTURE_CHOICES,
+        ),
+        verbose_name=_("fracture"),
+        null=True
+    )
     fracture1 = models.CharField(
         max_length=2,
         choices=FRACTURE_CHOICES,
@@ -115,6 +125,14 @@ class MineralType(models.Model):
         blank=True,
         verbose_name=_("fracture 2")
     )
+    cleavage = ChoiceArrayField(
+        models.CharField(
+            max_length=2,
+            choices=CLEAVAGE_CHOICES,
+        ),
+        null=True,
+        verbose_name=_("cleavage")
+    )
     cleavage1 = models.CharField(
         max_length=2,
         choices=CLEAVAGE_CHOICES,
@@ -126,6 +144,14 @@ class MineralType(models.Model):
         choices=CLEAVAGE_CHOICES,
         blank=True,
         verbose_name=_("cleavage 2")
+    )
+    lustre = ChoiceArrayField(
+        models.CharField(
+            max_length=2,
+            choices=LUSTRE_CHOICES,
+        ),
+        null=True,
+        verbose_name=_("lustre")
     )
     lustre1 = models.CharField(
         max_length=2,

@@ -13,7 +13,7 @@ from __future__ import absolute_import, unicode_literals
 import environ
 from django.utils.translation import ugettext_lazy as _
 
-ROOT_DIR = environ.Path(__file__) - 3  # (/a/b/myfile.py - 3 = /)
+ROOT_DIR = environ.Path(__file__) - 3  # (geomat/config/settings/common.py - 3 = geomat/)
 APPS_DIR = ROOT_DIR.path('geomat')
 
 env = environ.Env()
@@ -54,8 +54,9 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 # MIDDLEWARE CONFIGURATION
 # ------------------------------------------------------------------------------
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     # Make sure djangosecure.middleware.SecurityMiddleware is listed first
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -102,7 +103,7 @@ MANAGERS = ADMINS
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
     # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
-    'default': env.db("DATABASE_URL", default="postgres:///geomat"),
+    'default': env.db("DATABASE_URL", default="postgres:///django-geomat"),
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
@@ -208,6 +209,25 @@ ROOT_URLCONF = 'config.urls'
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
 WSGI_APPLICATION = 'config.wsgi.application'
+
+# PASSWORD VALIDATION
+# https://docs.djangoproject.com/en/dev/ref/settings/#auth-password-validators
+# ------------------------------------------------------------------------------
+
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
 
 # AUTHENTICATION CONFIGURATION
 # ------------------------------------------------------------------------------

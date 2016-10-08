@@ -3,10 +3,15 @@
 Local settings
 
 - Run in Debug mode
+
 - Use console backend for emails
+
 - Add Django Debug Toolbar
 - Add django-extensions as app
 '''
+
+import os
+import socket
 
 from .common import *  # noqa
 
@@ -19,12 +24,14 @@ TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 # Note: This key only used for development and testing.
-SECRET_KEY = env("DJANGO_SECRET_KEY", default='CHANGEME!!!^e8je^d8+us-s9!j3ks@h2h1(*^kr$-jocui3wam6%i=+^mti9')
+SECRET_KEY = env("DJANGO_SECRET_KEY", default='3(!oafihrr4deyrh5=vs_sr*8@f-vo=tyq)qnc8lys3pldb2*)')
 
 # Mail settings
 # ------------------------------------------------------------------------------
-EMAIL_HOST = 'localhost'
+
 EMAIL_PORT = 1025
+
+EMAIL_HOST = 'localhost'
 EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND',
                     default='django.core.mail.backends.console.EmailBackend')
 
@@ -39,10 +46,14 @@ CACHES = {
 
 # django-debug-toolbar
 # ------------------------------------------------------------------------------
-MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
+MIDDLEWARE += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
 INSTALLED_APPS += ('debug_toolbar', )
 
-INTERNAL_IPS = ('127.0.0.1', '10.0.2.2',)
+INTERNAL_IPS = ['127.0.0.1', '10.0.2.2', ]
+# tricks to have debug toolbar when developing with docker
+if os.environ.get('USE_DOCKER') == 'yes':
+    ip = socket.gethostbyname(socket.gethostname())
+    INTERNAL_IPS += [ip[:-1] + "1"]
 
 DEBUG_TOOLBAR_CONFIG = {
     'DISABLE_PANELS': [

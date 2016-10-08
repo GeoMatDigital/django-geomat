@@ -227,8 +227,16 @@ class CrystalSystem(models.Model):
         choices=CRYSTAL_SYSTEM_CHOICES,
         verbose_name=_("crystal system")
     )
-    temperature = models.IntegerField(verbose_name=_('temperature'))
-    pressure = models.IntegerField(verbose_name=_('pressure'))
+    temperature = models.IntegerField(
+        blank=True,
+        null=True,
+        verbose_name=_('temperature')
+    )
+    pressure = models.IntegerField(
+        blank=True,
+        null=True,
+        verbose_name=_('pressure')
+    )
 
 
 class Handpiece(models.Model):

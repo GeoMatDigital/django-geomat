@@ -1,9 +1,15 @@
 from django.contrib import admin
-from geomat.stein.models import Handpiece, MineralType, Photograph
+
+from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph
 
 
 class PhotographInline(admin.TabularInline):
     model = Photograph
+
+
+class CrystalSystemInline(admin.TabularInline):
+    model = CrystalSystem
+
 
 class HandpieceAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'list_mineral_types', 'finding_place',
@@ -15,8 +21,19 @@ class HandpieceAdmin(admin.ModelAdmin):
 admin.site.register(Handpiece, HandpieceAdmin)
 
 
+class CrystallSystemAdmin(admin.ModelAdmin):
+    list_display = ('pk',)
+
+
+admin.site.register(CrystalSystem, CrystallSystemAdmin)
+
+
 class MineralTypeAdmin(admin.ModelAdmin):
     list_display = ('pk', 'trivial_name', 'created_at', 'last_modified',)
+
+    inlines = [
+        CrystalSystemInline,
+    ]
 
 admin.site.register(MineralType, MineralTypeAdmin)
 

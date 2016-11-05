@@ -81,10 +81,17 @@ class MineralType(models.Model):
         max_length=100,
         blank=True,
         verbose_name=_("minerals"))
-    classification = models.CharField(
-        max_length=100,
-        verbose_name=_("classification")
-    )
+    # classification = ChoiceArrayField(
+    #     models.CharField(
+    #         max_length=100,
+    #     ),
+    #     null=True,
+    #     verbose_name=_("classification")
+    # )
+    # classification1 = models.CharField(
+    #     max_length=100,
+    #     verbose_name=_("classification")
+    # )
     # crystal_system = models.CharField(
     #     max_length=2,
     #     blank=True,
@@ -199,6 +206,22 @@ class MineralType(models.Model):
 
     def __unicode__(self):
         return self.trivial_name
+
+
+class Classification(models.Model):
+    """
+    Defines a classification field which can be added as a ForeignKey to the MineralType class.
+    """
+    mineral_type = models.ForeignKey(
+        MineralType,
+        null=True,
+        verbose_name=_('mineral type')
+    )
+    classification = models.CharField(
+        max_length=100,
+        blank=True,
+        verbose_name=_("classification")
+    )
 
 
 class CrystalSystem(models.Model):

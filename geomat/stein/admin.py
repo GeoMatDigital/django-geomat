@@ -1,10 +1,14 @@
 from django.contrib import admin
 
-from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph
+from geomat.stein.models import Classification, CrystalSystem, Handpiece, MineralType, Photograph
 
 
 class PhotographInline(admin.TabularInline):
     model = Photograph
+
+
+class ClassificationInline(admin.TabularInline):
+    model = Classification
 
 
 class CrystalSystemInline(admin.TabularInline):
@@ -32,6 +36,7 @@ class MineralTypeAdmin(admin.ModelAdmin):
     list_display = ('pk', 'trivial_name', 'created_at', 'last_modified',)
 
     inlines = [
+        ClassificationInline,
         CrystalSystemInline,
     ]
 

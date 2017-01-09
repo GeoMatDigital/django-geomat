@@ -61,3 +61,6 @@ geomat/media/
 
 # Hitch directory
 tests/.hitch
+
+#Batch-file for starting docker container
+docker_geomat_batch.bat

@@ -1,4 +1,4 @@
-# GeoMat _digital_
+﻿# GeoMat _digital_
 
 Folgt.
 
@@ -27,6 +27,9 @@ Danach muss die soeben erstellte Maschine zur aktuell genutzten gesetzt werden:
 
     eval "$(docker-machine env geomat)"
 
+Für Windows Nutzer :
+    @FOR /f "tokens=*" %i IN ('docker-machine env geomat') DO @%i
+
 #### 3. System aufbauen & starten
 
     docker-compose -f dev.yml build
@@ -36,9 +39,10 @@ Danach muss die soeben erstellte Maschine zur aktuell genutzten gesetzt werden:
 
     docker-compose -f dev.yml run django python manage.py migrate
 
+Note : Für Windows 7 , 8.1 user run -d flag setzen
 
 Dazu kann jetzt noch ein Superuser erstellt werden. Grundsätzlich läuft das System jetzt. Unter Linux ist die Seite nun unter localhost:8000 aufrufbar. Unter OS X/Windows führt man folgenden Befehl aus und findet die zugehörige IP heraus:
 
-    docker-machine env clock
+    docker-machine env geomat
 
 Für weitere Hilfe einfach der [offiziellen Anleitung von cookiecutter-django](http://cookiecutter-django.readthedocs.org/en/latest/developing-locally-docker.html) folgen.

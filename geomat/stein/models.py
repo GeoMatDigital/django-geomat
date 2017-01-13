@@ -176,10 +176,10 @@ class MineralType(models.Model):
         max_length=100,
         verbose_name=_("chemical formula")
     )
-    other = models.CharField(
+    other = models.TextField(
         max_length=100,
         blank=True,
-        verbose_name=_("other")
+        verbose_name=_("comment")
     )
     resource_mindat = models.CharField(
         max_length=100,

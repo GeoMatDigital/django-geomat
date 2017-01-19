@@ -74,8 +74,7 @@ DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
 # URL that handles the media served from MEDIA_ROOT, used for managing
 # stored files.
-# TODO: We will change this domain, as soon as the university configures our new one!
-MEDIA_URL = 'https://cdn.geomat.idiotism.us/'
+MEDIA_URL = 'https://cdn.geomat.uni-frankfurt.de/'
 
 # Static Assets
 # ------------------------
@@ -86,7 +85,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # ------------------------------------------------------------------------------
 DEFAULT_FROM_EMAIL = env('DJANGO_DEFAULT_FROM_EMAIL',
                          default='GU Geomat <noreply@geomat.uni-frankfurt.de>')
-EMAIL_SUBJECT_PREFIX = env("DJANGO_EMAIL_SUBJECT_PREFIX", default='[GU Geomat] ')
+EMAIL_SUBJECT_PREFIX = env("DJANGO_EMAIL_SUBJECT_PREFIX", default='[GU GeoMat] ')
 SERVER_EMAIL = env('DJANGO_SERVER_EMAIL', default=DEFAULT_FROM_EMAIL)
 
 # Anymail with Mailgun

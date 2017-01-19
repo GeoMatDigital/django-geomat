@@ -346,9 +346,10 @@ class Photograph(models.Model):
 
     #image_file = models.ImageField(verbose_name=_("image file"))
     image_file = StdImageField(variations={
-        'large': (600, 400),
+        'large': (1200, 800),
+        'medium': (900, 600),
+        'small': (600, 400),
         'thumbnail': (100, 100, True),
-        'medium': (300, 200),
     })
     handpiece = models.ForeignKey(Handpiece)
     orientation = models.CharField(

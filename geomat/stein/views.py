@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from django.views.generic.list import ListView
 
-# Create your views here.
+from geomat.stein.models import Handpiece, Photograph
+
+class GalleryListView(ListView):
+    model = Photograph
+    template_name = 'pages/gallery.html'

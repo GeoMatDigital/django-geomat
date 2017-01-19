@@ -9,6 +9,8 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views import defaults as default_views
 from django.views.generic import RedirectView, TemplateView
 
+from geomat.stein.views import GalleryListView
+
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='pages/home.html'), name="home"),
                   url(r'^preview$', TemplateView.as_view(template_name='pages/preview.html'), name="preview"),
@@ -32,6 +34,7 @@ urlpatterns = [
             permanent=False),
         name="favicon"
     ),
+    url(r'^gallery/', GalleryListView.as_view(), name="gallery_listview"),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from stdimage.models import StdImageField
 
 from geomat.stein.fields import ChoiceArrayField
 
@@ -343,7 +344,12 @@ class Photograph(models.Model):
         ('TL', _("Tele")),
     )
 
-    image_file = models.ImageField(verbose_name=_("image file"))
+    #image_file = models.ImageField(verbose_name=_("image file"))
+    image_file = StdImageField(variations={
+        'large': (600, 400),
+        'thumbnail': (100, 100, True),
+        'medium': (300, 200),
+    })
     handpiece = models.ForeignKey(Handpiece)
     orientation = models.CharField(
         max_length=1,

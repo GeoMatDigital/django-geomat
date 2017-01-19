@@ -1,0 +1,62 @@
+{% load staticfiles %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>GeoMat Galerie</title>
+    <!--- Swipebox --->
+    <script src="{% static 'preview/swipebox/jquery-2.1.0.min.js'%}"></script>
+    <script src="{% static 'preview/src_swipebox/js/jquery.swipebox.js'%}"></script>
+    <link rel="stylesheet" href="{% static 'preview/src_swipebox/css/swipebox.css'%}">
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.swipebox').swipebox();
+            $('#gallery').click(function(e) {
+                e.preventDefault();
+                $.swipebox([
+                    {% for photograph in object_list %}
+                    {
+                        href: "{{ photograph.image_file.large.url }}",
+                        title: '{{ photograph.handpiece.name }}'
+                    },
+                    {% endfor %}
+                ]);
+            });
+        });
+    </script>
+    <title>GEOMAT digital</title>
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="{% static 'preview/css/bootstrap.min.css' %}" type="text/css">
+
+    <!-- Custom Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{% static 'preview/font-awesome/css/font-awesome.min.css' %}" type="text/css">
+
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="{% static 'preview/css/animate.min.css' %}" type="text/css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'preview/css/creative.css' %}" type="text/css">
+
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+
+    <!--- Icon --->
+    <link rel="icon" href="{% static 'images/favicon.ico' %}">
+</head>
+<header>
+    <div class="header-content">
+        <div class="header-content-inner">
+            <h1>Eine Galerie der Mineralien</h1>
+            <hr>
+            <p>Vorschau der Anwendung</p>
+            <a href="#" id="gallery" class="btn btn-primary btn-xl page-scroll">Zur Galerie</a>
+        </div>
+    </div>
+</header>
+
+<body>
+</body>
+
+</html>

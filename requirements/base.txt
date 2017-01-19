@@ -5,7 +5,6 @@ django==1.10.2
 django-environ==0.4.0
 whitenoise==3.2.2
 
-
 # Forms
 django-braces==1.9.0
 django-crispy-forms==1.6.0
@@ -20,7 +19,6 @@ Pillow==3.4.1
 # Well-built with regular release cycles!
 django-allauth==0.27.0
 
-
 # Python-PostgreSQL Database Adapter
 psycopg2==2.6.2
 
@@ -31,3 +29,4 @@ awesome-slugify==1.6.5
 pytz==2016.7
 
 # Your custom requirements go here
+django-stdimage==2.4.0

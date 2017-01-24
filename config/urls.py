@@ -36,6 +36,15 @@ urlpatterns = [
     ),
     url(r'^gallery/', GalleryListView.as_view(), name="gallery_listview"),
 
+    # Do some redirects to the correct URL, as some people manage to get typos in
+    url(r'^galery/', RedirectView.as_view(pattern_name='gallery_listview')),
+    url(r'^galerie/', RedirectView.as_view(pattern_name='gallery_listview')),
+    url(r'^gallerie/', RedirectView.as_view(pattern_name='gallery_listview')),
+    url(r'^garllry/', RedirectView.as_view(pattern_name='gallery_listview')),
+    url(r'^garllery/', RedirectView.as_view(pattern_name='gallery_listview')),
+    url(r'^galary/', RedirectView.as_view(pattern_name='gallery_listview')),
+    url(r'^gallary/', RedirectView.as_view(pattern_name='gallery_listview')),
+    url(r'^gallarie/', RedirectView.as_view(pattern_name='gallery_listview')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

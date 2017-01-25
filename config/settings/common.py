@@ -27,6 +27,8 @@ DJANGO_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
+    # Let us have WhiteNoise take control of static files in the development environment
+    # 'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
 
     # Useful template tags:

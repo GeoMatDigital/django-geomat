@@ -62,7 +62,7 @@ DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TEMPLATE_CONTEXT': True,
 }
 
-# django-extensions
+# Additional local apps
 # ------------------------------------------------------------------------------
 INSTALLED_APPS += ('django_extensions', 'rosetta')
 

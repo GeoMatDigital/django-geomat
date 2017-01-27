@@ -178,7 +178,7 @@
 				}
 				//remove only the bottombar. original : $( '#swipebox-bottom-bar, #swipebox-top-bar' ).remove();
 				if ( isMobile && plugin.settings.removeBarsOnMobile ) {
-					$( ' #swipebox-top-bar' ).remove();
+					$( ' #swipebox-bottom-bar' ).remove();
 				}
 
 				$.each( elements,  function() {

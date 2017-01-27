@@ -29,4 +29,4 @@ awesome-slugify==1.6.5
 pytz==2016.10
 
 # Your custom requirements go here
-django-stdimage==2.4.0
+django-stdimage==2.4.1

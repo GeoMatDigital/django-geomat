@@ -326,7 +326,6 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            $('.swipebox').swipebox();
             $('#gallery-button').click(function(e) {
                 e.preventDefault();
                 $.swipebox([
@@ -336,7 +335,8 @@
                         title: '{{ photograph.handpiece.name }}'
                     },
                     {% endfor %}
-                ]);
+                ],
+                {useSVG: false});
             });
         });
     </script>

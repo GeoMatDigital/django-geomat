@@ -9,10 +9,10 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views import defaults as default_views
 from django.views.generic import RedirectView, TemplateView
 
-from geomat.stein.views import GalleryListView
+from geomat.stein.views import GalleryListView, gallery_view
 
 urlpatterns = [
-    url(r'^$', GalleryListView.as_view(), name="home"),
+    url(r'^$', gallery_view, name="home"),
     # url(r'^preview$', TemplateView.as_view(template_name='pages/preview.html'), name="preview"),
     # url(r'^about/$', TemplateView.as_view(template_name='pages/about.html'), name="about"),
 
@@ -34,7 +34,7 @@ urlpatterns = [
             permanent=False),
         name="favicon"
     ),
-    url(r'^gallery/', RedirectView.as_view(url='/#gallery'), name="gallery_listview"),
+    url(r'^gallery/', gallery_view, name="gallery_listview"),
 
     # Do some redirects to the correct URL, as some people manage to get typos in
     url(r'^galery/', RedirectView.as_view(pattern_name='gallery_listview')),

@@ -13,9 +13,8 @@ from geomat.stein.views import GalleryListView, gallery_view
 
 urlpatterns = [
     url(r'^$', gallery_view, name="home"),
-
-    # Redirect users from outdated 'preview/' to '/'
-    url(r'^preview/', RedirectView.as_view(pattern_name='home')),
+    # url(r'^preview$', TemplateView.as_view(template_name='pages/preview.html'), name="preview"),
+    # url(r'^about/$', TemplateView.as_view(template_name='pages/about.html'), name="about"),
 
     # Django Admin, use {% url 'admin:index' %}
     url(settings.ADMIN_URL, include(admin.site.urls)),
@@ -24,9 +23,13 @@ urlpatterns = [
     url(r'^users/', include("geomat.users.urls", namespace="users")),
     url(r'^accounts/', include('allauth.urls')),
 
-    # Let's fix this stupid issue with Google Chrome and make a redirect from '/favicon.ico' to our 
-    # 'common/images/favicon.ico' file!
-    # Google Chrome ignores the favicon file defined in HTML and always looks for it in '/favicon.ico'
+    # Your stuff: custom urls includes go here
+
+    # Browseable API
+    url(r'^api-auth/',include('rest_framework.urls', namespace= 'rest_framework')),
+
+    # Let's fix this stupid issue with Google Chrome and make a redirect from /favicon.ico to our /img/favicon.ico file!
+    # Google Chrome ignores the favicon file defined in HTML and always looks for it in /
     url(
         r'^favicon.ico$',
         RedirectView.as_view(

@@ -68,7 +68,16 @@ DEBUG_TOOLBAR_CONFIG = {
 
 # Additional local apps
 # ------------------------------------------------------------------------------
-INSTALLED_APPS += ('django_extensions', 'rosetta')
+INSTALLED_APPS += ('django_extensions',
+                   'rosetta', )
+
+# Rest-framework
+INSTALLED_APPS += ('rest_framework',
+                   )
+
+REST_FRAMEWORK = {
+    'DEFAULT-PERMISSION-CLASSES': ['rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly']
+}
 
 # TESTING
 # ------------------------------------------------------------------------------

@@ -26,9 +26,14 @@ urlpatterns = [
     # Your stuff: custom urls includes go here
 
     # Browseable API
+<<<<<<< HEAD
     url(r'^api-auth/',include('rest_framework.urls', namespace='rest_framework')),
     # Our Api
     url(r'^api/', include("geomat.stein.apiurls", namespace="api")),
+=======
+    url(r'^api-auth/',include('rest_framework.urls', namespace= 'rest_framework')),
+
+>>>>>>> f9c01df...  some settings
     # Let's fix this stupid issue with Google Chrome and make a redirect from /favicon.ico to our /img/favicon.ico file!
     # Google Chrome ignores the favicon file defined in HTML and always looks for it in /
     url(

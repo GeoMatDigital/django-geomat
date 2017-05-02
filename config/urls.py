@@ -25,6 +25,9 @@ urlpatterns = [
 
     # Your stuff: custom urls includes go here
 
+    # Browseable API
+    url(r'^api-auth/',include('rest_framework.urls', namespace= 'rest_framework')),
+
     # Let's fix this stupid issue with Google Chrome and make a redirect from /favicon.ico to our /img/favicon.ico file!
     # Google Chrome ignores the favicon file defined in HTML and always looks for it in /
     url(

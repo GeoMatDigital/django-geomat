@@ -6,7 +6,7 @@ django-environ==0.4.1
 whitenoise==3.3.0
 
 # Forms
-django-braces==1.10.0
+django-braces==1.11.0
 django-crispy-forms==1.6.1
 
 # Models
@@ -20,7 +20,7 @@ Pillow==4.0.0
 django-allauth==0.30.0
 
 # Python-PostgreSQL Database Adapter
-psycopg2==2.6.2
+psycopg2==2.7.1
 
 # Unicode slugification
 awesome-slugify==1.6.5

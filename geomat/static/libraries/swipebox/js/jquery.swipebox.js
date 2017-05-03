@@ -12,7 +12,7 @@
 				initialIndexOnArray : 0,
 				removeBarsOnMobile : true,
 				hideCloseButtonOnMobile : false,
-				hideBarsDelay : 3000,   // not needed since the bars do not get hidden
+				hideBarsDelay : 3000,         // not needed since the bars do not get hidden
 				videoMaxWidth : 1140,
 				vimeoColor : 'cccccc',
 				beforeOpen: null,

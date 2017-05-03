@@ -127,7 +127,18 @@
         <div class="container text-center" id="gallery">
             <h2>Galerie-Vorschau</h2>
             <hr class="light">
-            <a href="#" id="gallery-button" class="btn btn-default btn-xl wow tada">Galerie &ouml;ffnen</a>
+            {% for list in photograph_dict %}
+
+            <a href="#" id="gallery-button{{ forloop.counter }}" class="btn btn-default btn-xl wow tada">Galerie{{ forloop.counter }} &ouml;ffnen</a>
+
+            {% endfor %}
+        </div>
+    </aside>
+    <aside id="best-helper" class="bg-primary">
+        <div class="container text-center">
+            <h2>Bestimmungshelfer</h2>
+            <hr class="light">
+            <a href="http://lernbar.uni-frankfurt.de/courses/2722/1847/index.html?id=0e8847b5284964e5831b267976b3338bc746a8" id="best-helper-button" class="btn btn-default btn-xl wow tada">Zum Bestimmungshelfer</a>
         </div>
     </aside>
     <section id="features">
@@ -325,11 +336,13 @@
     <script src="{% static 'common/js/creative.js' %}"></script>
 
     <script type="text/javascript">
+        {% for name, list in photograph_dict.items %}
+
         $(document).ready(function() {
-            $('#gallery-button').click(function(e) {
+            $('#gallery-button{{ forloop.counter }}').click(function(e) {
                 e.preventDefault();
                 $.swipebox([
-                    {% for photograph in object_list %}
+                    {% for photograph in list %}
                     {
                         href: "{{ photograph.image_file.large.url }}",
                         title: '{{ photograph.handpiece.name }}'
@@ -339,6 +352,7 @@
                 {useSVG: false});
             });
         });
+        {% endfor %}
     </script>
 </body>
 

@@ -26,6 +26,10 @@ TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
 # Note: This key only used for development and testing.
 SECRET_KEY = env("DJANGO_SECRET_KEY", default='3(!oafihrr4deyrh5=vs_sr*8@f-vo=tyq)qnc8lys3pldb2*)')
 
+# ALLOWED HOSTS
+# ------------------------------------------------------------------------------
+ALLOWED_HOSTS = ['192.168.99.100', ]
+
 # Mail settings
 # ------------------------------------------------------------------------------
 
@@ -49,7 +53,7 @@ CACHES = {
 MIDDLEWARE += ('debug_toolbar.middleware.DebugToolbarMiddleware',)
 INSTALLED_APPS += ('debug_toolbar', )
 
-INTERNAL_IPS = ['127.0.0.1', '10.0.2.2', ]
+INTERNAL_IPS = ['127.0.0.1', '10.0.2.2', '192.168.99.100', ]
 # tricks to have debug toolbar when developing with docker
 if os.environ.get('USE_DOCKER') == 'yes':
     ip = socket.gethostbyname(socket.gethostname())

@@ -16,6 +16,10 @@ urlpatterns = [
     # url(r'^preview$', TemplateView.as_view(template_name='pages/preview.html'), name="preview"),
     # url(r'^about/$', TemplateView.as_view(template_name='pages/about.html'), name="about"),
 
+    # Do a redirect for people might have the .../preview saved in browser.
+
+    url(r'^preview/', RedirectView.as_view(pattern_name='home')),
+
     # Django Admin, use {% url 'admin:index' %}
     url(settings.ADMIN_URL, include(admin.site.urls)),
 

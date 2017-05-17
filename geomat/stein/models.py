@@ -78,41 +78,30 @@ class MineralType(models.Model):
         max_length=100,
         blank=True,
         verbose_name=_("variety"))
+
     minerals = models.CharField(
         max_length=100,
         blank=True,
         verbose_name=_("minerals"))
-    # classification = ChoiceArrayField(
-    #     models.CharField(
-    #         max_length=100,
-    #     ),
-    #     null=True,
-    #     verbose_name=_("classification")
-    # )
-    # classification1 = models.CharField(
-    #     max_length=100,
-    #     verbose_name=_("classification")
-    # )
-    # crystal_system = models.CharField(
-    #     max_length=2,
-    #     blank=True,
-    #     choices=CRYSTAL_SYSTEM_CHOICES,
-    #     verbose_name=_("crystal system")
-    # )
+
     mohs_scale = models.CharField(
         max_length=20,
         verbose_name=_("mohs scale"))
+
     density = models.CharField(
         max_length=20,
         default=0,
         verbose_name=_("density"))
+
     streak = models.CharField(
         max_length=100,
         verbose_name=_("streak"))
+
     normal_color = models.CharField(
         max_length=100,
         verbose_name=_("normal color")
     )
+
     fracture = ChoiceArrayField(
         models.CharField(
             max_length=2,
@@ -121,18 +110,7 @@ class MineralType(models.Model):
         verbose_name=_("fracture"),
         null=True
     )
-    # fracture1 = models.CharField(
-    #     max_length=2,
-    #     choices=FRACTURE_CHOICES,
-    #     default="CF",
-    #     verbose_name=_("fracture")
-    # )
-    # fracture2 = models.CharField(
-    #     max_length=2,
-    #     choices=FRACTURE_CHOICES,
-    #     blank=True,
-    #     verbose_name=_("fracture 2")
-    # )
+
     cleavage = ChoiceArrayField(
         models.CharField(
             max_length=2,
@@ -141,18 +119,7 @@ class MineralType(models.Model):
         null=True,
         verbose_name=_("cleavage")
     )
-    # cleavage1 = models.CharField(
-    #     max_length=2,
-    #     choices=CLEAVAGE_CHOICES,
-    #     default="BP",
-    #     verbose_name=_("cleavage")
-    # )
-    # cleavage2 = models.CharField(
-    #     max_length=2,
-    #     choices=CLEAVAGE_CHOICES,
-    #     blank=True,
-    #     verbose_name=_("cleavage 2")
-    # )
+
     lustre = ChoiceArrayField(
         models.CharField(
             max_length=2,
@@ -161,18 +128,7 @@ class MineralType(models.Model):
         null=True,
         verbose_name=_("lustre")
     )
-    # lustre1 = models.CharField(
-    #     max_length=2,
-    #     choices=LUSTRE_CHOICES,
-    #     default="AM",
-    #     verbose_name=_("lustre")
-    # )
-    # lustre2 = models.CharField(
-    #     max_length=2,
-    #     choices=LUSTRE_CHOICES,
-    #     blank=True,
-    #     verbose_name=_("lustre 2")
-    # )
+
     chemical_formula = models.CharField(
         max_length=100,
         verbose_name=_("chemical formula")

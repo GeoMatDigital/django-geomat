@@ -18,3 +18,4 @@ class MineralTypeTestCase(TestCase):
 
 
 # Create your tests here.
+#testtesttest

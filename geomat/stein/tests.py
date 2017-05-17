@@ -6,7 +6,7 @@ class MineralTypeTestCase(TestCase):
 
     def setUp(self):
         self.mineral_type_name = "New MineralType"
-        self.mineral_type = MineralType(name=self.mineral_type_name)
+        self.mineral_type = MineralType(trivial_name=self.mineral_type_name)
 
     def test_mineral_catigories_not_empty(self):
         """
@@ -14,7 +14,7 @@ class MineralTypeTestCase(TestCase):
         """
         categories = self.mineral_type.MINERAL_CATEGORIES
 
-        self.assertEqual(True, categories)
+        self.assertEqual(True, all(categories))
 
 
 # Create your tests here.

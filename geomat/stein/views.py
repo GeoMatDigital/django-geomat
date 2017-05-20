@@ -1,6 +1,6 @@
 from django.views.generic.list import ListView
 from django.shortcuts import render
-from geomat.stein.models import Handpiece, Photograph
+from .models import CrystalSystem, Handpiece, MineralType, Photograph
 
 class GalleryListView(ListView):
     model = Photograph
@@ -28,4 +28,25 @@ def gallery_view(request):
         sorted_photo_list_dict["{}".format(name)] = all_photos
 
     return render(request, "pages/preview.html", {"photograph_dict": sorted_photo_list_dict})
+
+# API Views
+
+
+def handpiece_detail(request, pk):
+
+    pass
+
+
+def crystalsystem_detail(request, pk):
+
+    pass
+
+
+def photograph_detail(request, pk):
+    pass
+
+
+def mineraltype_detail(request,pk):
+
+    pass
 

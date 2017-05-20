@@ -21,7 +21,7 @@ class ViewTestCase(TestCase):
 
         handpiece = Handpiece.objects.get()
         response = self.client.get(
-            reverse('get_handpiece'),
+            reverse('handpiece'),
             kwargs={'pk': handpiece.id},
             format="json"
         )
@@ -33,7 +33,7 @@ class ViewTestCase(TestCase):
 
         crstalsystem = CrystalSystem.objects.get()
         response = self.client.get(
-            reverse('get_crystalsystem'),
+            reverse('crystalsystem'),
             kwargs={'pk': crstalsystem.id},
             format="json"
         )
@@ -45,7 +45,7 @@ class ViewTestCase(TestCase):
 
         photograph = Photograph.onjects.get()
         response = self.client.get(
-            reverse('get_photograph'),
+            reverse('photograph'),
             kwargs={'pk': photograph.id},
             format="json"
         )
@@ -57,7 +57,7 @@ class ViewTestCase(TestCase):
 
         mieraltype = MineralType.objects.get()
         response = self.client.get(
-            reverse('get_mineraltype'),
+            reverse('mineraltype'),
             kwargs={'pk': mieraltype.id},
             format="json"
         )

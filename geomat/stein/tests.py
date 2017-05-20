@@ -40,12 +40,16 @@ class ViewTestCase(TestCase):
         handpiece = Handpiece.objects.get()
         response = self.client.get(
 <<<<<<< HEAD
+<<<<<<< HEAD
             reverse('api:handpiece'),
             kwargs={'pk': handpiece.id},
             format="json"
 
 =======
             reverse('get_handpiece'),
+=======
+            reverse('handpiece'),
+>>>>>>> 90d581e... Created apiurls in the right directory and edited the right urls,
             kwargs={'pk': handpiece.id},
             format="json"
 >>>>>>> e485a85... I cleared the stein.models.py and established basic tests for the api. This contains tests for the "GET"-method only for now.
@@ -69,7 +73,7 @@ class ViewTestCase(TestCase):
 =======
         crstalsystem = CrystalSystem.objects.get()
         response = self.client.get(
-            reverse('get_crystalsystem'),
+            reverse('crystalsystem'),
             kwargs={'pk': crstalsystem.id},
             format="json"
         )
@@ -92,7 +96,7 @@ class ViewTestCase(TestCase):
 =======
         photograph = Photograph.onjects.get()
         response = self.client.get(
-            reverse('get_photograph'),
+            reverse('photograph'),
             kwargs={'pk': photograph.id},
             format="json"
         )
@@ -115,7 +119,7 @@ class ViewTestCase(TestCase):
 =======
         mieraltype = MineralType.objects.get()
         response = self.client.get(
-            reverse('get_mineraltype'),
+            reverse('mineraltype'),
             kwargs={'pk': mieraltype.id},
             format="json"
         )

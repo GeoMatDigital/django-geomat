@@ -1,6 +1,7 @@
 from django.views.generic.list import ListView
 from django.shortcuts import render
 from .models import CrystalSystem, Handpiece, MineralType, Photograph
+<<<<<<< HEAD
 from .serializers import CrystalSystemSerializer, HandpieceSerializer, MineralTypeSerializer, PhotographSerializer
 from rest_framework.decorators import api_view
 
@@ -9,6 +10,8 @@ from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 
+=======
+>>>>>>> 90d581e... Created apiurls in the right directory and edited the right urls,
 
 class GalleryListView(ListView):
     model = Photograph
@@ -42,6 +45,7 @@ def gallery_view(request):
 
 def handpiece_detail(request, pk):
 
+<<<<<<< HEAD
     try:
         handpiece = Handpiece.objects.get(pk=pk)
     except Handpiece.DoesNotExist:
@@ -50,10 +54,14 @@ def handpiece_detail(request, pk):
     if request.method == 'GET':
         serializer = HandpieceSerializer(handpiece)
         return JsonResponse(serializer.data)
+=======
+    pass
+>>>>>>> 90d581e... Created apiurls in the right directory and edited the right urls,
 
 
 def crystalsystem_detail(request, pk):
 
+<<<<<<< HEAD
     try:
         crystalsystem = CrystalSystem.objects.get(pk=pk)
     except CrystalSystem.DoesNotExist:
@@ -86,4 +94,16 @@ def mineraltype_detail(request, pk):
     if request.method == 'GET':
         serializer = MineralTypeSerializer(mineraltype)
         return JsonResponse(serializer.data)
+=======
+    pass
+
+
+def photograph_detail(request, pk):
+    pass
+
+
+def mineraltype_detail(request,pk):
+
+    pass
+>>>>>>> 90d581e... Created apiurls in the right directory and edited the right urls,
 

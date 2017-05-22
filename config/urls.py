@@ -13,8 +13,9 @@ from geomat.stein.views import GalleryListView, gallery_view
 
 urlpatterns = [
     url(r'^$', gallery_view, name="home"),
-    # url(r'^preview$', TemplateView.as_view(template_name='pages/preview.html'), name="preview"),
-    # url(r'^about/$', TemplateView.as_view(template_name='pages/about.html'), name="about"),
+
+    # Redirect users from outdated 'preview/' to '/'
+    url(r'^preview/', RedirectView.as_view(pattern_name='home')),
 
     # Django Admin, use {% url 'admin:index' %}
     url(settings.ADMIN_URL, include(admin.site.urls)),
@@ -33,6 +34,8 @@ urlpatterns = [
 
     # Let's fix this stupid issue with Google Chrome and make a redirect from /favicon.ico to our /img/favicon.ico file!
     # Google Chrome ignores the favicon file defined in HTML and always looks for it in /
+    # 'common/images/favicon.ico' file!
+    # Google Chrome ignores the favicon file defined in HTML and always looks for it in '/favicon.ico'
     url(
         r'^favicon.ico$',
         RedirectView.as_view(

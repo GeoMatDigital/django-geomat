@@ -1,12 +1,20 @@
 from django.views.generic.list import ListView
 from django.shortcuts import render
 from .models import CrystalSystem, Handpiece, MineralType, Photograph
+from .serializers import CrystalSystemSerializer, HandpieceSerializer, MineralTypeSerializer, PhotographSerializer
+from rest_framework.decorators import api_view
+
+from django.http import HttpResponse, JsonResponse
+from rest_framework.response import Response
+from rest_framework.renderers import JSONRenderer
+from rest_framework.parsers import JSONParser
+
 
 class GalleryListView(ListView):
     model = Photograph
     template_name = 'pages/preview.html'
 
-
+@api
 def gallery_view(request):
     sorting_dict = {
         "list1": [34, 29, 31, 32, 35, 144, 99, 38, 43, 44, 40, 39, 98, 46, 41, 42,
@@ -34,19 +42,48 @@ def gallery_view(request):
 
 def handpiece_detail(request, pk):
 
-    pass
+    try:
+        handpiece = Handpiece.objects.get(pk=pk)
+    except Handpiece.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        serializer = HandpieceSerializer(handpiece)
+        return JsonResponse(serializer.data)
 
 
 def crystalsystem_detail(request, pk):
 
-    pass
+    try:
+        crystalsystem = CrystalSystem.objects.get(pk=pk)
+    except CrystalSystem.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        serializer = CrystalSystemSerializer(crystalsystem)
+        return JsonResponse(serializer.data)
 
 
 def photograph_detail(request, pk):
-    pass
+
+    try:
+        photograph = Photograph.objects.get(pk=pk)
+    except Photograph.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        serializer = PhotographSerializer(photograph)
+        return JsonResponse(serializer.data)
 
 
-def mineraltype_detail(request,pk):
+def mineraltype_detail(request, pk):
 
-    pass
+    try:
+        mineraltype = MineralType.objects.get(pk=pk)
+    except MineralType.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        serializer = MineralTypeSerializer(mineraltype)
+        return JsonResponse(serializer.data)
 

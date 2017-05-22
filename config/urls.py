@@ -26,20 +26,11 @@ urlpatterns = [
     # Your stuff: custom urls includes go here
 
     # Browseable API
-<<<<<<< HEAD
-<<<<<<< HEAD
-    url(r'^api-auth/',include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     # Our Api
     url(r'^api/', include("geomat.stein.apiurls", namespace="api")),
-=======
-    url(r'^api-auth/',include('rest_framework.urls', namespace= 'rest_framework')),
 
->>>>>>> f9c01df...  some settings
-=======
-    url(r'^api-auth/',include('rest_framework.urls', namespace='rest_framework')),
-    # Our Api
-    url(r'^api/', include("geomat.stein.apiurls", namespace="api")),
->>>>>>> e485a85... I cleared the stein.models.py and established basic tests for the api. This contains tests for the "GET"-method only for now.
+
     # Let's fix this stupid issue with Google Chrome and make a redirect from /favicon.ico to our /img/favicon.ico file!
     # Google Chrome ignores the favicon file defined in HTML and always looks for it in /
     url(

@@ -28,7 +28,8 @@ SECRET_KEY = env("DJANGO_SECRET_KEY", default='3(!oafihrr4deyrh5=vs_sr*8@f-vo=ty
 
 # ALLOWED HOSTS
 # ------------------------------------------------------------------------------
-ALLOWED_HOSTS = ['192.168.99.100', ]
+ALLOWED_HOSTS = ['192.168.99.100', 'localhost', ]
+
 
 # Mail settings
 # ------------------------------------------------------------------------------
@@ -68,7 +69,16 @@ DEBUG_TOOLBAR_CONFIG = {
 
 # Additional local apps
 # ------------------------------------------------------------------------------
-INSTALLED_APPS += ('django_extensions', 'rosetta')
+INSTALLED_APPS += ('django_extensions',
+                   'rosetta', )
+
+# Rest-framework
+INSTALLED_APPS += ('rest_framework',
+                   )
+
+REST_FRAMEWORK = {
+    'DEFAULT-PERMISSION-CLASSES': ['rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly']
+}
 
 # TESTING
 # ------------------------------------------------------------------------------

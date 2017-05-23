@@ -5,12 +5,12 @@
 # WSGI Handler
 # ------------------------------------------------
 gevent==1.2.1
-gunicorn==19.6.0
+gunicorn==19.7.1
 
 # Email backends for Mailgun, Postmark, SendGrid and more
 # -------------------------------------------------------
-django-anymail==0.7
+django-anymail==0.9
 
 # Raven is the Sentry client
 # --------------------------
-raven==5.32.0
+raven==6.0.0

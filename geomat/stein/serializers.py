@@ -24,7 +24,7 @@ class PhotographSerializer(serializers.ModelSerializer):
     class Meta:
 
         model = Photograph
-        fields = ('handpiece', 'orientation', 'shot_type', ' online_status', 'created_at', 'last_modified')
+        fields = ('image_file', 'handpiece', 'orientation', 'shot_type', ' online_status', 'created_at', 'last_modified')
 
 
 class MineralTypeSerializer(serializers.ModelSerializer):
@@ -33,5 +33,5 @@ class MineralTypeSerializer(serializers.ModelSerializer):
 
         model = MineralType
         fields = ('trivial_name', 'systematics', 'variety', 'minerals', 'mohs_scale', 'density', 'streak',
-                  'normal_color', 'fracture', 'cleavage', 'lusture', 'chemical_formula', 'other', 'resource_mindat',
-                  'resource_mineralatlas', 'created_at', 'last_modified')
+                  'normal_color', 'fracture', 'cleavage', 'lustre', 'chemical_formula', 'other', 'resource_mindat',
+                  'resource_mineralienatlas', 'created_at', 'last_modified')

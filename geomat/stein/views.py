@@ -40,7 +40,8 @@ def gallery_view(request):
 # API Views
 
 
-def handpiece_detail(request, pk):
+@api_view(('GET',))
+def handpiece_detail(request, pk, format=None):
 
     try:
         handpiece = Handpiece.objects.get(pk=pk)
@@ -49,10 +50,11 @@ def handpiece_detail(request, pk):
 
     if request.method == 'GET':
         serializer = HandpieceSerializer(handpiece)
-        return JsonResponse(serializer.data)
+        return JsonResponse(serializer.data, safe=False)
 
 
-def crystalsystem_detail(request, pk):
+@api_view(('GET',))
+def crystalsystem_detail(request, pk, format=None):
 
     try:
         crystalsystem = CrystalSystem.objects.get(pk=pk)
@@ -61,10 +63,11 @@ def crystalsystem_detail(request, pk):
 
     if request.method == 'GET':
         serializer = CrystalSystemSerializer(crystalsystem)
-        return JsonResponse(serializer.data)
+        return JsonResponse(serializer.data, safe=False)
 
 
-def photograph_detail(request, pk):
+@api_view(('GET',))
+def photograph_detail(request, pk, format=None):
 
     try:
         photograph = Photograph.objects.get(pk=pk)
@@ -73,10 +76,11 @@ def photograph_detail(request, pk):
 
     if request.method == 'GET':
         serializer = PhotographSerializer(photograph)
-        return JsonResponse(serializer.data)
+        return JsonResponse(serializer.data, safe=False)
 
 
-def mineraltype_detail(request, pk):
+@api_view(('GET',))
+def mineraltype_detail(request, pk, format=None):
 
     try:
         mineraltype = MineralType.objects.get(pk=pk)
@@ -85,5 +89,5 @@ def mineraltype_detail(request, pk):
 
     if request.method == 'GET':
         serializer = MineralTypeSerializer(mineraltype)
-        return JsonResponse(serializer.data)
+        return JsonResponse(serializer.data, safe=False)
 

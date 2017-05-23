@@ -11,9 +11,9 @@ urlpatterns = [
 
     url(r'^handpiece/(?P<pk>[0-9]+)/', handpiece_detail, name="handpiece"),
 
-    url(r'photograph/(?P<pk>[0-9]+)/', photograph_detail, name="photograph"),
+    url(r'^photograph/(?P<pk>[0-9]+)/', photograph_detail, name="photograph"),
 
-    url(r'mineraltype/(?P<pk>[0-9]+)/', mineraltype_detail, name="mineraltype"),
+    url(r'^mineraltype/(?P<pk>[0-9]+)/', mineraltype_detail, name="mineraltype"),
 
 ]
-urlpatterns = format_suffix_patterns(urlpatterns)
+#urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json'])

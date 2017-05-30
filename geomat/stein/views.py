@@ -8,7 +8,7 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-
+from rest_framework import status
 
 class GalleryListView(ListView):
     model = Photograph
@@ -63,7 +63,7 @@ def crystalsystem_detail(request, pk, format=None):
 
     if request.method == 'GET':
         serializer = CrystalSystemSerializer(crystalsystem)
-        return JsonResponse(serializer.data, safe=False)
+        return JsonResponse(serializer.data, safe=False,)
 
 
 @api_view(('GET',))

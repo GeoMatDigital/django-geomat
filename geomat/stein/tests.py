@@ -39,6 +39,8 @@ class ViewTestCase(TestCase):
             kwargs={'pk': crystalsystem.id},
             format="json"
         )
+        self.assertEqual(self.crystalsystem, crystalsystem)
+        self.assertEqual(1, crystalsystem.id)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertContains(response, crystalsystem)
 
@@ -64,4 +66,5 @@ class ViewTestCase(TestCase):
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertContains(response, mineraltype)
+
 # Create your tests here.

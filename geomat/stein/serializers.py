@@ -2,7 +2,18 @@ from rest_framework import serializers
 from .models import CrystalSystem, Handpiece, Photograph, MineralType
 
 
+class MineralTypeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+
+        model = MineralType
+        fields = ('trivial_name', 'systematics', 'variety', 'minerals', 'mohs_scale', 'density', 'streak',
+                  'normal_color', 'fracture', 'cleavage', 'lustre', 'chemical_formula', 'other', 'resource_mindat',
+                  'resource_mineralienatlas', 'created_at', 'last_modified')
+
+
 class CrystalSystemSerializer(serializers.ModelSerializer):
+    mineral_type = MineralTypeSerializer()
 
     class Meta:
 
@@ -11,6 +22,7 @@ class CrystalSystemSerializer(serializers.ModelSerializer):
 
 
 class HandpieceSerializer(serializers.ModelSerializer):
+    mineral_type = MineralTypeSerializer(many=True)
 
     class Meta:
 
@@ -20,6 +32,8 @@ class HandpieceSerializer(serializers.ModelSerializer):
 
 
 class PhotographSerializer(serializers.ModelSerializer):
+    handpiece = HandpieceSerializer()
+    image_file = serializers.ImageField()
 
     class Meta:
 
@@ -27,11 +41,3 @@ class PhotographSerializer(serializers.ModelSerializer):
         fields = ('image_file', 'handpiece', 'orientation', 'shot_type', ' online_status', 'created_at', 'last_modified')
 
 
-class MineralTypeSerializer(serializers.ModelSerializer):
-
-    class Meta:
-
-        model = MineralType
-        fields = ('trivial_name', 'systematics', 'variety', 'minerals', 'mohs_scale', 'density', 'streak',
-                  'normal_color', 'fracture', 'cleavage', 'lustre', 'chemical_formula', 'other', 'resource_mindat',
-                  'resource_mineralienatlas', 'created_at', 'last_modified')

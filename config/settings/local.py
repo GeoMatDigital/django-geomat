@@ -70,15 +70,25 @@ DEBUG_TOOLBAR_CONFIG = {
 # Additional local apps
 # ------------------------------------------------------------------------------
 INSTALLED_APPS += ('django_extensions',
-                   'rosetta', )
+                   'rosetta',
+                   'stdimage_serializer')
 
 # Rest-framework
 INSTALLED_APPS += ('rest_framework',
                    )
-
 REST_FRAMEWORK = {
-    'DEFAULT-PERMISSION-CLASSES': ['rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly']
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ),
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
 }
+
 
 # TESTING
 # ------------------------------------------------------------------------------

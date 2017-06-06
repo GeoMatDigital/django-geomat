@@ -2,7 +2,8 @@ from django.views.generic.list import ListView
 from django.shortcuts import render
 from .models import CrystalSystem, Handpiece, MineralType, Photograph
 from .serializers import CrystalSystemSerializer, HandpieceSerializer, MineralTypeSerializer, PhotographSerializer
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes, renderer_classes
+from rest_framework import permissions
 
 from django.http import HttpResponse, JsonResponse
 from rest_framework.response import Response
@@ -41,6 +42,8 @@ def gallery_view(request):
 
 
 @api_view(('GET',))
+@permission_classes((permissions.AllowAny,))
+@renderer_classes((JSONRenderer,))
 def handpiece_detail(request, pk, format=None):
 
     try:
@@ -54,6 +57,8 @@ def handpiece_detail(request, pk, format=None):
 
 
 @api_view(('GET',))
+@permission_classes((permissions.AllowAny,))
+@renderer_classes((JSONRenderer,))
 def crystalsystem_detail(request, pk, format=None):
 
     try:
@@ -67,6 +72,8 @@ def crystalsystem_detail(request, pk, format=None):
 
 
 @api_view(('GET',))
+@permission_classes((permissions.AllowAny,))
+@renderer_classes((JSONRenderer,))
 def photograph_detail(request, pk, format=None):
 
     try:
@@ -80,6 +87,8 @@ def photograph_detail(request, pk, format=None):
 
 
 @api_view(('GET',))
+@permission_classes((permissions.AllowAny,))
+@renderer_classes((JSONRenderer,))
 def mineraltype_detail(request, pk, format=None):
 
     try:

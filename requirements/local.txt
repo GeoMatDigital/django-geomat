@@ -26,3 +26,4 @@ django-rosetta==0.7.13
 djangorestframework==3.6.3
 markdown==2.1.0
 django-filter==1.0.1
+django-stdimage-serializer

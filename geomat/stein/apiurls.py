@@ -1,6 +1,6 @@
 from django.conf.urls import include, url
 from .views import crystalsystem_detail, handpiece_detail, photograph_detail, mineraltype_detail
-
+from rest_framework.urlpatterns import format_suffix_patterns
 
 app_name = "api"
 urlpatterns = [
@@ -16,4 +16,4 @@ urlpatterns = [
     url(r'^mineraltype/(?P<pk>[0-9]+)/', mineraltype_detail, name="mineraltype"),
 
 ]
-#urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json'])
+urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json'])

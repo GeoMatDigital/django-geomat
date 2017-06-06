@@ -9,7 +9,7 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views import defaults as default_views
 from django.views.generic import RedirectView, TemplateView
 
-from geomat.stein.views import GalleryListView, gallery_view
+from geomat.stein.views import GalleryListView, gallery_view, handpiece_detail
 
 urlpatterns = [
     url(r'^$', gallery_view, name="home"),

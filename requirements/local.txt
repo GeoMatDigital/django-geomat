@@ -19,3 +19,11 @@ pytest-sugar==0.8.0
 
 # Own stuff
 django-rosetta==0.7.13
+
+
+# REST-Framework
+
+djangorestframework==3.6.3
+markdown==2.1.0
+django-filter==1.0.1
+django-stdimage-serializer

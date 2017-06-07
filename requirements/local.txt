@@ -19,3 +19,7 @@ pytest-sugar==0.8.0
 
 # Own stuff
 django-rosetta==0.7.13
+
+# Codecov
+pytest-cov==2.4.0
+codecov==2.0.5

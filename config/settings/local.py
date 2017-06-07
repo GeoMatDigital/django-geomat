@@ -28,7 +28,7 @@ SECRET_KEY = env("DJANGO_SECRET_KEY", default='3(!oafihrr4deyrh5=vs_sr*8@f-vo=ty
 
 # ALLOWED HOSTS
 # ------------------------------------------------------------------------------
-ALLOWED_HOSTS = ['192.168.99.100', ]
+ALLOWED_HOSTS = ['192.168.99.100', 'localhost']
 
 # Mail settings
 # ------------------------------------------------------------------------------

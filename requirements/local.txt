@@ -22,4 +22,4 @@ django-rosetta==0.7.13
 
 # Codecov
 pytest-cov==2.5.1
-codecov==2.0.5
+codecov==2.0.9

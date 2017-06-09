@@ -1,6 +1,15 @@
+"""Views file for stein app"""
 from django.views.generic.list import ListView
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
-from geomat.stein.models import Handpiece, Photograph
+
+from rest_framework.decorators import api_view, permission_classes, renderer_classes
+from rest_framework import permissions
+from rest_framework.renderers import JSONRenderer
+
+from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph
+from geomat.stein.serializers import CrystalSystemSerializer, HandpieceSerializer, \
+    MineralTypeSerializer, PhotographSerializer
 
 
 class GalleryListView(ListView):
@@ -29,3 +38,64 @@ def gallery_view(request):
 
     return render(request, "pages/preview.html",
                   {"photograph_dict": sorted_photo_list_dict})
+
+
+# API Views
+
+
+@api_view(('GET', ))
+@permission_classes((permissions.AllowAny, ))
+@renderer_classes((JSONRenderer, ))
+def handpiece_detail(request, pk, format=None):
+    try:
+        handpiece = Handpiece.objects.get(pk=pk)
+    except Handpiece.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        serializer = HandpieceSerializer(handpiece)
+        return JsonResponse(serializer.data, safe=False)
+
+
+@api_view(('GET', ))
+@permission_classes((permissions.AllowAny, ))
+@renderer_classes((JSONRenderer, ))
+def crystalsystem_detail(request, pk, format=None):
+    try:
+        crystalsystem = CrystalSystem.objects.get(pk=pk)
+    except CrystalSystem.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        serializer = CrystalSystemSerializer(crystalsystem)
+        return JsonResponse(
+            serializer.data,
+            safe=False, )
+
+
+@api_view(('GET', ))
+@permission_classes((permissions.AllowAny, ))
+@renderer_classes((JSONRenderer, ))
+def photograph_detail(request, pk, format=None):
+    try:
+        photograph = Photograph.objects.get(pk=pk)
+    except Photograph.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        serializer = PhotographSerializer(photograph)
+        return JsonResponse(serializer.data, safe=False)
+
+
+@api_view(('GET', ))
+@permission_classes((permissions.AllowAny, ))
+@renderer_classes((JSONRenderer, ))
+def mineraltype_detail(request, pk, format=None):
+    try:
+        mineraltype = MineralType.objects.get(pk=pk)
+    except MineralType.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        serializer = MineralTypeSerializer(mineraltype)
+        return JsonResponse(serializer.data, safe=False)

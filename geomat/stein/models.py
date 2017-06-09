@@ -4,7 +4,6 @@ from stdimage.models import StdImageField
 
 from geomat.stein.fields import ChoiceArrayField
 
-
 # Mostly all fields are defined as CharFields, so the input is easier.
 # The max_length is a total arbitrary value that I defined in the beginning.
 
@@ -16,17 +15,11 @@ class MineralType(models.Model):
     """
 
     MINERAL_CATEGORIES = (
-        ('EL', _("Elements")),
-        ('SF', _("Sulfides & Sulfosalts")),
-        ('HG', _("Halogenides")),
-        ('OH', _("Oxides and Hydroxides")),
-        ('CN', _("Carbonates and Nitrates")),
-        ('BR', _("Borates")),
-        ('SL', _("Sulfates")),
-        ('PV', _("Phosphates, Arsenates & Vanadates")),
-        ('SG', _("Silicates & Germanates")),
-        ('OC', _("Organic Compounds")),
-    )
+        ('EL', _("Elements")), ('SF', _("Sulfides & Sulfosalts")), (
+            'HG', _("Halogenides")), ('OH', _("Oxides and Hydroxides")), (
+                'CN', _("Carbonates and Nitrates")), ('BR', _("Borates")),
+        ('SL', _("Sulfates")), ('PV', _("Phosphates, Arsenates & Vanadates")),
+        ('SG', _("Silicates & Germanates")), ('OC', _("Organic Compounds")), )
     # CRYSTAL_SYSTEM_CHOICES = (
     #     ('TC', _("Triclinic")),
     #     ('MC', _("Monoclinic")),
@@ -36,52 +29,27 @@ class MineralType(models.Model):
     #     ('HG', _("Hexagonal")),
     #     ('CB', _("Cubic")),
     # )
-    FRACTURE_CHOICES = (
-        ('CF', _("Conchoidal")),
-        ('EF', _("Earthy")),
-        ('HF', _("Hackly")),
-        ('SF', _("Splintery")),
-        ('UF', _("Uneven")),
-    )
-    CLEAVAGE_CHOICES = (
-        ('PE', _("Perfect")),
-        ('LP', _("Less perfect")),
-        ('GO', _("Good")),
-        ('DI', _("Distinct")),
-        ('ID', _("Indistinct")),
-        ('NO', _("None")),
-    )
-    LUSTRE_CHOICES = (
-        ('AM', _("Adamantine")),
-        ('DL', _("Dull")),
-        ('GR', _("Greasy")),
-        ('MT', _("Metallic")),
-        ('PY', _("Pearly")),
-        ('SL', _("Silky")),
-        ('SM', _("Submetallic")),
-        ('VT', _("Vitreous")),
-        ('WY', _("Waxy")),
-    )
+    FRACTURE_CHOICES = (('CF', _("Conchoidal")), ('EF', _("Earthy")), (
+        'HF', _("Hackly")), ('SF', _("Splintery")), ('UF', _("Uneven")), )
+    CLEAVAGE_CHOICES = (('PE', _("Perfect")), ('LP', _("Less perfect")), (
+        'GO', _("Good")), ('DI', _("Distinct")), ('ID', _("Indistinct")),
+                        ('NO', _("None")), )
+    LUSTRE_CHOICES = (('AM', _("Adamantine")), ('DL', _("Dull")), (
+        'GR', _("Greasy")), ('MT', _("Metallic")), ('PY', _("Pearly")), (
+            'SL', _("Silky")), ('SM', _("Submetallic")), ('VT', _("Vitreous")),
+                      ('WY', _("Waxy")), )
 
     trivial_name = models.CharField(
-        max_length=100,
-        blank=True,
-        verbose_name=_("trivial name")
-    )
+        max_length=100, blank=True, verbose_name=_("trivial name"))
     systematics = models.CharField(
         max_length=2,
         choices=MINERAL_CATEGORIES,
         default="EL",
-        verbose_name=_("systematics")
-    )
+        verbose_name=_("systematics"))
     variety = models.CharField(
-        max_length=100,
-        blank=True,
-        verbose_name=_("variety"))
+        max_length=100, blank=True, verbose_name=_("variety"))
     minerals = models.CharField(
-        max_length=100,
-        blank=True,
-        verbose_name=_("minerals"))
+        max_length=100, blank=True, verbose_name=_("minerals"))
     # classification = ChoiceArrayField(
     #     models.CharField(
     #         max_length=100,
@@ -99,28 +67,18 @@ class MineralType(models.Model):
     #     choices=CRYSTAL_SYSTEM_CHOICES,
     #     verbose_name=_("crystal system")
     # )
-    mohs_scale = models.CharField(
-        max_length=20,
-        verbose_name=_("mohs scale"))
+    mohs_scale = models.CharField(max_length=20, verbose_name=_("mohs scale"))
     density = models.CharField(
-        max_length=20,
-        default=0,
-        verbose_name=_("density"))
-    streak = models.CharField(
-        max_length=100,
-        verbose_name=_("streak"))
+        max_length=20, default=0, verbose_name=_("density"))
+    streak = models.CharField(max_length=100, verbose_name=_("streak"))
     normal_color = models.CharField(
-        max_length=100,
-        verbose_name=_("normal color")
-    )
+        max_length=100, verbose_name=_("normal color"))
     fracture = ChoiceArrayField(
         models.CharField(
             max_length=2,
-            choices=FRACTURE_CHOICES,
-        ),
+            choices=FRACTURE_CHOICES, ),
         verbose_name=_("fracture"),
-        null=True
-    )
+        null=True)
     # fracture1 = models.CharField(
     #     max_length=2,
     #     choices=FRACTURE_CHOICES,
@@ -136,11 +94,9 @@ class MineralType(models.Model):
     cleavage = ChoiceArrayField(
         models.CharField(
             max_length=2,
-            choices=CLEAVAGE_CHOICES,
-        ),
+            choices=CLEAVAGE_CHOICES, ),
         null=True,
-        verbose_name=_("cleavage")
-    )
+        verbose_name=_("cleavage"))
     # cleavage1 = models.CharField(
     #     max_length=2,
     #     choices=CLEAVAGE_CHOICES,
@@ -156,11 +112,9 @@ class MineralType(models.Model):
     lustre = ChoiceArrayField(
         models.CharField(
             max_length=2,
-            choices=LUSTRE_CHOICES,
-        ),
+            choices=LUSTRE_CHOICES, ),
         null=True,
-        verbose_name=_("lustre")
-    )
+        verbose_name=_("lustre"))
     # lustre1 = models.CharField(
     #     max_length=2,
     #     choices=LUSTRE_CHOICES,
@@ -174,32 +128,17 @@ class MineralType(models.Model):
     #     verbose_name=_("lustre 2")
     # )
     chemical_formula = models.CharField(
-        max_length=100,
-        verbose_name=_("chemical formula")
-    )
+        max_length=100, verbose_name=_("chemical formula"))
     other = models.TextField(
-        max_length=100,
-        blank=True,
-        verbose_name=_("comment")
-    )
+        max_length=100, blank=True, verbose_name=_("comment"))
     resource_mindat = models.CharField(
-        max_length=100,
-        blank=True,
-        verbose_name=_("MinDat ID")
-    )
+        max_length=100, blank=True, verbose_name=_("MinDat ID"))
     resource_mineralienatlas = models.CharField(
-        max_length=100,
-        blank=True,
-        verbose_name=_("MineralienAtlas ID")
-    )
+        max_length=100, blank=True, verbose_name=_("MineralienAtlas ID"))
     created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name=_("created at")
-    )
+        auto_now_add=True, verbose_name=_("created at"))
     last_modified = models.DateTimeField(
-        auto_now=True,
-        verbose_name=_("last modified")
-    )
+        auto_now=True, verbose_name=_("last modified"))
 
     class Meta:
         verbose_name = _("mineral type")
@@ -214,15 +153,9 @@ class Classification(models.Model):
     Defines a classification field which can be added as a ForeignKey to the MineralType class.
     """
     mineral_type = models.ForeignKey(
-        MineralType,
-        null=True,
-        verbose_name=_('mineral type')
-    )
+        MineralType, null=True, verbose_name=_('mineral type'))
     classification = models.CharField(
-        max_length=100,
-        blank=True,
-        verbose_name=_("classification")
-    )
+        max_length=100, blank=True, verbose_name=_("classification"))
 
 
 class CrystalSystem(models.Model):
@@ -230,37 +163,22 @@ class CrystalSystem(models.Model):
     Defines a crystal system, which then should be used as a ForeignKey
     inside the MineralType class.
     """
-    CRYSTAL_SYSTEM_CHOICES = (
-        ('TC', _("Triclinic")),
-        ('MC', _("Monoclinic")),
-        ('OR', _("Orthorhombic")),
-        ('TT', _("Tetragonal")),
-        ('TR', _("Trigonal")),
-        ('HG', _("Hexagonal")),
-        ('CB', _("Cubic")),
-    )
+    CRYSTAL_SYSTEM_CHOICES = (('TC', _("Triclinic")), ('MC', _("Monoclinic")),
+                              ('OR', _("Orthorhombic")),
+                              ('TT', _("Tetragonal")), ('TR', _("Trigonal")), (
+                                  'HG', _("Hexagonal")), ('CB', _("Cubic")), )
 
     mineral_type = models.ForeignKey(
-        MineralType,
-        null=True,
-        verbose_name=_('mineral type')
-    )
+        MineralType, null=True, verbose_name=_('mineral type'))
     crystal_system = models.CharField(
         max_length=2,
         blank=True,
         choices=CRYSTAL_SYSTEM_CHOICES,
-        verbose_name=_("crystal system")
-    )
+        verbose_name=_("crystal system"))
     temperature = models.IntegerField(
-        blank=True,
-        null=True,
-        verbose_name=_('temperature')
-    )
+        blank=True, null=True, verbose_name=_('temperature'))
     pressure = models.IntegerField(
-        blank=True,
-        null=True,
-        verbose_name=_('pressure')
-    )
+        blank=True, null=True, verbose_name=_('pressure'))
 
 
 class Handpiece(models.Model):
@@ -269,30 +187,17 @@ class Handpiece(models.Model):
     """
 
     name = models.CharField(
-        max_length=100,
-        verbose_name=_("name of handpiece")
-    )
+        max_length=100, verbose_name=_("name of handpiece"))
     mineral_type = models.ManyToManyField(
-        MineralType,
-        verbose_name=_("mineral type")
-    )
+        MineralType, verbose_name=_("mineral type"))
     # We will need to maybe change the finding_place to some kind of
     # geolocation.
     finding_place = models.CharField(
-        max_length=200,
-        blank=True,
-        verbose_name=_("place of discovery")
-    )
+        max_length=200, blank=True, verbose_name=_("place of discovery"))
     current_location = models.CharField(
-        max_length=200,
-        blank=True,
-        verbose_name=_("current location")
-    )
+        max_length=200, blank=True, verbose_name=_("current location"))
     old_inventory_number = models.CharField(
-        blank=True,
-        max_length=100,
-        verbose_name=_("old inventory number")
-    )
+        blank=True, max_length=100, verbose_name=_("old inventory number"))
     # resource_mindat = models.CharField(
     #     max_length=100,
     #     blank=True,
@@ -304,13 +209,9 @@ class Handpiece(models.Model):
     #     verbose_name=_("MineralienAtlas ID")
     # )
     created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name=_("created at")
-    )
+        auto_now_add=True, verbose_name=_("created at"))
     last_modified = models.DateTimeField(
-        auto_now=True,
-        verbose_name=_("last modified")
-    )
+        auto_now=True, verbose_name=_("last modified"))
 
     class Meta:
         verbose_name = _("Handpiece")
@@ -332,17 +233,10 @@ class Photograph(models.Model):
     the handpieces.
     """
 
-    ORIENTATION_CHOICES = (
-        ('T', _("Top")),
-        ('B', _("Bottom")),
-        ('S', _("Side")),
-    )
-    SHOT_TYPE_CHOICES = (
-        ('MI', _("Micro")),
-        ('MA', _("Macro")),
-        ('FE', _("Fisheye")),
-        ('TL', _("Tele")),
-    )
+    ORIENTATION_CHOICES = (('T', _("Top")), ('B', _("Bottom")), ('S',
+                                                                 _("Side")), )
+    SHOT_TYPE_CHOICES = (('MI', _("Micro")), ('MA', _("Macro")),
+                         ('FE', _("Fisheye")), ('TL', _("Tele")), )
 
     #image_file = models.ImageField(verbose_name=_("image file"))
     image_file = StdImageField(variations={
@@ -355,25 +249,15 @@ class Photograph(models.Model):
     orientation = models.CharField(
         max_length=1,
         choices=ORIENTATION_CHOICES,
-        verbose_name=_("orientation")
-    )
+        verbose_name=_("orientation"))
     shot_type = models.CharField(
-        max_length=2,
-        choices=SHOT_TYPE_CHOICES,
-        verbose_name=_("shot type")
-    )
+        max_length=2, choices=SHOT_TYPE_CHOICES, verbose_name=_("shot type"))
     online_status = models.BooleanField(
-        default=False,
-        verbose_name=_("active photograph?")
-    )
+        default=False, verbose_name=_("active photograph?"))
     created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name=_("created at")
-    )
+        auto_now_add=True, verbose_name=_("created at"))
     last_modified = models.DateTimeField(
-        auto_now=True,
-        verbose_name=_("last modified")
-    )
+        auto_now=True, verbose_name=_("last modified"))
 
     class Meta:
         verbose_name = _("Photograph")

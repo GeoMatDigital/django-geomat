@@ -17,33 +17,36 @@ class CrystalSystemInline(admin.TabularInline):
 
 class HandpieceAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'list_mineral_types', 'finding_place',
-                    'current_location', 'last_modified',)
+                    'current_location', 'last_modified', )
     inlines = [
         PhotographInline,
     ]
+
 
 admin.site.register(Handpiece, HandpieceAdmin)
 
 
 class CrystallSystemAdmin(admin.ModelAdmin):
-    list_display = ('pk',)
+    list_display = ('pk', )
 
 
 admin.site.register(CrystalSystem, CrystallSystemAdmin)
 
 
 class MineralTypeAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'trivial_name', 'created_at', 'last_modified',)
+    list_display = ('pk', 'trivial_name', 'created_at', 'last_modified', )
 
     inlines = [
         ClassificationInline,
         CrystalSystemInline,
     ]
 
+
 admin.site.register(MineralType, MineralTypeAdmin)
 
 
 class PhotographAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'handpiece',)
+    list_display = ('pk', 'handpiece', )
+
 
 admin.site.register(Photograph, PhotographAdmin)

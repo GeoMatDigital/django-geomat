@@ -32,8 +32,7 @@ urlpatterns = [
         RedirectView.as_view(
             url=staticfiles_storage.url('common/images/favicon.ico'),
             permanent=False),
-        name="favicon"
-    ),
+        name="favicon"),
     url(r'^gallery/', gallery_view, name="gallery_listview"),
 
     # Do some redirects to the correct URL, as some people manage to get typos in
@@ -45,7 +44,8 @@ urlpatterns = [
     url(r'^galary/', RedirectView.as_view(pattern_name='gallery_listview')),
     url(r'^gallary/', RedirectView.as_view(pattern_name='gallery_listview')),
     url(r'^gallarie/', RedirectView.as_view(pattern_name='gallery_listview')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(
+    settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     # This allows the error pages to be debugged during development, just visit

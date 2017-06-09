@@ -68,51 +68,47 @@ class MineralType(models.Model):
         blank=True,
         verbose_name=_("trivial name")
     )
+
     systematics = models.CharField(
         max_length=2,
         choices=MINERAL_CATEGORIES,
         default="EL",
         verbose_name=_("systematics")
     )
+
     variety = models.CharField(
         max_length=100,
         blank=True,
-        verbose_name=_("variety"))
+        verbose_name=_("variety")
+    )
+
     minerals = models.CharField(
         max_length=100,
         blank=True,
-        verbose_name=_("minerals"))
-    # classification = ChoiceArrayField(
-    #     models.CharField(
-    #         max_length=100,
-    #     ),
-    #     null=True,
-    #     verbose_name=_("classification")
-    # )
-    # classification1 = models.CharField(
-    #     max_length=100,
-    #     verbose_name=_("classification")
-    # )
-    # crystal_system = models.CharField(
-    #     max_length=2,
-    #     blank=True,
-    #     choices=CRYSTAL_SYSTEM_CHOICES,
-    #     verbose_name=_("crystal system")
-    # )
+        verbose_name=_("minerals")
+    )
+
     mohs_scale = models.CharField(
         max_length=20,
-        verbose_name=_("mohs scale"))
+        verbose_name=_("mohs scale")
+    )
+
     density = models.CharField(
         max_length=20,
         default=0,
-        verbose_name=_("density"))
+        verbose_name=_("density")
+    )
+
     streak = models.CharField(
         max_length=100,
-        verbose_name=_("streak"))
+        verbose_name=_("streak")
+    )
+
     normal_color = models.CharField(
         max_length=100,
         verbose_name=_("normal color")
     )
+
     fracture = ChoiceArrayField(
         models.CharField(
             max_length=2,
@@ -121,18 +117,7 @@ class MineralType(models.Model):
         verbose_name=_("fracture"),
         null=True
     )
-    # fracture1 = models.CharField(
-    #     max_length=2,
-    #     choices=FRACTURE_CHOICES,
-    #     default="CF",
-    #     verbose_name=_("fracture")
-    # )
-    # fracture2 = models.CharField(
-    #     max_length=2,
-    #     choices=FRACTURE_CHOICES,
-    #     blank=True,
-    #     verbose_name=_("fracture 2")
-    # )
+
     cleavage = ChoiceArrayField(
         models.CharField(
             max_length=2,
@@ -141,18 +126,7 @@ class MineralType(models.Model):
         null=True,
         verbose_name=_("cleavage")
     )
-    # cleavage1 = models.CharField(
-    #     max_length=2,
-    #     choices=CLEAVAGE_CHOICES,
-    #     default="BP",
-    #     verbose_name=_("cleavage")
-    # )
-    # cleavage2 = models.CharField(
-    #     max_length=2,
-    #     choices=CLEAVAGE_CHOICES,
-    #     blank=True,
-    #     verbose_name=_("cleavage 2")
-    # )
+
     lustre = ChoiceArrayField(
         models.CharField(
             max_length=2,
@@ -161,41 +135,35 @@ class MineralType(models.Model):
         null=True,
         verbose_name=_("lustre")
     )
-    # lustre1 = models.CharField(
-    #     max_length=2,
-    #     choices=LUSTRE_CHOICES,
-    #     default="AM",
-    #     verbose_name=_("lustre")
-    # )
-    # lustre2 = models.CharField(
-    #     max_length=2,
-    #     choices=LUSTRE_CHOICES,
-    #     blank=True,
-    #     verbose_name=_("lustre 2")
-    # )
+
     chemical_formula = models.CharField(
         max_length=100,
         verbose_name=_("chemical formula")
     )
+
     other = models.TextField(
         max_length=100,
         blank=True,
         verbose_name=_("comment")
     )
+
     resource_mindat = models.CharField(
         max_length=100,
         blank=True,
         verbose_name=_("MinDat ID")
     )
+
     resource_mineralienatlas = models.CharField(
         max_length=100,
         blank=True,
         verbose_name=_("MineralienAtlas ID")
     )
+
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name=_("created at")
     )
+
     last_modified = models.DateTimeField(
         auto_now=True,
         verbose_name=_("last modified")
@@ -352,6 +320,7 @@ class Photograph(models.Model):
         'thumbnail': (100, 100, True),
     })
     handpiece = models.ForeignKey(Handpiece)
+
     orientation = models.CharField(
         max_length=1,
         choices=ORIENTATION_CHOICES,

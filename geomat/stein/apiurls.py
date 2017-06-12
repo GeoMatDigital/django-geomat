@@ -4,7 +4,7 @@ from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
 
 from geomat.stein.views import crystalsystem_detail, handpiece_detail, photograph_detail, \
-                               mineraltype_detail
+                               mineraltype_detail, ApiRoot
 
 app_name = "api"
 urlpatterns = [
@@ -19,5 +19,6 @@ urlpatterns = [
         r'^mineraltype/(?P<pk>[0-9]+)/',
         mineraltype_detail,
         name="mineraltype"),
+    url(r'^$', ApiRoot.as_view(), name=ApiRoot.name),
 ]
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json'])

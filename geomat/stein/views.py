@@ -2,10 +2,12 @@
 from django.views.generic.list import ListView
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
+from django.urls import reverse
 
 from rest_framework.decorators import api_view, permission_classes, renderer_classes
-from rest_framework import permissions
+from rest_framework import permissions, generics
 from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
 
 from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph
 from geomat.stein.serializers import CrystalSystemSerializer, HandpieceSerializer, \
@@ -41,6 +43,10 @@ def gallery_view(request):
 
 
 # API Views
+class ApiRoot(generics.ListAPIView):
+    queryset = Photograph.objects.all()
+    serializer_class = PhotographSerializer
+    name = 'api-root'
 
 
 @api_view(('GET', ))

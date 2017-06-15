@@ -43,65 +43,111 @@ def gallery_view(request):
 
 
 # API Views
-class ApiRoot(generics.ListAPIView):
+# API Detail views
+
+class HandpieceDetail (generics.RetrieveAPIView):
+    queryset = Handpiece.objects.all()
+    serializer_class = HandpieceSerializer
+    name = 'handpiece'
+
+
+class CrystalsystemDetail (generics.RetrieveAPIView):
+    queryset = CrystalSystem.objects.all()
+    serializer_class = CrystalSystemSerializer
+    name = 'crystalsystem'
+
+
+class MineraltypeDetail (generics.RetrieveAPIView):
+    queryset = MineralType.objects.all()
+    serializer_class = MineralTypeSerializer
+    name = 'mineraltype'
+
+
+class PhotographDetail (generics.RetrieveAPIView):
     queryset = Photograph.objects.all()
     serializer_class = PhotographSerializer
-    name = 'api-root'
+    name = 'photograph'
+
+#API List views
 
 
-@api_view(('GET', ))
-@permission_classes((permissions.AllowAny, ))
-@renderer_classes((JSONRenderer, ))
-def handpiece_detail(request, pk, format=None):
-    try:
-        handpiece = Handpiece.objects.get(pk=pk)
-    except Handpiece.DoesNotExist:
-        return HttpResponse(status=404)
-
-    if request.method == 'GET':
-        serializer = HandpieceSerializer(handpiece)
-        return JsonResponse(serializer.data, safe=False)
+class HandpieceList(generics.ListAPIView):
+    queryset = Handpiece.objects.all()
+    serializer_class = HandpieceSerializer
+    name = 'handpiece-list'
 
 
-@api_view(('GET', ))
-@permission_classes((permissions.AllowAny, ))
-@renderer_classes((JSONRenderer, ))
-def crystalsystem_detail(request, pk, format=None):
-    try:
-        crystalsystem = CrystalSystem.objects.get(pk=pk)
-    except CrystalSystem.DoesNotExist:
-        return HttpResponse(status=404)
-
-    if request.method == 'GET':
-        serializer = CrystalSystemSerializer(crystalsystem)
-        return JsonResponse(
-            serializer.data,
-            safe=False, )
+class CrystalsystemList(generics.ListAPIView):
+    queryset = CrystalSystem.objects.all()
+    serializer_class = CrystalSystemSerializer
+    name = 'crystalsystem-list'
 
 
-@api_view(('GET', ))
-@permission_classes((permissions.AllowAny, ))
-@renderer_classes((JSONRenderer, ))
-def photograph_detail(request, pk, format=None):
-    try:
-        photograph = Photograph.objects.get(pk=pk)
-    except Photograph.DoesNotExist:
-        return HttpResponse(status=404)
-
-    if request.method == 'GET':
-        serializer = PhotographSerializer(photograph)
-        return JsonResponse(serializer.data, safe=False)
+class MineraltypeList(generics.ListAPIView):
+    queryset = MineralType.objects.all()
+    serializer_class = MineralTypeSerializer
+    name = 'mineraltype-list'
 
 
-@api_view(('GET', ))
-@permission_classes((permissions.AllowAny, ))
-@renderer_classes((JSONRenderer, ))
-def mineraltype_detail(request, pk, format=None):
-    try:
-        mineraltype = MineralType.objects.get(pk=pk)
-    except MineralType.DoesNotExist:
-        return HttpResponse(status=404)
+class PhotographList(generics.ListAPIView):
+    queryset = Photograph.objects.all()
+    serializer_class = PhotographSerializer
+    name = 'photograph-list'
 
-    if request.method == 'GET':
-        serializer = MineralTypeSerializer(mineraltype)
-        return JsonResponse(serializer.data, safe=False)
+
+# @api_view(('GET', ))
+# @permission_classes((permissions.AllowAny, ))
+# @renderer_classes((JSONRenderer, ))
+# def handpiece_detail(request, pk, format=None):
+#     try:
+#         handpiece = Handpiece.objects.get(pk=pk)
+#     except Handpiece.DoesNotExist:
+#         return HttpResponse(status=404)
+#
+#     if request.method == 'GET':
+#         serializer = HandpieceSerializer(handpiece)
+#         return JsonResponse(serializer.data, safe=False)
+
+
+# @api_view(('GET', ))
+# @permission_classes((permissions.AllowAny, ))
+# @renderer_classes((JSONRenderer, ))
+# def crystalsystem_detail(request, pk, format=None):
+#     try:
+#         crystalsystem = CrystalSystem.objects.get(pk=pk)
+#     except CrystalSystem.DoesNotExist:
+#         return HttpResponse(status=404)
+#
+#     if request.method == 'GET':
+#         serializer = CrystalSystemSerializer(crystalsystem)
+#         return JsonResponse(
+#             serializer.data,
+#             safe=False, )
+#
+#
+# @api_view(('GET', ))
+# @permission_classes((permissions.AllowAny, ))
+# @renderer_classes((JSONRenderer, ))
+# def photograph_detail(request, pk, format=None):
+#     try:
+#         photograph = Photograph.objects.get(pk=pk)
+#     except Photograph.DoesNotExist:
+#         return HttpResponse(status=404)
+#
+#     if request.method == 'GET':
+#         serializer = PhotographSerializer(photograph)
+#         return JsonResponse(serializer.data, safe=False)
+#
+#
+# @api_view(('GET', ))
+# @permission_classes((permissions.AllowAny, ))
+# @renderer_classes((JSONRenderer, ))
+# def mineraltype_detail(request, pk, format=None):
+#     try:
+#         mineraltype = MineralType.objects.get(pk=pk)
+#     except MineralType.DoesNotExist:
+#         return HttpResponse(status=404)
+#
+#     if request.method == 'GET':
+#         serializer = MineralTypeSerializer(mineraltype)
+#         return JsonResponse(serializer.data, safe=False)

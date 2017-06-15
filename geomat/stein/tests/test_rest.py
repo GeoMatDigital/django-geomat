@@ -3,14 +3,13 @@ import json
 
 from django.test import TestCase
 from django.urls import reverse
-
 from rest_framework import status
 from rest_framework.test import APIClient
 
 from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph
 
 
-class ViewTestCase(TestCase):
+class ApiViewTestCase(TestCase):
     """Test suite for the REST API views."""
 
     def setUp(self):
@@ -135,16 +134,101 @@ class ViewTestCase(TestCase):
 
     def test_api_can_retrieve_handpiece_list(self):
         """ Test retrieval of all Handpiece objects with the REST framework."""
+
+        response = self.client.get(reverse('api:handpiece-list'), kwargs={}, format="json")
+        response_data = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertEqual(response_data[0]['name'], "testhandpiece")
+        self.assertEqual(response_data[0]['current_location'], "nowhere")
+        self.assertEqual(response_data[1]['name'], "testhandpiece two")
+        self.assertEqual(response_data[1]['current_location'], "nowhere two")
+
         pass
 
     def test_api_can_retrieve_crystalsystem_list(self):
         """ Test retrieval of all Crystalsystem objects with the REST framework."""
-        pass
+        response = self.client.get(reverse('api:crystalsystem-list'), kwargs={}, format="json")
+        response_data = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertEqual(response_data[0]['crystal_system'], "HG")
+        self.assertEqual(response_data[0]['temperature'], 90)
+        self.assertEqual(response_data[1]['crystal_system'], "HT")
+        self.assertEqual(response_data[1]['temperature'], 92)
 
     def test_api_can_retrieve_photograph_list(self):
         """ Test retrieval of all Photograph objects with the REST framework."""
-        pass
+        response = self.client.get(reverse('api:photograph-list'), kwargs={}, format="json")
+        response_data = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertEqual(response_data[0]['handpiece']['name'], "testhandpiece")
+        self.assertEqual(response_data[0]['handpiece']['current_location'], "nowhere")
+        self.assertEqual(response_data[0]['online_status'], True)
+        self.assertEqual(response_data[1]['handpiece']['name'], "testhandpiece two")
+        self.assertEqual(response_data[1]['handpiece']['current_location'], "nowhere two")
+        self.assertEqual(response_data[1]['online_status'], True)
 
     def test_api_can_retrieve_mineraltype_list(self):
         """ Test retrieval of all Mineraltype objects with the REST framework."""
-        pass
+        response = self.client.get(reverse('api:mineraltype-list'), kwargs={}, format="json")
+        response_data = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertEqual(response_data[0]['trivial_name'], "testmineraltype")
+        self.assertEqual(response_data[0]['minerals'], "many minerals")
+        self.assertEqual(response_data[1]['trivial_name'], "testmineraltype two")
+        self.assertEqual(response_data[1]['minerals'], "many minerals two")
+
+
+# Test Case wether the Views are GET only Views
+
+
+class ApiForbiddenMethodTestCase(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+
+        self.handpiece_one = Handpiece.objects.create(
+            name="testhandpiece", current_location="nowhere")
+
+        self.crystalsystem_one = CrystalSystem.objects.create(
+            crystal_system="HG", temperature=90)
+
+        self.photograph_one = Photograph.objects.create(
+            handpiece=self.handpiece_one, online_status=True)
+
+        self.mineraltype_one = MineralType.objects.create(
+            trivial_name="testmineraltype", minerals="many minerals")
+
+    # Check wether the Views accept HTTP-POST methods
+
+    def test_if_post_allowed_handpiece_detail(self):
+        """Test if HTTP-POST method is NOT allowed on handpiece detail view."""
+        handpiece = Handpiece.objects.get(name="testhandpiece")
+        response = self.client.post(reverse('api:handpiece', kwargs={'pk': handpiece.id})
+                                    , kwargs={'id': 300}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_if_post_allowed_crystalsystem_detail(self):
+        """Test if HTTP-POST method is NOT allowed on crystalsystem detail view."""
+        crystalsystem = CrystalSystem.objects.get(crystal_system="HG")
+        response = self.client.post(reverse('api:crystalsystem', kwargs={'pk': crystalsystem.id})
+                                    , kwargs={'id': 300}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_if_post_allowed_photograph_detail(self):
+        """Test if HTTP-POST method is NOT allowed on photograph detail view."""
+        handpiece = Handpiece.objects.get(name="testhandpiece")
+        photograph = Photograph.objects.get(handpiece=handpiece)
+        response = self.client.post(reverse('api:photograph', kwargs={'pk': photograph.id})
+                                    , kwargs={'id': 300}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_if_post_allowed_mineraltype_detail(self):
+        """Test if HTTP-POST method is NOT allowed on mineraltype detail view."""
+
+        mineraltype = MineralType.objects.get(trivial_name="testmineraltype")
+        response = self.client.post(reverse('api:mineraltype', kwargs={'pk': mineraltype.id})
+                                    , kwargs={'id': 300}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)

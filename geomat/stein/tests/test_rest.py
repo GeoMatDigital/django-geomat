@@ -201,24 +201,25 @@ class ApiForbiddenMethodTestCase(TestCase):
         self.mineraltype_one = MineralType.objects.create(
             trivial_name="testmineraltype", minerals="many minerals")
 
-    # Check wether the Views accept HTTP-POST methods
+    # Check wether the Views accept POST method
+    # We expect a 403 - Forbidden, since we want a GET only API
 
     def test_if_post_allowed_handpiece_detail(self):
-        """Test if HTTP-POST method is NOT allowed on handpiece detail view."""
+        """Test if POST method is NOT allowed on handpiece detail view."""
         handpiece = Handpiece.objects.get(name="testhandpiece")
         response = self.client.post(reverse('api:handpiece', kwargs={'pk': handpiece.id})
                                     , kwargs={'id': 300}, format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_if_post_allowed_crystalsystem_detail(self):
-        """Test if HTTP-POST method is NOT allowed on crystalsystem detail view."""
+        """Test if POST method is NOT allowed on crystalsystem detail view."""
         crystalsystem = CrystalSystem.objects.get(crystal_system="HG")
         response = self.client.post(reverse('api:crystalsystem', kwargs={'pk': crystalsystem.id})
                                     , kwargs={'id': 300}, format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_if_post_allowed_photograph_detail(self):
-        """Test if HTTP-POST method is NOT allowed on photograph detail view."""
+        """Test if POST method is NOT allowed on photograph detail view."""
         handpiece = Handpiece.objects.get(name="testhandpiece")
         photograph = Photograph.objects.get(handpiece=handpiece)
         response = self.client.post(reverse('api:photograph', kwargs={'pk': photograph.id})
@@ -226,9 +227,108 @@ class ApiForbiddenMethodTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_if_post_allowed_mineraltype_detail(self):
-        """Test if HTTP-POST method is NOT allowed on mineraltype detail view."""
+        """Test if POST method is NOT allowed on mineraltype detail view."""
 
         mineraltype = MineralType.objects.get(trivial_name="testmineraltype")
         response = self.client.post(reverse('api:mineraltype', kwargs={'pk': mineraltype.id})
                                     , kwargs={'id': 300}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    # Check wether the Views accept PUT method
+    # We expect a 403 - Forbidden, since we want a GET only API
+
+    def test_if_put_allowed_handpiece_detail(self):
+        """Test if PUT method is NOT allowed on handpiece detail view."""
+        handpiece = Handpiece.objects.get(name="testhandpiece")
+        response = self.client.put(reverse('api:handpiece', kwargs={'pk': handpiece.id})
+                                   , kwargs={'id': 300}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_if_put_allowed_crystalsystem_detail(self):
+        """Test if PUT method is NOT allowed on crystalsystem detail view."""
+        crystalsystem = CrystalSystem.objects.get(crystal_system="HG")
+        response = self.client.put(reverse('api:crystalsystem', kwargs={'pk': crystalsystem.id})
+                                   , kwargs={'id': 300}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_if_put_allowed_photograph_detail(self):
+        """Test if PUT method is NOT allowed on photograph detail view."""
+        handpiece = Handpiece.objects.get(name="testhandpiece")
+        photograph = Photograph.objects.get(handpiece=handpiece)
+        response = self.client.put(reverse('api:photograph', kwargs={'pk': photograph.id})
+                                   , kwargs={'id': 300}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_if_put_allowed_mineraltype_detail(self):
+        """Test if PUT method is NOT allowed on mineraltype detail view."""
+
+        mineraltype = MineralType.objects.get(trivial_name="testmineraltype")
+        response = self.client.put(reverse('api:mineraltype', kwargs={'pk': mineraltype.id})
+                                   , kwargs={'id': 300}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    # Check wether the Views accept PATCH method
+    # We expect a 403 - Forbidden, since we want a GET only API
+
+    def test_if_patch_allowed_handpiece_detail(self):
+        """Test if PATCH method is NOT allowed on handpiece detail view."""
+        handpiece = Handpiece.objects.get(name="testhandpiece")
+        response = self.client.patch(reverse('api:handpiece', kwargs={'pk': handpiece.id})
+                                     , kwargs={'id': 300}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_if_patch_allowed_crystalsystem_detail(self):
+        """Test if PATCH method is NOT allowed on crystalsystem detail view."""
+        crystalsystem = CrystalSystem.objects.get(crystal_system="HG")
+        response = self.client.patch(reverse('api:crystalsystem', kwargs={'pk': crystalsystem.id})
+                                     , kwargs={'id': 300}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_if_patch_allowed_photograph_detail(self):
+        """Test if PATCH method is NOT allowed on photograph detail view."""
+        handpiece = Handpiece.objects.get(name="testhandpiece")
+        photograph = Photograph.objects.get(handpiece=handpiece)
+        response = self.client.patch(reverse('api:photograph', kwargs={'pk': photograph.id})
+                                     , kwargs={'id': 300}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_if_patch_allowed_mineraltype_detail(self):
+        """Test if PATCH method is NOT allowed on mineraltype detail view."""
+
+        mineraltype = MineralType.objects.get(trivial_name="testmineraltype")
+        response = self.client.patch(reverse('api:mineraltype', kwargs={'pk': mineraltype.id})
+                                     , kwargs={'id': 300}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    # Check wether the Views accept DELETE method
+    # We expect a 403 - Forbidden, since we want a GET only API
+
+    def test_if_delete_allowed_handpiece_detail(self):
+        """Test if DELETE method is NOT allowed on handpiece detail view."""
+        handpiece = Handpiece.objects.get(name="testhandpiece")
+        response = self.client.delete(reverse('api:handpiece', kwargs={'pk': handpiece.id})
+                                      , kwargs={'id': 300}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_if_delete_allowed_crystalsystem_detail(self):
+        """Test if DELETE method is NOT allowed on crystalsystem detail view."""
+        crystalsystem = CrystalSystem.objects.get(crystal_system="HG")
+        response = self.client.delete(reverse('api:crystalsystem', kwargs={'pk': crystalsystem.id})
+                                      , kwargs={'id': 300}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_if_delete_allowed_photograph_detail(self):
+        """Test if DELETE method is NOT allowed on photograph detail view."""
+        handpiece = Handpiece.objects.get(name="testhandpiece")
+        photograph = Photograph.objects.get(handpiece=handpiece)
+        response = self.client.delete(reverse('api:photograph', kwargs={'pk': photograph.id})
+                                      , kwargs={'id': 300}, format="json")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_if_delete_allowed_mineraltype_detail(self):
+        """Test if DELETE method is NOT allowed on mineraltype detail view."""
+
+        mineraltype = MineralType.objects.get(trivial_name="testmineraltype")
+        response = self.client.delete(reverse('api:mineraltype', kwargs={'pk': mineraltype.id})
+                                      , kwargs={'id': 300}, format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)

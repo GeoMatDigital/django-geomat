@@ -9,6 +9,20 @@ from rest_framework.test import APIClient
 from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph
 
 
+# Helper functions
+
+
+def convert(input):
+    if isinstance(input, dict):
+        return {convert(key): convert(value) for key, value in input.iteritems()}
+    elif isinstance(input, list):
+        return [convert(element) for element in input]
+    elif isinstance(input, unicode):
+        return input.encode('utf-8')
+    else:
+        return input
+
+
 class ApiViewTestCase(TestCase):
     """Test suite for the REST API views."""
 
@@ -332,3 +346,191 @@ class ApiForbiddenMethodTestCase(TestCase):
         response = self.client.delete(reverse('api:mineraltype', kwargs={'pk': mineraltype.id})
                                       , kwargs={'id': 300}, format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+
+class FilterApiViewTestCase(TestCase):
+    maxDiff = None
+
+    def setUp(self):
+        # we need at least 2 objects of each  model to be sure that it actually filters
+
+        self.client = APIClient()
+        self.mineraltype_one = MineralType.objects.create(trivial_name="testmineral one", systematics="HG",
+                                                          variety="many one", minerals="minerals one",
+                                                          mohs_scale="mohs one", density="hard one",
+                                                          streak="streak one", normal_color="color one",
+                                                          fracture=["HF"], cleavage=["PE"], lustre=["AM"],
+                                                          chemical_formula="CHEMONE", other="other one",
+                                                          resource_mindat="mindat one",
+                                                          resource_mineralienatlas="atlas one")
+        self.mineraltype_one_dict = {'trivial_name': "testmineral one", 'systematics': "HG",
+                                     'variety': "many one", 'minerals': "minerals one",
+                                     'mohs_scale': "mohs one", 'density': "hard one",
+                                     'streak': "streak one", 'normal_color': "color one",
+                                     'fracture': ["HF"], 'cleavage': ["PE"], 'lustre': ["AM"],
+                                     'chemical_formula': "CHEMONE", 'other': "other one",
+                                     'resource_mindat': "mindat one",
+                                     'resource_mineralienatlas': "atlas one",
+                                     'created_at': self.mineraltype_one.created_at.isoformat().replace('+00:00', 'Z'),
+                                     'last_modified': self.mineraltype_one.last_modified.isoformat().replace('+00:00',
+                                                                                                             'Z')
+                                     }
+        self.mineraltype_two = MineralType.objects.create(trivial_name="testmineral two", systematics="HT",
+                                                          variety="many two", minerals="minerals two",
+                                                          mohs_scale="mohs two", density="hard two",
+                                                          streak="streak two", normal_color="color two",
+                                                          fracture=["HK"], cleavage=["PL"], lustre=["AS"],
+                                                          chemical_formula="CHEMTWO", other="other two",
+                                                          resource_mindat="mindat two",
+                                                          resource_mineralienatlas="atlas two")
+        self.mineraltype_two_dict = {'trivial_name': "testmineral two", 'systematics': "HT",
+                                     'variety': "many two", 'minerals': "minerals two",
+                                     'mohs_scale': "mohs two", 'density': "hard two",
+                                     'streak': "streak two", 'normal_color': "color two",
+                                     'fracture': ["HK"], 'cleavage': ["PL"], 'lustre': ["AS"],
+                                     'chemical_formula': "CHEMTWO", 'other': "other two",
+                                     'resource_mindat': "mindat two",
+                                     'resource_mineralienatlas': "atlas two",
+                                     'created_at': self.mineraltype_two.created_at.isoformat().replace('+00:00', 'Z'),
+                                     'last_modified': self.mineraltype_two.last_modified.isoformat().replace('+00:00',
+                                                                                                             'Z')
+                                     }
+
+        self.crystalsystem_one = CrystalSystem.objects.create(mineral_type=self.mineraltype_one, crystal_system="TC",
+                                                              temperature=90, pressure=80)
+        self.crystalsystem_one_dict = {'mineral_type': self.mineraltype_one_dict, 'crystal_system': "TC",
+                                       'temperature': 90, 'pressure': 80, }
+        self.crystalsystem_two = CrystalSystem.objects.create(mineral_type=self.mineraltype_two, crystal_system="TF",
+                                                              temperature=92, pressure=82)
+        self.crystalsystem_two_dict = {'mineral_type': self.mineraltype_two_dict, 'crystal_system': "TF",
+                                       'temperature': 92, 'pressure': 82, }
+
+        self.handpiece_one = Handpiece.objects.create(name="handpiece one",
+                                                      finding_place="nowhere one", current_location="here one",
+                                                      old_inventory_number="inven one")
+        self.handpiece_one.mineral_type = [self.mineraltype_one, ]
+        self.handpiece_one_dict = {'name': "handpiece one", 'mineral_type': self.mineraltype_one_dict,
+                                   'finding_place': "nowhere one", 'current_location': "here one",
+                                   'old_inventory_number': "inven one",
+                                   'created_at': self.handpiece_one.created_at.isoformat().replace('+00:00', 'Z'),
+                                   'last_modified': self.handpiece_one.last_modified.isoformat().replace('+00:00', 'Z')
+                                   }
+        self.handpiece_two = Handpiece.objects.create(name="handpiece two",
+                                                      finding_place="nowhere two", current_location="here two",
+                                                      old_inventory_number="inven two")
+        self.handpiece_two.mineral_type = [self.mineraltype_two, ]
+        self.handpiece_two_dict = {'name': "handpiece two", 'mineral_type': self.mineraltype_two_dict,
+                                   'finding_place': "nowhere two", 'current_location': "here two",
+                                   'old_inventory_number': "inven two",
+                                   'created_at': self.handpiece_two.created_at.isoformat().replace('+00:00', 'Z'),
+                                   'last_modified': self.handpiece_two.last_modified.isoformat().replace('+00:00', 'Z')
+                                   }
+        self.photograph_one = Photograph.objects.create(image_file="image_one.jpg", handpiece=self.handpiece_one,
+                                                        orientation="T", shot_type="MA")
+        self.photograph_one_dict = {'image_file': "image_one.jpg", 'handpiece': self.handpiece_one_dict,
+                                    'orientation': "T", 'shot_type': "MA",
+                                    'created_at': self.photograph_one.created_at.isoformat().replace('+00:00', 'Z'),
+                                    'last_modified': self.photograph_one.last_modified.isoformat().replace('+00:00',
+                                                                                                           'Z'),
+                                    }
+        self.photograph_two = Photograph.objects.create(image_file="image_two.jpg", handpiece=self.handpiece_two,
+                                                        orientation="S", shot_type="MI")
+        self.photograph_two_dict = {'image_file': "image_two.jpg", 'handpiece': self.handpiece_two_dict,
+                                    'orientation': "S", 'shot_type': "MI",
+                                    'created_at': self.photograph_two.created_at.isoformat().replace('+00:00', 'Z'),
+                                    'last_modified': self.photograph_two.last_modified.isoformat().replace('+00:00',
+                                                                                                           'Z'),
+                                    }
+
+    # Several tests wether Filter Mineraltype View can filter all needed fields
+
+    def test_can_filter_trivial_name(self):
+        response = self.client.get(reverse('api:mineraltype-filter'), {'trivial_name': "testmineral one"},
+                                   format="json")
+        response_dict = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert (self.mineraltype_one_dict in response_dict) == True
+
+    def test_can_filter_systematics(self):
+        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'systematics': "HG"})
+        response_dict = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert (self.mineraltype_one_dict in response_dict) == True
+
+    def test_can_filter_variety(self):
+        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'variety': "many one"})
+        response_dict = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert (self.mineraltype_one_dict in response_dict) == True
+
+    def test_can_filter_minerals(self):
+        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'minerals': "minerals one"})
+        response_dict = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert (self.mineraltype_one_dict in response_dict) == True
+
+    def test_can_filter_mohs_scale(self):
+        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'mohs_scale': "mohs one"})
+        response_dict = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert (self.mineraltype_one_dict in response_dict) == True
+
+    def test_can_filter_density(self):
+        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'density': "hard one"})
+        response_dict = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert (self.mineraltype_one_dict in response_dict) == True
+
+    def test_can_filter_streak(self):
+        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'streak': "streak one"})
+        response_dict = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert (self.mineraltype_one_dict in response_dict) == True
+
+    def test_can_filter_normal_color(self):
+        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'normal_color': "color one"})
+        response_dict = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert (self.mineraltype_one_dict in response_dict) == True
+
+    def test_can_filter_fracture(self):
+        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'fracture': "HF"})
+        response_dict = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert (self.mineraltype_one_dict in response_dict) == True
+
+    def test_can_filter_cleavage(self):
+        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'cleavage': "PE"})
+        response_dict = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert (self.mineraltype_one_dict in response_dict) == True
+
+    def test_can_filter_lustre(self):
+        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'lustre': "AM"})
+        response_dict = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert (self.mineraltype_one_dict in response_dict) == True
+
+    def test_can_filter_chemical_formula(self):
+        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'chemical_formula': "CHEMONE"})
+        response_dict = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert (self.mineraltype_one_dict in response_dict) == True
+
+    def test_can_filter_other(self):
+        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'other': "other one"})
+        response_dict = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert (self.mineraltype_one_dict in response_dict) == True
+
+    def test_can_filter_resource_mindat(self):
+        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'resource_mindat': "mindat one"})
+        response_dict = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert (self.mineraltype_one_dict in response_dict) == True
+
+    def test_can_filter_resource_mineralienatlas(self):
+        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'resource_mineralienatlas': "atlas one"})
+        response_dict = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert (self.mineraltype_one_dict in response_dict) == True

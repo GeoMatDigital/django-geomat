@@ -1,10 +1,9 @@
 """URL definitions for REST framework"""
 from django.conf.urls import url
-
 from rest_framework.urlpatterns import format_suffix_patterns
 
 from geomat.stein.views import CrystalsystemDetail, HandpieceDetail, PhotographDetail, MineraltypeDetail, \
-    CrystalsystemList, HandpieceList, PhotographList, MineraltypeList
+    CrystalsystemList, HandpieceList, PhotographList, MineraltypeList, FilterMineraltypeList
 
 app_name = "api"
 urlpatterns = [
@@ -26,5 +25,9 @@ urlpatterns = [
     url(r'handpiece_list', HandpieceList.as_view(), name=HandpieceList.name),
     url(r'photograph_list', PhotographList.as_view(), name=PhotographList.name),
     url(r'mineraltype_list', MineraltypeList.as_view(), name=MineraltypeList.name),
+
+    # Filter Views for Crystalsystems, Handpieces, Photographs and Mineraltypes
+
+    url(r'mineraltype_filter', FilterMineraltypeList.as_view(), name=FilterMineraltypeList.name)
 ]
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json'])

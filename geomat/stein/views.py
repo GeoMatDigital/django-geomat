@@ -1,13 +1,8 @@
 """Views file for stein app"""
-from django.views.generic.list import ListView
-from django.http import HttpResponse, JsonResponse
+from django.db.models.query import QuerySet
 from django.shortcuts import render
-from django.urls import reverse
-
-from rest_framework.decorators import api_view, permission_classes, renderer_classes
-from rest_framework import permissions, generics
-from rest_framework.renderers import JSONRenderer
-from rest_framework.response import Response
+from django.views.generic.list import ListView
+from rest_framework import generics
 
 from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph
 from geomat.stein.serializers import CrystalSystemSerializer, HandpieceSerializer, \
@@ -43,32 +38,60 @@ def gallery_view(request):
 
 
 # API Views
+# Custom Views
+
+class ListFilterAPIView(generics.ListAPIView):
+    """ A View which creates a filters dict and returns a List of objects matching alle given Filters.
+        View only for Retrieving Data."""
+
+    def get_filters(self):
+        """ Method which creates the filters dict.
+        Matches the given Parameters from the request with the allowed lookup_fields, and only maps non-empty fields.
+        """
+        filters = {}
+        for field in self.lookup_field:  # goes on for every field we defined as lookup_field
+            if self.request.GET.get(field, None):  # we do not want the filter to contain "empty" fields
+                filters[field] = self.request.GET.get(field, None)  # get the value of the field from request
+
+        return filters
+
+    def get_queryset(self):
+        """Method which returns the filtered Queryset."""
+        filters = self.get_filters()
+        queryset = self.queryset
+        if isinstance(queryset, QuerySet):
+            queryset = queryset.all()
+        obj = queryset.filter(**filters)
+        return obj
+
 # API Detail views
 
-class HandpieceDetail (generics.RetrieveAPIView):
+
+class HandpieceDetail(generics.RetrieveAPIView):
     queryset = Handpiece.objects.all()
     serializer_class = HandpieceSerializer
     name = 'handpiece'
 
 
-class CrystalsystemDetail (generics.RetrieveAPIView):
+class CrystalsystemDetail(generics.RetrieveAPIView):
     queryset = CrystalSystem.objects.all()
     serializer_class = CrystalSystemSerializer
     name = 'crystalsystem'
 
 
-class MineraltypeDetail (generics.RetrieveAPIView):
+class MineraltypeDetail(generics.RetrieveAPIView):
     queryset = MineralType.objects.all()
     serializer_class = MineralTypeSerializer
     name = 'mineraltype'
 
 
-class PhotographDetail (generics.RetrieveAPIView):
+class PhotographDetail(generics.RetrieveAPIView):
     queryset = Photograph.objects.all()
     serializer_class = PhotographSerializer
     name = 'photograph'
 
-#API List views
+
+# API List views
 
 
 class HandpieceList(generics.ListAPIView):
@@ -93,6 +116,22 @@ class PhotographList(generics.ListAPIView):
     queryset = Photograph.objects.all()
     serializer_class = PhotographSerializer
     name = 'photograph-list'
+
+
+# Filter API Views
+
+
+class FilterMineraltypeList(ListFilterAPIView):
+    queryset = MineralType.objects.all()
+    serializer_class = MineralTypeSerializer
+    name = 'mineraltype-filter'
+    lookup_field = ('trivial_name', 'systematics', 'variety', 'minerals',
+                    'mohs_scale', 'density', 'streak', 'normal_color',
+                    'fracture', 'cleavage', 'lustre', 'chemical_formula',
+                    'other', 'resource_mindat', 'resource_mineralienatlas')
+
+
+
 
 
 # @api_view(('GET', ))

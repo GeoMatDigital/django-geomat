@@ -379,15 +379,15 @@ class FilterApiViewTestCase(TestCase):
                                                           variety="many two", minerals="minerals two",
                                                           mohs_scale="mohs two", density="hard two",
                                                           streak="streak two", normal_color="color two",
-                                                          fracture=["HK"], cleavage=["PL"], lustre=["AS"],
+                                                          fracture=["CF"], cleavage=["DI"], lustre=["DL"],
                                                           chemical_formula="CHEMTWO", other="other two",
                                                           resource_mindat="mindat two",
                                                           resource_mineralienatlas="atlas two")
-        self.mineraltype_two_dict = {'trivial_name': "testmineral two", 'systematics': "HT",
+        self.mineraltype_two_dict = {'trivial_name': "testmineral two", 'systematics': ["HT"],
                                      'variety': "many two", 'minerals': "minerals two",
                                      'mohs_scale': "mohs two", 'density': "hard two",
                                      'streak': "streak two", 'normal_color': "color two",
-                                     'fracture': ["HK"], 'cleavage': ["PL"], 'lustre': ["AS"],
+                                     'fracture': ["CF"], 'cleavage': ["DI"], 'lustre': ["DL"],
                                      'chemical_formula': "CHEMTWO", 'other': "other two",
                                      'resource_mindat': "mindat two",
                                      'resource_mineralienatlas': "atlas two",
@@ -449,88 +449,104 @@ class FilterApiViewTestCase(TestCase):
                                    format="json")
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        assert (self.mineraltype_one_dict in response_dict) == True
+        assert self.mineraltype_one_dict == response_dict[0]
+        assert len(response_dict) == 1
 
     def test_can_filter_systematics(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'systematics': "HG"})
+        response = self.client.get(reverse('api:mineraltype-filter'), {'systematics': "HG"},
+                                   format="json")
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        assert (self.mineraltype_one_dict in response_dict) == True
+        assert self.mineraltype_one_dict in response_dict
+        assert len(response_dict) == 1
 
     def test_can_filter_variety(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'variety': "many one"})
+        response = self.client.get(reverse('api:mineraltype-filter'), {'variety': "many one"}, format="json")
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        assert (self.mineraltype_one_dict in response_dict) == True
+        assert self.mineraltype_one_dict in response_dict
+        assert len(response_dict) == 1
 
     def test_can_filter_minerals(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'minerals': "minerals one"})
+        response = self.client.get(reverse('api:mineraltype-filter'), {'minerals': "minerals one"}, format="json")
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        assert (self.mineraltype_one_dict in response_dict) == True
+        assert self.mineraltype_one_dict in response_dict
+        assert len(response_dict) == 1
 
     def test_can_filter_mohs_scale(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'mohs_scale': "mohs one"})
+        response = self.client.get(reverse('api:mineraltype-filter'), {'mohs_scale': "mohs one"}, format="json")
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        assert (self.mineraltype_one_dict in response_dict) == True
+        assert self.mineraltype_one_dict in response_dict
+        assert len(response_dict) == 1
 
     def test_can_filter_density(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'density': "hard one"})
+        response = self.client.get(reverse('api:mineraltype-filter'), {'density': "hard one"}, format="json")
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        assert (self.mineraltype_one_dict in response_dict) == True
+        assert self.mineraltype_one_dict in response_dict
+        assert len(response_dict) == 1
 
     def test_can_filter_streak(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'streak': "streak one"})
+        response = self.client.get(reverse('api:mineraltype-filter'), {'streak': "streak one"}, format="json")
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        assert (self.mineraltype_one_dict in response_dict) == True
+        assert self.mineraltype_one_dict in response_dict
+        assert len(response_dict) == 1
 
     def test_can_filter_normal_color(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'normal_color': "color one"})
+        response = self.client.get(reverse('api:mineraltype-filter'), {'normal_color': "color one"}, format="json")
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        assert (self.mineraltype_one_dict in response_dict) == True
+        assert self.mineraltype_one_dict in response_dict
+        assert len(response_dict) == 1
 
     def test_can_filter_fracture(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'fracture': "HF"})
+        response = self.client.get(reverse('api:mineraltype-filter'), {'fracture': str(["HF"])}, format="json")
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        assert (self.mineraltype_one_dict in response_dict) == True
+        assert self.mineraltype_one_dict in response_dict
+        assert len(response_dict) == 1
 
     def test_can_filter_cleavage(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'cleavage': "PE"})
+        response = self.client.get(reverse('api:mineraltype-filter'), {'cleavage': str(["PE"])}, format="json")
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        assert (self.mineraltype_one_dict in response_dict) == True
+        assert self.mineraltype_one_dict in response_dict
+        assert len(response_dict) == 1
 
     def test_can_filter_lustre(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'lustre': "AM"})
+        response = self.client.get(reverse('api:mineraltype-filter'), {'lustre': str(["AM"])}, format="json")
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        assert (self.mineraltype_one_dict in response_dict) == True
+        assert self.mineraltype_one_dict in response_dict
+        assert len(response_dict) == 1
 
     def test_can_filter_chemical_formula(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'chemical_formula': "CHEMONE"})
+        response = self.client.get(reverse('api:mineraltype-filter'), {'chemical_formula': "CHEMONE"}, format="json")
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        assert (self.mineraltype_one_dict in response_dict) == True
+        assert self.mineraltype_one_dict in response_dict
+        assert len(response_dict) == 1
 
     def test_can_filter_other(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'other': "other one"})
+        response = self.client.get(reverse('api:mineraltype-filter'), {'other': "other one"}, format="json")
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        assert (self.mineraltype_one_dict in response_dict) == True
+        assert self.mineraltype_one_dict in response_dict
+        assert len(response_dict) == 1
 
     def test_can_filter_resource_mindat(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'resource_mindat': "mindat one"})
+        response = self.client.get(reverse('api:mineraltype-filter'), {'resource_mindat': "mindat one"}, format="json")
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        assert (self.mineraltype_one_dict in response_dict) == True
+        assert self.mineraltype_one_dict in response_dict
+        assert len(response_dict) == 1
 
     def test_can_filter_resource_mineralienatlas(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), kwargs={'resource_mineralienatlas': "atlas one"})
+        response = self.client.get(reverse('api:mineraltype-filter'), {'resource_mineralienatlas': "atlas one"}, format="json")
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        assert (self.mineraltype_one_dict in response_dict) == True
+        assert self.mineraltype_one_dict in response_dict
+        assert len(response_dict) == 1

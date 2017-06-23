@@ -1,4 +1,6 @@
 """Views file for stein app"""
+import ast
+
 from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.views.generic.list import ListView
@@ -43,6 +45,7 @@ def gallery_view(request):
 class ListFilterAPIView(generics.ListAPIView):
     """ A View which creates a filters dict and returns a List of objects matching alle given Filters.
         View only for Retrieving Data."""
+    varchar_fields = None
 
     def get_filters(self):
         """ Method which creates the filters dict.
@@ -50,8 +53,11 @@ class ListFilterAPIView(generics.ListAPIView):
         """
         filters = {}
         for field in self.lookup_field:  # goes on for every field we defined as lookup_field
-            if self.request.GET.get(field, None):  # we do not want the filter to contain "empty" fields
-                filters[field] = self.request.GET.get(field, None)  # get the value of the field from request
+            if self.request.GET.get(field, None):
+                if field in self.varchar_fields:  # we do not want the filter to contain "empty" fields
+                    filters[field] = ast.literal_eval(self.request.GET.get(field, None))
+                else:
+                    filters[field] = self.request.GET.get(field, None)  # get the value of the field from request
 
         return filters
 
@@ -129,7 +135,7 @@ class FilterMineraltypeList(ListFilterAPIView):
                     'mohs_scale', 'density', 'streak', 'normal_color',
                     'fracture', 'cleavage', 'lustre', 'chemical_formula',
                     'other', 'resource_mindat', 'resource_mineralienatlas')
-
+    varchar_fields = ('fracture', 'cleavage', 'lustre',)
 
 
 

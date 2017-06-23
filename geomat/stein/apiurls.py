@@ -3,7 +3,8 @@ from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
 
 from geomat.stein.views import CrystalsystemDetail, HandpieceDetail, PhotographDetail, MineraltypeDetail, \
-    CrystalsystemList, HandpieceList, PhotographList, MineraltypeList, FilterMineraltypeList
+    CrystalsystemList, HandpieceList, PhotographList, MineraltypeList, FilterMineraltypeList, \
+    FilterCrystalSystemList
 
 app_name = "api"
 urlpatterns = [
@@ -28,6 +29,7 @@ urlpatterns = [
 
     # Filter Views for Crystalsystems, Handpieces, Photographs and Mineraltypes
 
-    url(r'mineraltype_filter', FilterMineraltypeList.as_view(), name=FilterMineraltypeList.name)
+    url(r'mineraltype_filter', FilterMineraltypeList.as_view(), name=FilterMineraltypeList.name),
+    url(r'crystalsystem_filter', FilterCrystalSystemList.as_view(), name=FilterCrystalSystemList.name)
 ]
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json'])

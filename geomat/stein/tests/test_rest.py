@@ -550,3 +550,36 @@ class FilterApiViewTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.mineraltype_one_dict in response_dict
         assert len(response_dict) == 1
+
+    # Several tests wether Filter Crystalsystem View can filter all needed fields
+
+    def test_can_filter_mineraltype(self):
+        response = self.client.get(reverse('api:crystalsystem-filter'), {'mineral_type': self.mineraltype_one.pk}, format="json")
+        response_dict = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert self.crystalsystem_one_dict in response_dict
+        assert len(response_dict) == 1
+
+    def test_can_filter_crystal_system(self):
+        response = self.client.get(reverse('api:crystalsystem-filter'), {'crystal_system': "TC"},
+                                       format="json")
+        response_dict = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert self.crystalsystem_one_dict in response_dict
+        assert len(response_dict) == 1
+
+    def test_can_filter_temperature(self):
+        response = self.client.get(reverse('api:crystalsystem-filter'), {'temperature': 90},
+                                       format="json")
+        response_dict = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert self.crystalsystem_one_dict in response_dict
+        assert len(response_dict) == 1
+
+    def test_can_filter_pressure(self):
+        response = self.client.get(reverse('api:crystalsystem-filter'), {'pressure': 80},
+                                       format="json")
+        response_dict = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert self.crystalsystem_one_dict in response_dict
+        assert len(response_dict) == 1

@@ -45,7 +45,9 @@ def gallery_view(request):
 class ListFilterAPIView(generics.ListAPIView):
     """ A View which creates a filters dict and returns a List of objects matching alle given Filters.
         View only for Retrieving Data."""
-    varchar_fields = None
+    varchar_fields = ()         # Tupel containing all modelfileds which are varcharfields
+    int_fields = ()             # Tupel containing all modelfileds which are integerfields
+    model_fields = ()           # Tupel containing all modelfileds which are Model relation fields those are also ints
 
     def get_filters(self):
         """ Method which creates the filters dict.
@@ -56,6 +58,10 @@ class ListFilterAPIView(generics.ListAPIView):
             if self.request.GET.get(field, None):
                 if field in self.varchar_fields:  # we do not want the filter to contain "empty" fields
                     filters[field] = ast.literal_eval(self.request.GET.get(field, None))
+                elif field in self.int_fields:  # Modelreferences are searched by pk
+                    filters[field] = int(self.request.GET.get(field, None))
+                elif field in self.model_fields:
+                    filters[field] = int(self.request.GET.get(field, None))
                 else:
                     filters[field] = self.request.GET.get(field, None)  # get the value of the field from request
 
@@ -137,6 +143,14 @@ class FilterMineraltypeList(ListFilterAPIView):
                     'other', 'resource_mindat', 'resource_mineralienatlas')
     varchar_fields = ('fracture', 'cleavage', 'lustre',)
 
+
+class FilterCrystalSystemList(ListFilterAPIView):
+    queryset = CrystalSystem.objects.all()
+    serializer_class = CrystalSystemSerializer
+    name = 'crystalsystem-filter'
+    lookup_field = ('mineral_type', 'crystal_system', 'temperature', 'pressure')
+    int_fields = ('temperature', 'pressure')
+    model_fields = ('mineral_type',)
 
 
 

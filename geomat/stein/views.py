@@ -153,6 +153,13 @@ class FilterCrystalSystemList(ListFilterAPIView):
     model_fields = ('mineral_type',)
 
 
+class FilterHandpieceList(ListFilterAPIView):
+    queryset = Handpiece.objects.all()
+    serializer_class = HandpieceSerializer
+    name = 'handpiece-filter'
+    lookup_field = ('name', 'mineral_type', 'finding_place', 'current_location',
+                    'old_inventory_number')
+    model_fields = ('mineral_type',)
 
 # @api_view(('GET', ))
 # @permission_classes((permissions.AllowAny, ))

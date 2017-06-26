@@ -1,6 +1,6 @@
 """Tests for the REST framework"""
 import json
-import pprint
+from pprint import pprint
 
 from django.test import TestCase
 from django.urls import reverse
@@ -8,6 +8,7 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph
+from geomat.stein.serializers import StdImageField
 
 
 # Helper functions
@@ -428,7 +429,8 @@ class FilterApiViewTestCase(TestCase):
                                    }
         self.photograph_one = Photograph.objects.create(image_file="image_one.jpg", handpiece=self.handpiece_one,
                                                         orientation="T", shot_type="MA")
-        self.photograph_one_dict = {'image_file': "image_one.jpg", 'handpiece': self.handpiece_one_dict,
+        self.photograph_one_dict = {'image_file': StdImageField().to_native(self.photograph_one.image_file),
+                                    'handpiece': self.handpiece_one_dict,
                                     'orientation': "T", 'shot_type': "MA",
                                     'created_at': self.photograph_one.created_at.isoformat().replace('+00:00', 'Z'),
                                     'last_modified': self.photograph_one.last_modified.isoformat().replace('+00:00',
@@ -436,145 +438,114 @@ class FilterApiViewTestCase(TestCase):
                                     }
         self.photograph_two = Photograph.objects.create(image_file="image_two.jpg", handpiece=self.handpiece_two,
                                                         orientation="S", shot_type="MI")
-        self.photograph_two_dict = {'image_file': "image_two.jpg", 'handpiece': self.handpiece_two_dict,
+        self.photograph_two_dict = {'image_file': StdImageField().to_native(self.photograph_two.image_file),
+                                    'handpiece': self.handpiece_two_dict,
                                     'orientation': "S", 'shot_type': "MI",
                                     'created_at': self.photograph_two.created_at.isoformat().replace('+00:00', 'Z'),
                                     'last_modified': self.photograph_two.last_modified.isoformat().replace('+00:00',
                                                                                                            'Z'),
                                     }
 
-    # Several tests wether Filter Mineraltype View can filter all needed fields
-
-    # def test_set_up_trick(self):
-    #     self.handpiece_one_dict = {'name': "handpiece one", 'mineral_type': str([self.mineraltype_one_dict,]),
-    #                                'finding_place': "nowhere one", 'current_location': "here one",
-    #                                'old_inventory_number': "inven one",
-    #                                'created_at': self.handpiece_one.created_at.isoformat().replace('+00:00', 'Z'),
-    #                                'last_modified': self.handpiece_one.last_modified.isoformat().replace('+00:00', 'Z')
-    #                                }
-    #     self.handpiece_two_dict = {'name': "handpiece two", 'mineral_type': str([self.mineraltype_two_dict, ]),
-    #                                'finding_place': "nowhere two", 'current_location': "here two",
-    #                                'old_inventory_number': "inven two",
-    #                                'created_at': self.handpiece_two.created_at.isoformat().replace('+00:00', 'Z'),
-    #                                'last_modified': self.handpiece_two.last_modified.isoformat().replace('+00:00', 'Z')
-    #                                }
-    #     self.photograph_one_dict = {'image_file': "image_one.jpg", 'handpiece': self.handpiece_one_dict,
-    #                                 'orientation': "T", 'shot_type': "MA",
-    #                                 'created_at': self.photograph_one.created_at.isoformat().replace('+00:00', 'Z'),
-    #                                 'last_modified': self.photograph_one.last_modified.isoformat().replace('+00:00',
-    #                                                                                                        'Z'),
-    #                                 }
-    #     self.photograph_two_dict = {'image_file': "image_two.jpg", 'handpiece': self.handpiece_two_dict,
-    #                                 'orientation': "S", 'shot_type': "MI",
-    #                                 'created_at': self.photograph_two.created_at.isoformat().replace('+00:00', 'Z'),
-    #                                 'last_modified': self.photograph_two.last_modified.isoformat().replace('+00:00',
-    #                                                                                                        'Z'),
-    #                                 }
-    #     assert 1 == 1
-
     def test_can_filter_trivial_name(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), {'trivial_name': "testmineral one"},
-                                   format="json")
+        response = self.client.get(reverse('api:mineraltype-filter'), {'trivial_name': "testmineral one"})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.mineraltype_one_dict == response_dict[0]
         assert len(response_dict) == 1
 
     def test_can_filter_systematics(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), {'systematics': "HG"},
-                                   format="json")
+        response = self.client.get(reverse('api:mineraltype-filter'), {'systematics': "HG"})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.mineraltype_one_dict in response_dict
         assert len(response_dict) == 1
 
     def test_can_filter_variety(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), {'variety': "many one"}, format="json")
+        response = self.client.get(reverse('api:mineraltype-filter'), {'variety': "many one"})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.mineraltype_one_dict in response_dict
         assert len(response_dict) == 1
 
     def test_can_filter_minerals(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), {'minerals': "minerals one"}, format="json")
+        response = self.client.get(reverse('api:mineraltype-filter'), {'minerals': "minerals one"})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.mineraltype_one_dict in response_dict
         assert len(response_dict) == 1
 
     def test_can_filter_mohs_scale(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), {'mohs_scale': "mohs one"}, format="json")
+        response = self.client.get(reverse('api:mineraltype-filter'), {'mohs_scale': "mohs one"})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.mineraltype_one_dict in response_dict
         assert len(response_dict) == 1
 
     def test_can_filter_density(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), {'density': "hard one"}, format="json")
+        response = self.client.get(reverse('api:mineraltype-filter'), {'density': "hard one"})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.mineraltype_one_dict in response_dict
         assert len(response_dict) == 1
 
     def test_can_filter_streak(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), {'streak': "streak one"}, format="json")
+        response = self.client.get(reverse('api:mineraltype-filter'), {'streak': "streak one"})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.mineraltype_one_dict in response_dict
         assert len(response_dict) == 1
 
     def test_can_filter_normal_color(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), {'normal_color': "color one"}, format="json")
+        response = self.client.get(reverse('api:mineraltype-filter'), {'normal_color': "color one"})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.mineraltype_one_dict in response_dict
         assert len(response_dict) == 1
 
     def test_can_filter_fracture(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), {'fracture': str(["HF"])}, format="json")
+        response = self.client.get(reverse('api:mineraltype-filter'), {'fracture': str(["HF"])})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.mineraltype_one_dict in response_dict
         assert len(response_dict) == 1
 
     def test_can_filter_cleavage(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), {'cleavage': str(["PE"])}, format="json")
+        response = self.client.get(reverse('api:mineraltype-filter'), {'cleavage': str(["PE"])})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.mineraltype_one_dict in response_dict
         assert len(response_dict) == 1
 
     def test_can_filter_lustre(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), {'lustre': str(["AM"])}, format="json")
+        response = self.client.get(reverse('api:mineraltype-filter'), {'lustre': str(["AM"])})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.mineraltype_one_dict in response_dict
         assert len(response_dict) == 1
 
     def test_can_filter_chemical_formula(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), {'chemical_formula': "CHEMONE"}, format="json")
+        response = self.client.get(reverse('api:mineraltype-filter'), {'chemical_formula': "CHEMONE"})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.mineraltype_one_dict in response_dict
         assert len(response_dict) == 1
 
     def test_can_filter_other(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), {'other': "other one"}, format="json")
+        response = self.client.get(reverse('api:mineraltype-filter'), {'other': "other one"})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.mineraltype_one_dict in response_dict
         assert len(response_dict) == 1
 
     def test_can_filter_resource_mindat(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), {'resource_mindat': "mindat one"}, format="json")
+        response = self.client.get(reverse('api:mineraltype-filter'), {'resource_mindat': "mindat one"})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.mineraltype_one_dict in response_dict
         assert len(response_dict) == 1
 
     def test_can_filter_resource_mineralienatlas(self):
-        response = self.client.get(reverse('api:mineraltype-filter'), {'resource_mineralienatlas': "atlas one"},
-                                   format="json")
+        response = self.client.get(reverse('api:mineraltype-filter'), {'resource_mineralienatlas': "atlas one"})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.mineraltype_one_dict in response_dict
@@ -583,32 +554,28 @@ class FilterApiViewTestCase(TestCase):
     # Several tests wether Filter Crystalsystem View can filter all needed fields
 
     def test_can_filter_mineraltype(self):
-        response = self.client.get(reverse('api:crystalsystem-filter'), {'mineral_type': self.mineraltype_one.pk},
-                                   format="json")
+        response = self.client.get(reverse('api:crystalsystem-filter'), {'mineral_type': self.mineraltype_one.pk})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.crystalsystem_one_dict in response_dict
         assert len(response_dict) == 1
 
     def test_can_filter_crystal_system(self):
-        response = self.client.get(reverse('api:crystalsystem-filter'), {'crystal_system': "TC"},
-                                   format="json")
+        response = self.client.get(reverse('api:crystalsystem-filter'), {'crystal_system': "TC"})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.crystalsystem_one_dict in response_dict
         assert len(response_dict) == 1
 
     def test_can_filter_temperature(self):
-        response = self.client.get(reverse('api:crystalsystem-filter'), {'temperature': 90},
-                                   format="json")
+        response = self.client.get(reverse('api:crystalsystem-filter'), {'temperature': 90})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.crystalsystem_one_dict in response_dict
         assert len(response_dict) == 1
 
     def test_can_filter_pressure(self):
-        response = self.client.get(reverse('api:crystalsystem-filter'), {'pressure': 80},
-                                   format="json")
+        response = self.client.get(reverse('api:crystalsystem-filter'), {'pressure': 80})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.crystalsystem_one_dict in response_dict
@@ -617,43 +584,69 @@ class FilterApiViewTestCase(TestCase):
     # Several tests wether Filter Handpiece View can filter all needed fields
 
     def test_can_filter_name(self):
-        response = self.client.get(reverse('api:handpiece-filter'), {'name': "handpiece one"},
-                                   format="json")
+        response = self.client.get(reverse('api:handpiece-filter'), {'name': "handpiece one"})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.handpiece_one_dict in response_dict
         assert len(response_dict) == 1
 
     def test_can_filter_mineral_type(self):
-        response = self.client.get(reverse('api:handpiece-filter'), {'mineral_type': self.mineraltype_one.pk},
-                                   format="json")
+        response = self.client.get(reverse('api:handpiece-filter'), {'mineral_type': self.mineraltype_one.pk})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.handpiece_one_dict in response_dict
         assert len(response_dict) == 1
 
     def test_can_filter_finding_place(self):
-        response = self.client.get(reverse('api:handpiece-filter'), {'finding_place': "nowhere one"},
-                                   format="json")
+        response = self.client.get(reverse('api:handpiece-filter'), {'finding_place': "nowhere one"})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.handpiece_one_dict in response_dict
         assert len(response_dict) == 1
 
     def test_can_filter_current_location(self):
-        response = self.client.get(reverse('api:handpiece-filter'), {'current_location': "here one"},
-                                   format="json")
+        response = self.client.get(reverse('api:handpiece-filter'), {'current_location': "here one"})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.handpiece_one_dict in response_dict
         assert len(response_dict) == 1
 
     def test_can_filter_old_inventory_number(self):
-        response = self.client.get(reverse('api:handpiece-filter'), {'old_inventory_number': "inven one"},
-                                   format="json")
+        response = self.client.get(reverse('api:handpiece-filter'), {'old_inventory_number': "inven one"})
         response_dict = json.loads(response.content)
-        pprint.pprint(response_dict)
-        pprint.pprint(self.handpiece_one_dict)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.handpiece_one_dict in response_dict
+        assert len(response_dict) == 1
+
+    # Several tests wether Filter Photograph View can filter all needed fields
+
+    def test_can_filter_image_file(self):
+        response = self.client.get(reverse('api:photograph-filter'), {'image_file': "image_one.jpg"})
+        response_dict = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert self.photograph_one_dict in response_dict
+        assert len(response_dict) == 1
+
+    def test_can_filter_old_handpiece(self):
+        response = self.client.get(reverse('api:photograph-filter'), {'handpiece': self.handpiece_one.id})
+        response_dict = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert self.photograph_one_dict in response_dict
+        assert len(response_dict) == 1
+
+    def test_can_filter_orientation(self):
+        response = self.client.get(reverse('api:photograph-filter'), {'orientation': "T"})
+        response_dict = json.loads(response.content)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert self.photograph_one_dict in response_dict
+        assert len(response_dict) == 1
+
+    def test_can_filter_shot_type(self):
+        response = self.client.get(reverse('api:photograph-filter'), {'shot_type': "MA"})
+        response_dict = json.loads(response.content)
+        pprint(response_dict)
+        pprint(self.photograph_one_dict)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        assert self.photograph_one_dict in response_dict
         assert len(response_dict) == 1

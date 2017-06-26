@@ -4,7 +4,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 from geomat.stein.views import CrystalsystemDetail, HandpieceDetail, PhotographDetail, MineraltypeDetail, \
     CrystalsystemList, HandpieceList, PhotographList, MineraltypeList, FilterMineraltypeList, \
-    FilterCrystalSystemList, FilterHandpieceList
+    FilterCrystalSystemList, FilterHandpieceList, FilterPhotographList
 
 app_name = "api"
 urlpatterns = [
@@ -31,6 +31,7 @@ urlpatterns = [
 
     url(r'mineraltype_filter', FilterMineraltypeList.as_view(), name=FilterMineraltypeList.name),
     url(r'crystalsystem_filter', FilterCrystalSystemList.as_view(), name=FilterCrystalSystemList.name),
-    url(r'handpiece_filter',FilterHandpieceList.as_view(), name=FilterHandpieceList.name)
+    url(r'handpiece_filter', FilterHandpieceList.as_view(), name=FilterHandpieceList.name),
+    url(r'photograph_filter', FilterPhotographList.as_view(), name=FilterPhotographList.name)
 ]
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json'])

@@ -161,6 +161,15 @@ class FilterHandpieceList(ListFilterAPIView):
                     'old_inventory_number')
     model_fields = ('mineral_type',)
 
+
+class FilterPhotographList(ListFilterAPIView):
+    queryset = Photograph.objects.all()
+    serializer_class = PhotographSerializer
+    name = 'photograph-filter'
+    lookup_field = ('image_file', 'handpiece', 'orientation', 'shot_type',
+                    'online_status', 'created_at', 'last_modified')
+    model_fields = ('handpiece',)
+
 # @api_view(('GET', ))
 # @permission_classes((permissions.AllowAny, ))
 # @renderer_classes((JSONRenderer, ))

@@ -13,7 +13,8 @@ from __future__ import absolute_import, unicode_literals
 import environ
 from django.utils.translation import ugettext_lazy as _
 
-ROOT_DIR = environ.Path(__file__) - 3  # (geomat/config/settings/common.py - 3 = geomat/)
+ROOT_DIR = environ.Path(
+    __file__) - 3  # (geomat/config/settings/common.py - 3 = geomat/)
 APPS_DIR = ROOT_DIR.path('geomat')
 
 env = environ.Env()
@@ -35,22 +36,20 @@ DJANGO_APPS = (
     # 'django.contrib.humanize',
 
     # Admin
-    'django.contrib.admin',
-)
+    'django.contrib.admin', )
 THIRD_PARTY_APPS = (
     'crispy_forms',  # Form layouts
     'allauth',  # registration
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
-    'stdimage', # standardized image field
+    'stdimage',  # standardized image field
 )
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
     'geomat.users',  # custom users app
     # Your stuff: custom apps go here
-    'geomat.stein',
-)
+    'geomat.stein', )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -64,21 +63,17 @@ MIDDLEWARE = (
     # Use Whitenoise to serve static files
     # See: https://whitenoise.readthedocs.io/
     'whitenoise.middleware.WhiteNoiseMiddleware',
-
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
-)
+    'django.middleware.locale.LocaleMiddleware', )
 
 # MIGRATIONS CONFIGURATION
 # ------------------------------------------------------------------------------
-MIGRATION_MODULES = {
-    'sites': 'geomat.contrib.sites.migrations'
-}
+MIGRATION_MODULES = {'sites': 'geomat.contrib.sites.migrations'}
 
 # DEBUG
 # ------------------------------------------------------------------------------
@@ -88,20 +83,18 @@ DEBUG = env.bool("DJANGO_DEBUG", False)
 # FIXTURE CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-FIXTURE_DIRS
-FIXTURE_DIRS = (
-    str(APPS_DIR.path('fixtures')),
-)
+FIXTURE_DIRS = (str(APPS_DIR.path('fixtures')), )
 
 # EMAIL CONFIGURATION
 # ------------------------------------------------------------------------------
-EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
+EMAIL_BACKEND = env(
+    'DJANGO_EMAIL_BACKEND',
+    default='django.core.mail.backends.smtp.EmailBackend')
 
 # MANAGER CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
-ADMINS = (
-    ("""Michael Gecht""", 'mgecht@stud.uni-frankfurt.de'),
-)
+ADMINS = (("""Michael Gecht""", 'mgecht@stud.uni-frankfurt.de'), )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
@@ -111,10 +104,11 @@ MANAGERS = ADMINS
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
     # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
-    'default': env.db("DATABASE_URL", default="postgres:///django-geomat"),
+    'default':
+    env.db(
+        "DATABASE_URL", default="postgres://postgres@localhost:5432/postgres"),
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
-
 
 # GENERAL CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -126,8 +120,8 @@ TIME_ZONE = 'Europe/Berlin'
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#language-code
 LANGUAGES = [
-  ('de', _('German')),
-  ('en', _('English')),
+    ('de', _('German')),
+    ('en', _('English')),
 ]
 
 LANGUAGE_CODE = 'de'
@@ -157,7 +151,8 @@ TEMPLATES = [
         ],
         'OPTIONS': {
             # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
-            'debug': DEBUG,
+            'debug':
+            DEBUG,
             # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
             # https://docs.djangoproject.com/en/dev/ref/templates/api/#loader-types
             'loaders': [
@@ -193,15 +188,12 @@ STATIC_ROOT = str(ROOT_DIR('staticfiles'))
 STATIC_URL = '/static/'
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
-STATICFILES_DIRS = (
-    str(APPS_DIR.path('static')),
-)
+STATICFILES_DIRS = (str(APPS_DIR.path('static')), )
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-)
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder', )
 
 # MEDIA CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -210,6 +202,9 @@ MEDIA_ROOT = str(APPS_DIR('media'))
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = '/media/'
+
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-FILE_UPLOAD_MAX_MEMORY_SIZE
+FILE_UPLOAD_MAX_MEMORY_SIZE = 200000000
 
 # URL Configuration
 # ------------------------------------------------------------------------------
@@ -224,16 +219,20 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
@@ -241,8 +240,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # ------------------------------------------------------------------------------
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
-)
+    'allauth.account.auth_backends.AuthenticationBackend', )
 
 # Some really nice defaults
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
@@ -258,11 +256,8 @@ LOGIN_URL = 'account_login'
 # SLUGLIFIER
 AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'
 
-
 # Location of root django.contrib.admin URL, use {% url 'admin:index' %}
 ADMIN_URL = r'^admin/'
 
 # Your common stuff: Below this line define 3rd party library settings
-LOCALE_PATHS = (
-    str(ROOT_DIR('locale')),
-)
+LOCALE_PATHS = (str(ROOT_DIR('locale')), )

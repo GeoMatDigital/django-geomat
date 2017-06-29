@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from stdimage.models import StdImageField
 
@@ -126,6 +127,9 @@ class MineralType(models.Model):
     def __unicode__(self):
         return self.trivial_name
 
+    def __str__(self):
+        return self.trivial_name
+
 
 # class Classification(models.Model):
 #     """
@@ -175,6 +179,9 @@ class CrystalSystem(models.Model):
         verbose_name = _("Crystal System")
         verbose_name_plural = _("Crystal Systems")
 
+    def __str__(self):
+        return '{} ({})'.format(self.mineral_type, self.crystal_system)
+
 
 class Handpiece(models.Model):
     """
@@ -203,6 +210,9 @@ class Handpiece(models.Model):
         verbose_name_plural = _("Handpieces")
 
     def __unicode__(self):
+        return self.name
+
+    def __str__(self):
         return self.name
 
     def list_mineral_types(self):

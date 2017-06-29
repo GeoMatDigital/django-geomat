@@ -203,6 +203,9 @@ MEDIA_ROOT = str(APPS_DIR('media'))
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = '/media/'
 
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-FILE_UPLOAD_MAX_MEMORY_SIZE
+FILE_UPLOAD_MAX_MEMORY_SIZE = 200000000
+
 # URL Configuration
 # ------------------------------------------------------------------------------
 ROOT_URLCONF = 'config.urls'

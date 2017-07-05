@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+"""URLs for geomat project"""
 from __future__ import unicode_literals
 
 from django.conf import settings
@@ -7,9 +8,9 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views import defaults as default_views
-from django.views.generic import RedirectView, TemplateView
+from django.views.generic import RedirectView
 
-from geomat.stein.views import GalleryListView, gallery_view
+from geomat.stein.views import gallery_view
 
 urlpatterns = [
     url(r'^$', gallery_view, name="home"),
@@ -24,7 +25,12 @@ urlpatterns = [
     url(r'^users/', include("geomat.users.urls", namespace="users")),
     url(r'^accounts/', include('allauth.urls')),
 
-    # Let's fix this stupid issue with Google Chrome and make a redirect from '/favicon.ico' to our 
+    # REST framework
+    url(r'^api-auth/',
+        include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api/', include("geomat.stein.apiurls", namespace="api")),
+
+    # Let's fix this stupid issue with Google Chrome and make a redirect from '/favicon.ico' to our
     # 'common/images/favicon.ico' file!
     # Google Chrome ignores the favicon file defined in HTML and always looks for it in '/favicon.ico'
     url(

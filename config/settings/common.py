@@ -49,7 +49,9 @@ THIRD_PARTY_APPS = (
 LOCAL_APPS = (
     'geomat.users',  # custom users app
     # Your stuff: custom apps go here
-    'geomat.stein', )
+    'geomat.stein',
+    'rest_framework',
+    )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -261,3 +263,16 @@ ADMIN_URL = r'^admin/'
 
 # Your common stuff: Below this line define 3rd party library settings
 LOCALE_PATHS = (str(ROOT_DIR('locale')), )
+
+# REST framework
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES':
+    ['rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'],
+    'DEFAULT_RENDERER_CLASSES':
+    ('rest_framework.renderers.JSONRenderer',
+     'rest_framework.renderers.BrowsableAPIRenderer', ),
+    'TEST_REQUEST_DEFAULT_FORMAT':
+    'json',
+}

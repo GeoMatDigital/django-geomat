@@ -75,7 +75,7 @@ DEBUG_TOOLBAR_CONFIG = {
 
 # Additional local apps
 # ------------------------------------------------------------------------------
-INSTALLED_APPS += ('django_extensions', 'rosetta')
+INSTALLED_APPS += ('django_extensions', 'rosetta', 'stdimage_serializer')
 
 # TESTING
 # ------------------------------------------------------------------------------

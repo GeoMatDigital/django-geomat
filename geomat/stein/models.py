@@ -4,6 +4,7 @@ from stdimage.models import StdImageField
 
 from geomat.stein.fields import ChoiceArrayField
 
+
 # Mostly all fields are defined as CharFields, so the input is easier.
 # The max_length is a total arbitrary value that I defined in the beginning.
 
@@ -20,6 +21,7 @@ class MineralType(models.Model):
                 'CN', _("Carbonates and Nitrates")), ('BR', _("Borates")),
         ('SL', _("Sulfates")), ('PV', _("Phosphates, Arsenates & Vanadates")),
         ('SG', _("Silicates & Germanates")), ('OC', _("Organic Compounds")), )
+
     # CRYSTAL_SYSTEM_CHOICES = (
     #     ('TC', _("Triclinic")),
     #     ('MC', _("Monoclinic")),
@@ -50,6 +52,7 @@ class MineralType(models.Model):
         max_length=100, blank=True, verbose_name=_("variety"))
     minerals = models.CharField(
         max_length=100, blank=True, verbose_name=_("minerals"))
+
     # classification = ChoiceArrayField(
     #     models.CharField(
     #         max_length=100,

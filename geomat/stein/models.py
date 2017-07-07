@@ -156,8 +156,8 @@ class Classification(models.Model):
     Defines a classification field which can be added as a ForeignKey to the MineralType class.
     """
     mineral_type = models.ForeignKey(
-        MineralType, null=True, verbose_name=_('mineral type'))
-    classification = models.CharField(
+        MineralType, null=True, verbose_name=_('mineral type'), related_name="classification")
+    classification_name = models.CharField(
         max_length=100, blank=True, verbose_name=_("classification"))
 
 
@@ -172,7 +172,7 @@ class CrystalSystem(models.Model):
                                   'HG', _("Hexagonal")), ('CB', _("Cubic")), )
 
     mineral_type = models.ForeignKey(
-        MineralType, null=True, verbose_name=_('mineral type'))
+        MineralType, null=True, verbose_name=_('mineral type'), related_name="crystallsystem")
     crystal_system = models.CharField(
         max_length=2,
         blank=True,
@@ -248,7 +248,7 @@ class Photograph(models.Model):
         'small': (600, 400),
         'thumbnail': (100, 100, True),
     })
-    handpiece = models.ForeignKey(Handpiece)
+    handpiece = models.ForeignKey(Handpiece, related_name="photograph")
     orientation = models.CharField(
         max_length=1,
         choices=ORIENTATION_CHOICES,

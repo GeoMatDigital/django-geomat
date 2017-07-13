@@ -1,7 +1,6 @@
 """Serializers for REST framework"""
 from rest_framework import serializers
-
-from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph
+from geomat.stein.models import CrystalSystem, Handpiece, Photograph, MineralType
 
 
 class StdImageField(serializers.ImageField):
@@ -52,7 +51,7 @@ class StdImageField(serializers.ImageField):
 class MineralTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = MineralType
-        fields = ('id', 'trivial_name', 'systematics', 'variety', 'minerals',
+        fields = ('trivial_name', 'systematics', 'variety', 'minerals',
                   'mohs_scale', 'density', 'streak', 'normal_color',
                   'fracture', 'cleavage', 'lustre', 'chemical_formula',
                   'other', 'resource_mindat', 'resource_mineralienatlas',
@@ -64,8 +63,7 @@ class CrystalSystemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CrystalSystem
-        fields = ('id', 'mineral_type', 'crystal_system', 'temperature',
-                  'pressure')
+        fields = ('mineral_type', 'crystal_system', 'temperature', 'pressure')
 
 
 class HandpieceSerializer(serializers.ModelSerializer):
@@ -73,9 +71,8 @@ class HandpieceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Handpiece
-        fields = ('id', 'name', 'mineral_type', 'finding_place',
-                  'current_location', 'old_inventory_number', 'created_at',
-                  'last_modified')
+        fields = ('name', 'mineral_type', 'finding_place', 'current_location',
+                  'old_inventory_number', 'created_at', 'last_modified')
 
 
 class PhotographSerializer(serializers.ModelSerializer):
@@ -85,5 +82,5 @@ class PhotographSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Photograph
-        fields = ('id', 'image_file', 'handpiece', 'orientation', 'shot_type',
+        fields = ('image_file', 'handpiece', 'orientation', 'shot_type',
                   'online_status', 'created_at', 'last_modified')

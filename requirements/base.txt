@@ -34,5 +34,5 @@ django-stdimage==2.4.1
 # REST-Framework
 djangorestframework==3.6.3
 markdown==2.6.8
-django-filter==1.0.1
+django-filter==1.0.4
 django-stdimage-serializer==0.1.2

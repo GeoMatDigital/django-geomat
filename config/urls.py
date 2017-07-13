@@ -9,6 +9,7 @@ from django.contrib import admin
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.views import defaults as default_views
 from django.views.generic import RedirectView
+from rest_framework.documentation import include_docs_urls
 
 from geomat.stein.views import gallery_view
 
@@ -24,6 +25,9 @@ urlpatterns = [
     # User management
     url(r'^users/', include("geomat.users.urls", namespace="users")),
     url(r'^accounts/', include('allauth.urls')),
+
+    # Documentation for the REST API
+    url(r'^api-docs/', include_docs_urls(title='GeoMat API documentation')),
 
     # REST framework
     url(r'^api-auth/',

@@ -3,21 +3,9 @@
 .AppleDouble
 .LSOverride
 
-### SublimeText ###
-# cache files for sublime text
-*.tmlanguage.cache
-*.tmPreferences.cache
-*.stTheme.cache
-
-# workspace files are user-specific
-*.sublime-workspace
-
 # project files should be checked into the repository, unless a significant
 # proportion of contributors will probably not be using SublimeText
 # *.sublime-project
-
-# sftp configuration file
-sftp-config.json
 
 # Basics
 *.py[cod]
@@ -35,7 +23,7 @@ nosetests.xml
 htmlcov
 
 # Translations
-*.mo
+#*.mo
 *.pot
 
 # Pycharm
@@ -58,9 +46,6 @@ node_modules/
 
 # User-uploaded media
 geomat/media/
-
-# Hitch directory
-tests/.hitch
 
 #Batch-file for starting docker container
 docker_geomat_batch.bat

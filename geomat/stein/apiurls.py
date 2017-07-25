@@ -3,6 +3,8 @@ from django.conf.urls import url
 from rest_framework.urlpatterns import format_suffix_patterns
 
 from geomat.stein.views import (
+    ClassificationDetail,
+    ClassificationList,
     CrystalsystemDetail,
     CrystalsystemList,
     FilterCrystalSystemList,
@@ -19,23 +21,28 @@ from geomat.stein.views import (
 
 app_name = "api"
 urlpatterns = [
-    # Detail Views for Crystalsystems, Handpieces, Photographs and Mineraltypes
+    # Detail Views for Crystalsystems, Handpieces, Photographs, Mineraltypes and Classifications
     url(
         r'^crystalsystem/(?P<pk>[0-9]+)/',
         CrystalsystemDetail.as_view(),
-        name="crystalsystem"),
+        name=CrystalsystemDetail.name),
     url(
         r'^handpiece/(?P<pk>[0-9]+)/',
         HandpieceDetail.as_view(),
-        name="handpiece"),
+        name=HandpieceDetail.name),
     url(
         r'^photograph/(?P<pk>[0-9]+)/',
         PhotographDetail.as_view(),
-        name="photograph"),
+        name=PhotographDetail.name),
     url(
         r'^mineraltype/(?P<pk>[0-9]+)/',
         MineraltypeDetail.as_view(),
-        name="mineraltype"),
+        name=MineraltypeDetail.name),
+    url(
+        r'^classification/(?P<pk>[0-9]+)',
+        ClassificationDetail.as_view(),
+        name=ClassificationDetail.name
+    ),
 
     # List Views for Crystalsystems, Handpieces, Photographs and Mineraltypes
     url(
@@ -51,6 +58,9 @@ urlpatterns = [
         r'^mineraltype_list',
         MineraltypeList.as_view(),
         name=MineraltypeList.name),
+    url(r'^classification_list',
+        ClassificationList.as_view(),
+        name=ClassificationList.name),
 
     # Filter Views for Crystalsystems, Handpieces, Photographs and Mineraltypes
     url(

@@ -161,6 +161,10 @@ class Classification(models.Model):
         max_length=100, blank=True, verbose_name=_("classification"))
 
 
+    class Meta:
+        verbose_name = _("Classification")
+        verbose_name_plural = _("Classifications")
+
 class CrystalSystem(models.Model):
     """
     Defines a crystal system, which then should be used as a ForeignKey
@@ -182,6 +186,10 @@ class CrystalSystem(models.Model):
         blank=True, null=True, verbose_name=_('temperature'))
     pressure = models.IntegerField(
         blank=True, null=True, verbose_name=_('pressure'))
+
+    class Meta:
+        verbose_name = _("Crystal System")
+        verbose_name_plural = _("Crystal Systems")
 
 
 class Handpiece(models.Model):

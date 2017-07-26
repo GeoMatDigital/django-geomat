@@ -7,6 +7,21 @@ from geomat.stein.fields import ChoiceArrayField
 
 # Mostly all fields are defined as CharFields, so the input is easier.
 # The max_length is a total arbitrary value that I defined in the beginning.
+class Classification(models.Model):
+    """
+    Defines a classification field which can be added as a ForeignKey to the MineralType class.
+    """
+    # mineral_type = models.ForeignKey(
+    #     MineralType, null=True, verbose_name=_('mineral type'), related_name="classification")
+    classification_name = models.CharField(
+        max_length=100, null=True, verbose_name=_("classification"))
+
+    class Meta:
+        verbose_name = _("classification")
+        verbose_name_plural = _("classifications")
+
+    def __unicode__(self):
+        return self.classification_name
 
 
 class MineralType(models.Model):
@@ -142,6 +157,9 @@ class MineralType(models.Model):
         auto_now_add=True, verbose_name=_("created at"))
     last_modified = models.DateTimeField(
         auto_now=True, verbose_name=_("last modified"))
+    classification = models.ForeignKey(
+        Classification, null=True, verbose_name=_('classification'), related_name="mineral_type"
+    )
 
     class Meta:
         verbose_name = _("mineral type")
@@ -151,14 +169,14 @@ class MineralType(models.Model):
         return self.trivial_name
 
 
-class Classification(models.Model):
-    """
-    Defines a classification field which can be added as a ForeignKey to the MineralType class.
-    """
-    mineral_type = models.ForeignKey(
-        MineralType, null=True, verbose_name=_('mineral type'), related_name="classification")
-    classification_name = models.CharField(
-        max_length=100, blank=True, verbose_name=_("classification"))
+# class Classification(models.Model):
+#     """
+#     Defines a classification field which can be added as a ForeignKey to the MineralType class.
+#     """
+#     # mineral_type = models.ForeignKey(
+#     #     MineralType, null=True, verbose_name=_('mineral type'), related_name="classification")
+#     classification_name = models.CharField(
+#         max_length=100, blank=True, verbose_name=_("classification"))
 
 
 class CrystalSystem(models.Model):

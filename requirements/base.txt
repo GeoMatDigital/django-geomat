@@ -29,7 +29,7 @@ awesome-slugify==1.6.5
 pytz==2017.2
 
 # Your custom requirements go here
-django-stdimage==2.4.1
+django-stdimage==2.4.2
 
 # REST-Framework
 djangorestframework==3.6.3

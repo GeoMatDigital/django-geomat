@@ -62,7 +62,7 @@ class NameClassificationSerializer(serializers.ModelSerializer):
 
 
 class MineralTypeSerializer(serializers.ModelSerializer):
-    classification = NameClassificationSerializer(many=True)
+    classification = NameClassificationSerializer()
 
     class Meta:
         model = MineralType

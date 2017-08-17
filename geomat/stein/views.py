@@ -5,6 +5,7 @@ from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from rest_framework import generics
+from rest_framework.response import Response
 
 from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph, Classification
 from geomat.stein.serializers import CrystalSystemSerializer, HandpieceSerializer, \
@@ -182,3 +183,27 @@ class FilterPhotographList(ListFilterAPIView):
                     'online_status', 'created_at', 'last_modified')
     model_fields = ('handpiece',)
 
+
+# API View for the Mineraltype Profiles
+
+class ProfileMineraltypeview(generics.RetrieveAPIView):
+    queryset = MineralType.objects.all()
+    serializer_class = MineralTypeSerializer
+    name = 'mineral-profiles'
+
+    def get(self, request, *args, **kwargs):
+
+        categories = MineralType.MINERAL_CATEGORIES
+        data = {}
+
+        for cat in categories:
+            cat_string = cat[0]
+            classification = Classification.objects.filter(mineral_type__systematics=cat_string).all()
+            human_string = cat[1]
+            data[str(human_string)] = {}
+            for clas in classification:
+                minerals = MineralType.objects.filter(systematics=cat_string, classification=clas).all()
+
+                data[str(human_string)][str(clas.classification_name)] = MineralTypeSerializer(minerals, many=True).data
+
+        return Response(data)

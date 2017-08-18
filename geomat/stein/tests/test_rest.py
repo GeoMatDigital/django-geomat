@@ -8,7 +8,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph
+from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph, Classification
 from geomat.stein.serializers import StdImageField
 
 
@@ -402,6 +402,11 @@ class FilterApiViewTestCase(TestCase):
         # we need at least 2 objects of each  model to be sure that it actually filters
 
         self.client = APIClient()
+        self.classification_one = Classification.objects.create(classification_name="classi one")
+        self.classification_one_dict = {'classification_name': "classi one"}
+        self.classification_two = Classification.objects.create(classification_name="classi two")
+        self.classification_two_dict = {'classification_name': "classi two"}
+
         self.mineraltype_one = MineralType.objects.create(
             trivial_name="testmineral one",
             systematics="HG",
@@ -417,7 +422,10 @@ class FilterApiViewTestCase(TestCase):
             chemical_formula="CHEMONE",
             other="other one",
             resource_mindat="mindat one",
-            resource_mineralienatlas="atlas one")
+            resource_mineralienatlas="atlas one",
+        )
+        self.mineraltype_one.classification = self.classification_one
+        self.mineraltype_one.save()
         self.mineraltype_one_dict = {
             'id':
             self.mineraltype_one.pk,
@@ -452,7 +460,8 @@ class FilterApiViewTestCase(TestCase):
             self.mineraltype_one.created_at.isoformat().replace('+00:00', 'Z'),
             'last_modified':
             self.mineraltype_one.last_modified.isoformat().replace(
-                '+00:00', 'Z')
+                '+00:00', 'Z'),
+            "classification": self.classification_one_dict
         }
         self.mineraltype_two = MineralType.objects.create(
             trivial_name="testmineral two",
@@ -470,6 +479,8 @@ class FilterApiViewTestCase(TestCase):
             other="other two",
             resource_mindat="mindat two",
             resource_mineralienatlas="atlas two")
+        self.mineraltype_two.classification = self.classification_two
+        self.mineraltype_two.save()
         self.mineraltype_two_dict = {
             'id':
             self.mineraltype_two.pk,
@@ -503,7 +514,8 @@ class FilterApiViewTestCase(TestCase):
             self.mineraltype_two.created_at.isoformat().replace('+00:00', 'Z'),
             'last_modified':
             self.mineraltype_two.last_modified.isoformat().replace(
-                '+00:00', 'Z')
+                '+00:00', 'Z'),
+            "classification": self.classification_two_dict
         }
 
         self.crystalsystem_one = CrystalSystem.objects.create(
@@ -631,7 +643,6 @@ class FilterApiViewTestCase(TestCase):
             self.photograph_two.last_modified.isoformat().replace(
                 '+00:00', 'Z'),
         }
-
     def test_can_filter_trivial_name(self):
         response = self.client.get(
             reverse('api:mineraltype-filter'),

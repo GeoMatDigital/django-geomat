@@ -5,10 +5,11 @@ from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from rest_framework import generics
+from rest_framework.response import Response
 
-from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph
+from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph, Classification
 from geomat.stein.serializers import CrystalSystemSerializer, HandpieceSerializer, \
-    MineralTypeSerializer, PhotographSerializer
+    MineralTypeSerializer, PhotographSerializer, ClassificationSerializer
 
 
 class GalleryListView(ListView):
@@ -103,6 +104,12 @@ class PhotographDetail(generics.RetrieveAPIView):
     name = 'photograph'
 
 
+class ClassificationDetail(generics.RetrieveAPIView):
+    queryset = Classification.objects.all()
+    serializer_class = ClassificationSerializer
+    name = 'classification'
+
+
 # API List views
 
 
@@ -128,6 +135,12 @@ class PhotographList(generics.ListAPIView):
     queryset = Photograph.objects.all()
     serializer_class = PhotographSerializer
     name = 'photograph-list'
+
+
+class ClassificationList(generics.ListAPIView):
+    queryset = Classification.objects.all()
+    serializer_class = ClassificationSerializer
+    name = 'classification-list'
 
 
 # Filter API Views
@@ -170,59 +183,27 @@ class FilterPhotographList(ListFilterAPIView):
                     'online_status', 'created_at', 'last_modified')
     model_fields = ('handpiece',)
 
-# @api_view(('GET', ))
-# @permission_classes((permissions.AllowAny, ))
-# @renderer_classes((JSONRenderer, ))
-# def handpiece_detail(request, pk, format=None):
-#     try:
-#         handpiece = Handpiece.objects.get(pk=pk)
-#     except Handpiece.DoesNotExist:
-#         return HttpResponse(status=404)
-#
-#     if request.method == 'GET':
-#         serializer = HandpieceSerializer(handpiece)
-#         return JsonResponse(serializer.data, safe=False)
 
+# API View for the Mineraltype Profiles
 
-# @api_view(('GET', ))
-# @permission_classes((permissions.AllowAny, ))
-# @renderer_classes((JSONRenderer, ))
-# def crystalsystem_detail(request, pk, format=None):
-#     try:
-#         crystalsystem = CrystalSystem.objects.get(pk=pk)
-#     except CrystalSystem.DoesNotExist:
-#         return HttpResponse(status=404)
-#
-#     if request.method == 'GET':
-#         serializer = CrystalSystemSerializer(crystalsystem)
-#         return JsonResponse(
-#             serializer.data,
-#             safe=False, )
-#
-#
-# @api_view(('GET', ))
-# @permission_classes((permissions.AllowAny, ))
-# @renderer_classes((JSONRenderer, ))
-# def photograph_detail(request, pk, format=None):
-#     try:
-#         photograph = Photograph.objects.get(pk=pk)
-#     except Photograph.DoesNotExist:
-#         return HttpResponse(status=404)
-#
-#     if request.method == 'GET':
-#         serializer = PhotographSerializer(photograph)
-#         return JsonResponse(serializer.data, safe=False)
-#
-#
-# @api_view(('GET', ))
-# @permission_classes((permissions.AllowAny, ))
-# @renderer_classes((JSONRenderer, ))
-# def mineraltype_detail(request, pk, format=None):
-#     try:
-#         mineraltype = MineralType.objects.get(pk=pk)
-#     except MineralType.DoesNotExist:
-#         return HttpResponse(status=404)
-#
-#     if request.method == 'GET':
-#         serializer = MineralTypeSerializer(mineraltype)
-#         return JsonResponse(serializer.data, safe=False)
+class ProfileMineraltypeview(generics.RetrieveAPIView):
+    queryset = MineralType.objects.all()
+    serializer_class = MineralTypeSerializer
+    name = 'mineral-profiles'
+
+    def get(self, request, *args, **kwargs):
+
+        categories = MineralType.MINERAL_CATEGORIES
+        data = {}
+
+        for cat in categories:
+            cat_string = cat[0]
+            classification = Classification.objects.filter(mineral_type__systematics=cat_string).all()
+            human_string = cat[1]
+            data[str(human_string)] = {}
+            for clas in classification:
+                minerals = MineralType.objects.filter(systematics=cat_string, classification=clas).all()
+
+                data[str(human_string)][str(clas.classification_name)] = MineralTypeSerializer(minerals, many=True).data
+
+        return Response(data)

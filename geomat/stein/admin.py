@@ -7,8 +7,8 @@ class PhotographInline(admin.TabularInline):
     model = Photograph
 
 
-class ClassificationInline(admin.TabularInline):
-    model = Classification
+# class ClassificationInline(admin.TabularInline):
+#     model = Classification
 
 
 class CrystalSystemInline(admin.TabularInline):
@@ -37,7 +37,7 @@ class MineralTypeAdmin(admin.ModelAdmin):
     list_display = ('pk', 'trivial_name', 'created_at', 'last_modified', )
 
     inlines = [
-        ClassificationInline,
+        # ClassificationInline,
         CrystalSystemInline,
     ]
 
@@ -50,3 +50,10 @@ class PhotographAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Photograph, PhotographAdmin)
+
+
+class ClassificationAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'classification_name')
+
+
+admin.site.register(Classification, ClassificationAdmin)

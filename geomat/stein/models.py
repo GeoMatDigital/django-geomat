@@ -37,15 +37,6 @@ class MineralType(models.Model):
         ('SL', _("Sulfates")), ('PV', _("Phosphates, Arsenates & Vanadates")),
         ('SG', _("Silicates & Germanates")), ('OC', _("Organic Compounds")), )
 
-    # CRYSTAL_SYSTEM_CHOICES = (
-    #     ('TC', _("Triclinic")),
-    #     ('MC', _("Monoclinic")),
-    #     ('OR', _("Orthorhombic")),
-    #     ('TT', _("Tetragonal")),
-    #     ('TR', _("Trigonal")),
-    #     ('HG', _("Hexagonal")),
-    #     ('CB', _("Cubic")),
-    # )
     FRACTURE_CHOICES = (('CF', _("Conchoidal")), ('EF', _("Earthy")), (
         'HF', _("Hackly")), ('SF', _("Splintery")), ('UF', _("Uneven")), )
     CLEAVAGE_CHOICES = (('PE', _("Perfect")), ('LP', _("Less perfect")), (
@@ -67,24 +58,6 @@ class MineralType(models.Model):
         max_length=100, blank=True, verbose_name=_("variety"))
     minerals = models.CharField(
         max_length=100, blank=True, verbose_name=_("minerals"))
-
-    # classification = ChoiceArrayField(
-    #     models.CharField(
-    #         max_length=100,
-    #     ),
-    #     null=True,
-    #     verbose_name=_("classification")
-    # )
-    # classification1 = models.CharField(
-    #     max_length=100,
-    #     verbose_name=_("classification")
-    # )
-    # crystal_system = models.CharField(
-    #     max_length=2,
-    #     blank=True,
-    #     choices=CRYSTAL_SYSTEM_CHOICES,
-    #     verbose_name=_("crystal system")
-    # )
     mohs_scale = models.CharField(max_length=20, verbose_name=_("mohs scale"))
     density = models.CharField(
         max_length=20, default=0, verbose_name=_("density"))
@@ -97,54 +70,20 @@ class MineralType(models.Model):
             choices=FRACTURE_CHOICES, ),
         verbose_name=_("fracture"),
         null=True)
-    # fracture1 = models.CharField(
-    #     max_length=2,
-    #     choices=FRACTURE_CHOICES,
-    #     default="CF",
-    #     verbose_name=_("fracture")
-    # )
-    # fracture2 = models.CharField(
-    #     max_length=2,
-    #     choices=FRACTURE_CHOICES,
-    #     blank=True,
-    #     verbose_name=_("fracture 2")
-    # )
     cleavage = ChoiceArrayField(
         models.CharField(
             max_length=2,
             choices=CLEAVAGE_CHOICES, ),
         null=True,
         verbose_name=_("cleavage"))
-    # cleavage1 = models.CharField(
-    #     max_length=2,
-    #     choices=CLEAVAGE_CHOICES,
-    #     default="BP",
-    #     verbose_name=_("cleavage")
-    # )
-    # cleavage2 = models.CharField(
-    #     max_length=2,
-    #     choices=CLEAVAGE_CHOICES,
-    #     blank=True,
-    #     verbose_name=_("cleavage 2")
-    # )
+
     lustre = ChoiceArrayField(
         models.CharField(
             max_length=2,
             choices=LUSTRE_CHOICES, ),
         null=True,
         verbose_name=_("lustre"))
-    # lustre1 = models.CharField(
-    #     max_length=2,
-    #     choices=LUSTRE_CHOICES,
-    #     default="AM",
-    #     verbose_name=_("lustre")
-    # )
-    # lustre2 = models.CharField(
-    #     max_length=2,
-    #     choices=LUSTRE_CHOICES,
-    #     blank=True,
-    #     verbose_name=_("lustre 2")
-    # )
+
     chemical_formula = models.CharField(
         max_length=100, verbose_name=_("chemical formula"))
     other = models.TextField(
@@ -177,11 +116,11 @@ class MineralType(models.Model):
 #     #     MineralType, null=True, verbose_name=_('mineral type'), related_name="classification")
 #     classification_name = models.CharField(
 #         max_length=100, blank=True, verbose_name=_("classification"))
-
-
-    class Meta:
-        verbose_name = _("Classification")
-        verbose_name_plural = _("Classifications")
+#
+#
+#     class Meta:
+#         verbose_name = _("Classification")
+#         verbose_name_plural = _("Classifications")
 
 class CrystalSystem(models.Model):
     """
@@ -227,16 +166,6 @@ class Handpiece(models.Model):
         max_length=200, blank=True, verbose_name=_("current location"))
     old_inventory_number = models.CharField(
         blank=True, max_length=100, verbose_name=_("old inventory number"))
-    # resource_mindat = models.CharField(
-    #     max_length=100,
-    #     blank=True,
-    #     verbose_name=_("MinDat ID")
-    # )
-    # resource_mineralienatlas = models.CharField(
-    #     max_length=100,
-    #     blank=True,
-    #     verbose_name=_("MineralienAtlas ID")
-    # )
     created_at = models.DateTimeField(
         auto_now_add=True, verbose_name=_("created at"))
     last_modified = models.DateTimeField(

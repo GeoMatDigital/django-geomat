@@ -424,7 +424,8 @@ class FilterApiViewTestCase(TestCase):
             resource_mindat="mindat one",
             resource_mineralienatlas="atlas one",
         )
-        self.mineraltype_one.classification = [self.classification_one, ]
+        self.mineraltype_one.classification = self.classification_one
+        self.mineraltype_one.save()
         self.mineraltype_one_dict = {
             'id':
             self.mineraltype_one.pk,
@@ -460,7 +461,7 @@ class FilterApiViewTestCase(TestCase):
             'last_modified':
             self.mineraltype_one.last_modified.isoformat().replace(
                 '+00:00', 'Z'),
-            "classification": [self.classification_one_dict, ]
+            "classification": self.classification_one_dict
         }
         self.mineraltype_two = MineralType.objects.create(
             trivial_name="testmineral two",
@@ -478,7 +479,8 @@ class FilterApiViewTestCase(TestCase):
             other="other two",
             resource_mindat="mindat two",
             resource_mineralienatlas="atlas two")
-        self.mineraltype_two.classification = [self.classification_two, ]
+        self.mineraltype_two.classification = self.classification_two
+        self.mineraltype_two.save()
         self.mineraltype_two_dict = {
             'id':
             self.mineraltype_two.pk,
@@ -513,7 +515,7 @@ class FilterApiViewTestCase(TestCase):
             'last_modified':
             self.mineraltype_two.last_modified.isoformat().replace(
                 '+00:00', 'Z'),
-            "classification": [self.classification_two_dict, ]
+            "classification": self.classification_two_dict
         }
 
         self.crystalsystem_one = CrystalSystem.objects.create(

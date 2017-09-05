@@ -202,7 +202,7 @@ class ProfileMineraltypeview(generics.RetrieveAPIView):
             human_string = cat[1]
             data[str(human_string)] = {}
             for clas in classification:
-                minerals = MineralType.objects.filter(systematics=cat_string, classification=clas).all()
+                minerals = MineralType.objects.filter(systematics=str(cat_string), classification=clas).all()
 
                 data[str(human_string)][str(clas.classification_name)] = MineralTypeSerializer(minerals, many=True).data
 

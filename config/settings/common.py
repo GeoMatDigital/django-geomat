@@ -43,6 +43,7 @@ THIRD_PARTY_APPS = (
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
     'stdimage',  # standardized image field
+    'corsheaders',
 )
 
 # Apps specific for this project go here.
@@ -276,3 +277,5 @@ REST_FRAMEWORK = {
     'TEST_REQUEST_DEFAULT_FORMAT':
     'json',
 }
+#CORS
+CORS_ORIGIN_ALLOW_ALL = True

@@ -1,8 +1,8 @@
 # Bleeding edge Django
-django==1.11.3
+django==1.11.5
 
 # Configuration
-django-environ==0.4.3
+django-environ==0.4.4
 whitenoise==3.3.0
 
 # Forms
@@ -17,10 +17,10 @@ Pillow==4.2.1
 
 # For user registration, either via email or social
 # Well-built with regular release cycles!
-django-allauth==0.32.0
+django-allauth==0.33.0
 
 # Python-PostgreSQL Database Adapter
-psycopg2==2.7.1
+psycopg2==2.7.3.1
 
 # Unicode slugification
 awesome-slugify==1.6.5
@@ -29,14 +29,17 @@ awesome-slugify==1.6.5
 pytz==2017.2
 
 # Your custom requirements go here
-django-stdimage==2.4.1
+django-stdimage==2.4.2
 
 # REST-Framework
-djangorestframework==3.6.3
-markdown==2.6.8
+djangorestframework==3.6.4
+markdown==2.6.9
 django-filter==1.0.4
 django-stdimage-serializer==0.1.2
 
 # Documentation of REST-Framework
 coreapi==2.3.1
 pygments==2.2.0
+
+#CORS
+django-cors-headers==2.0.0

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Views file for stein app"""
 import ast
 
@@ -200,10 +201,10 @@ class ProfileMineraltypeview(generics.RetrieveAPIView):
             cat_string = cat[0]
             classification = Classification.objects.filter(mineral_type__systematics=cat_string).all()
             human_string = cat[1]
-            data[str(human_string)] = {}
+            data[unicode(human_string)] = {}
             for clas in classification:
                 minerals = MineralType.objects.filter(systematics=cat_string, classification=clas).all()
 
-                data[str(human_string)][str(clas.classification_name)] = MineralTypeSerializer(minerals, many=True).data
+                data[unicode(human_string)][clas.classification_name] = MineralTypeSerializer(minerals, many=True).data
 
-        return Response(data)
+        return Response(data=data)

@@ -8,9 +8,14 @@ from django.views.generic.list import ListView
 from rest_framework import generics
 from rest_framework.response import Response
 
-from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph, Classification
-from geomat.stein.serializers import CrystalSystemSerializer, HandpieceSerializer, \
-    MineralTypeSerializer, PhotographSerializer, ClassificationSerializer
+from geomat.stein.models import Classification, CrystalSystem, Handpiece, MineralType, Photograph
+from geomat.stein.serializers import (
+    ClassificationSerializer,
+    CrystalSystemSerializer,
+    HandpieceSerializer,
+    MineralTypeSerializer,
+    PhotographSerializer
+)
 
 
 class GalleryListView(ListView):
@@ -37,19 +42,22 @@ def gallery_view(request):
         all_photos.sort(key=lambda x: id_list.index(x.pk))
         sorted_photo_list_dict["{}".format(name)] = all_photos
 
-    return render(request, "pages/preview.html",
+    return render(request, "preview.html",
                   {"photograph_dict": sorted_photo_list_dict})
 
 
 # API Views
 # Custom Views
 
+
 class ListFilterAPIView(generics.ListAPIView):
     """ A View which creates a filters dict and returns a List of objects matching alle given Filters.
         View only for Retrieving Data."""
-    varchar_fields = ()         # Tupel containing all modelfileds which are varcharfields
-    int_fields = ()             # Tupel containing all modelfileds which are integerfields
-    model_fields = ()           # Tupel containing all modelfileds which are Model relation fields those are also ints
+    varchar_fields = (
+    )  # Tupel containing all modelfileds which are varcharfields
+    int_fields = ()  # Tupel containing all modelfileds which are integerfields
+    model_fields = (
+    )  # Tupel containing all modelfileds which are Model relation fields those are also ints
 
     def get_filters(self):
         """ Method which creates the filters dict.
@@ -59,13 +67,15 @@ class ListFilterAPIView(generics.ListAPIView):
         for field in self.lookup_field:  # goes on for every field we defined as lookup_field
             if self.request.GET.get(field, None):
                 if field in self.varchar_fields:  # we do not want the filter to contain "empty" fields
-                    filters[field] = ast.literal_eval(self.request.GET.get(field, None))
+                    filters[field] = ast.literal_eval(
+                        self.request.GET.get(field, None))
                 elif field in self.int_fields:  # Modelreferences are searched by pk
                     filters[field] = int(self.request.GET.get(field, None))
                 elif field in self.model_fields:
                     filters[field] = int(self.request.GET.get(field, None))
                 else:
-                    filters[field] = self.request.GET.get(field, None)  # get the value of the field from request
+                    filters[field] = self.request.GET.get(
+                        field, None)  # get the value of the field from request
 
         return filters
 
@@ -77,6 +87,7 @@ class ListFilterAPIView(generics.ListAPIView):
             queryset = queryset.all()
         obj = queryset.filter(**filters)
         return obj
+
 
 # API Detail views
 
@@ -155,25 +166,29 @@ class FilterMineraltypeList(ListFilterAPIView):
                     'mohs_scale', 'density', 'streak', 'normal_color',
                     'fracture', 'cleavage', 'lustre', 'chemical_formula',
                     'other', 'resource_mindat', 'resource_mineralienatlas')
-    varchar_fields = ('fracture', 'cleavage', 'lustre',)
+    varchar_fields = (
+        'fracture',
+        'cleavage',
+        'lustre', )
 
 
 class FilterCrystalSystemList(ListFilterAPIView):
     queryset = CrystalSystem.objects.all()
     serializer_class = CrystalSystemSerializer
     name = 'crystalsystem-filter'
-    lookup_field = ('mineral_type', 'crystal_system', 'temperature', 'pressure')
+    lookup_field = ('mineral_type', 'crystal_system', 'temperature',
+                    'pressure')
     int_fields = ('temperature', 'pressure')
-    model_fields = ('mineral_type',)
+    model_fields = ('mineral_type', )
 
 
 class FilterHandpieceList(ListFilterAPIView):
     queryset = Handpiece.objects.all()
     serializer_class = HandpieceSerializer
     name = 'handpiece-filter'
-    lookup_field = ('name', 'mineral_type', 'finding_place', 'current_location',
-                    'old_inventory_number')
-    model_fields = ('mineral_type',)
+    lookup_field = ('name', 'mineral_type', 'finding_place',
+                    'current_location', 'old_inventory_number')
+    model_fields = ('mineral_type', )
 
 
 class FilterPhotographList(ListFilterAPIView):
@@ -182,10 +197,11 @@ class FilterPhotographList(ListFilterAPIView):
     name = 'photograph-filter'
     lookup_field = ('image_file', 'handpiece', 'orientation', 'shot_type',
                     'online_status', 'created_at', 'last_modified')
-    model_fields = ('handpiece',)
+    model_fields = ('handpiece', )
 
 
 # API View for the Mineraltype Profiles
+
 
 class ProfileMineraltypeview(generics.RetrieveAPIView):
     queryset = MineralType.objects.all()
@@ -199,12 +215,16 @@ class ProfileMineraltypeview(generics.RetrieveAPIView):
 
         for cat in categories:
             cat_string = cat[0]
-            classification = Classification.objects.filter(mineral_type__systematics=cat_string).all()
+            classification = Classification.objects.filter(
+                mineral_type__systematics=cat_string).all()
             human_string = cat[1]
             data[unicode(human_string)] = {}
             for clas in classification:
-                minerals = MineralType.objects.filter(systematics=cat_string, classification=clas).all()
+                minerals = MineralType.objects.filter(
+                    systematics=cat_string, classification=clas).all()
 
-                data[unicode(human_string)][clas.classification_name] = MineralTypeSerializer(minerals, many=True).data
+                data[unicode(human_string)][
+                    clas.classification_name] = MineralTypeSerializer(
+                        minerals, many=True).data
 
         return Response(data=data)

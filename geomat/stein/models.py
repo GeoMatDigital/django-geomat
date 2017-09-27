@@ -1,5 +1,4 @@
 from django.db import models
-from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from stdimage.models import StdImageField
 
@@ -22,6 +21,9 @@ class Classification(models.Model):
         verbose_name_plural = _("classifications")
 
     def __unicode__(self):
+        return self.classification_name
+
+    def __str__(self):
         return self.classification_name
 
 

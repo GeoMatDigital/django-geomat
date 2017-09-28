@@ -8,624 +8,384 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-15 20:19+0000\n"
-"PO-Revision-Date: 2016-06-15 20:25+0000\n"
-"Last-Translator:   <mgecht@stud.uni-frankfurt.de>\n"
+"POT-Creation-Date: 2017-09-28 09:57+0200\n"
+"PO-Revision-Date: 2017-09-28 09:57+0053\n"
+"Last-Translator:   <mgecht@asd.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Translated-Using: django-rosetta 0.7.11\n"
+"X-Translated-Using: django-rosetta 0.7.13\n"
 
-#: config/settings/common.py:121
+#: config/settings/common.py:126
 msgid "German"
 msgstr "Deutsch"
 
-#: config/settings/common.py:122
+#: config/settings/common.py:127
 msgid "English"
 msgstr "Englisch"
 
-#: geomat/stein/models.py:16
-msgid "Elements"
-msgstr "Elemente"
-
-#: geomat/stein/models.py:17
-msgid "Sulfides & Sulfosalts"
-msgstr "Sulfide und Sulfosalze"
-
-#: geomat/stein/models.py:18
-msgid "Halogenides"
-msgstr "Halogenide"
-
-#: geomat/stein/models.py:19
-msgid "Oxides and Hydroxides"
-msgstr "Oxide und Hydroxide"
-
-#: geomat/stein/models.py:20
-msgid "Carbonates and Nitrates"
-msgstr "Carbonate und Nitrate"
-
-#: geomat/stein/models.py:21
-msgid "Borates"
-msgstr "Borate"
-
-#: geomat/stein/models.py:22
-msgid "Sulfates"
-msgstr "Sulfate"
-
-#: geomat/stein/models.py:23
-msgid "Phosphates, Arsenates & Vanadates"
-msgstr "Phosphate, Arsenate und Vanadate"
-
-#: geomat/stein/models.py:24
-msgid "Silicates & Germanates"
-msgstr "Silikate und Germanate"
-
-#: geomat/stein/models.py:25
-msgid "Organic Compounds"
-msgstr "Organische Verbindungen"
-
-#: geomat/stein/models.py:28
-msgid "Triclinic"
-msgstr "Triklin"
-
-#: geomat/stein/models.py:29
-msgid "Monoclinic"
-msgstr "Monoklin"
-
-#: geomat/stein/models.py:30
-msgid "Orthorhombic"
-msgstr "Orthorhombisch"
-
-#: geomat/stein/models.py:31
-msgid "Tetragonal"
-msgstr "Tetragonal"
-
-#: geomat/stein/models.py:32
-msgid "Trigonal"
-msgstr "Trigonal"
-
-#: geomat/stein/models.py:33
-msgid "Hexagonal"
-msgstr "Hexagonal"
-
-#: geomat/stein/models.py:34
-msgid "Cubic"
-msgstr "Kubisch"
-
-#: geomat/stein/models.py:37
-msgid "Conchoidal"
-msgstr "Muschelig"
-
-#: geomat/stein/models.py:38
-msgid "Earthy"
-msgstr "Erdig"
-
-#: geomat/stein/models.py:39
-msgid "Hackly"
-msgstr "Hakig"
-
-#: geomat/stein/models.py:40
-msgid "Splintery"
-msgstr "Splitterig"
-
-#: geomat/stein/models.py:41
-msgid "Uneven"
-msgstr "Uneben"
-
-#: geomat/stein/models.py:44
-msgid "Perfect"
-msgstr "Höchst vollkommen"
-
-#: geomat/stein/models.py:45
-msgid "Less perfect"
-msgstr "Vollkommen"
-
-#: geomat/stein/models.py:46
-msgid "Good"
-msgstr "Gut"
-
-#: geomat/stein/models.py:47
-msgid "Distinct"
-msgstr "Deutlich"
-
-#: geomat/stein/models.py:48
-msgid "Indistinct"
-msgstr "Undeutlich"
-
-#: geomat/stein/models.py:49
-msgid "None"
-msgstr "keine Spaltbarkeit"
-
-#: geomat/stein/models.py:52
-msgid "Adamantine"
-msgstr "Diamantglanz"
-
-#: geomat/stein/models.py:53
-msgid "Dull"
-msgstr "Matt"
-
-#: geomat/stein/models.py:54
-msgid "Greasy"
-msgstr "Fettglanz"
-
-#: geomat/stein/models.py:55
-msgid "Metallic"
-msgstr "Metallglanz"
-
-#: geomat/stein/models.py:56
-msgid "Pearly"
-msgstr "Perlmuttglanz"
-
-#: geomat/stein/models.py:57
-msgid "Silky"
-msgstr "Seidenglanz"
-
-#: geomat/stein/models.py:58
-msgid "Submetallic"
-msgstr "Halbmetallglanz"
-
-#: geomat/stein/models.py:59
-msgid "Vitreous"
-msgstr "Glasglanz"
-
-#: geomat/stein/models.py:60
-msgid "Waxy"
-msgstr "Wachsglanz"
-
-#: geomat/stein/models.py:66
-msgid "trivial name"
-msgstr "Trivialname"
-
-#: geomat/stein/models.py:72
-msgid "systematics"
-msgstr "Systematik"
-
-#: geomat/stein/models.py:77
-msgid "variety"
-msgstr "Varietät"
-
-#: geomat/stein/models.py:81
-msgid "minerals"
-msgstr "Mineralien"
-
-#: geomat/stein/models.py:84
-msgid "classification"
-msgstr "Klassifikation"
-
-#: geomat/stein/models.py:90
-msgid "crystal system"
-msgstr "Kristallsystem"
-
-#: geomat/stein/models.py:94
-msgid "mohs scale"
-msgstr "Mohshärte"
-
-#: geomat/stein/models.py:98
-msgid "density"
-msgstr "Dichte"
-
-#: geomat/stein/models.py:101
-msgid "streak"
-msgstr "Strichfarbe"
-
-#: geomat/stein/models.py:104
-msgid "normal color"
-msgstr "Normalefarbe"
-
-#: geomat/stein/models.py:110
-msgid "fracture"
-msgstr "Bruch"
-
-#: geomat/stein/models.py:116
-#, fuzzy
-#| msgid "fracture"
-msgid "fracture 2"
-msgstr "Bruch 2"
-
-#: geomat/stein/models.py:122
-msgid "cleavage"
-msgstr "Spaltbarkeit"
-
-#: geomat/stein/models.py:128
-#, fuzzy
-#| msgid "cleavage"
-msgid "cleavage 2"
-msgstr "Spaltbarkeit 2"
-
-#: geomat/stein/models.py:134
-msgid "lustre"
-msgstr "Glanz"
-
-#: geomat/stein/models.py:140
-#, fuzzy
-#| msgid "lustre"
-msgid "lustre 2"
-msgstr "Glanz 2"
-
-#: geomat/stein/models.py:144
-msgid "chemical formula"
-msgstr "Chemismus"
-
-#: geomat/stein/models.py:149
-msgid "other"
-msgstr "Weiteres"
-
-#: geomat/stein/models.py:154 geomat/stein/models.py:211
-msgid "MinDat ID"
-msgstr "MinDat ID"
-
-#: geomat/stein/models.py:159 geomat/stein/models.py:216
-msgid "MineralienAtlas ID"
-msgstr "MineralienAtlas ID"
-
-#: geomat/stein/models.py:163 geomat/stein/models.py:220
-#: geomat/stein/models.py:277
-msgid "created at"
-msgstr "Erstellt am"
-
-#: geomat/stein/models.py:167 geomat/stein/models.py:224
-#: geomat/stein/models.py:281
-msgid "last modified"
-msgstr "Zuletzt geändert"
-
-#: geomat/stein/models.py:171 geomat/stein/models.py:189
-msgid "mineral type"
-msgstr "Mineralart"
-
-#: geomat/stein/models.py:172
-msgid "mineral types"
-msgstr "Mineralarten"
-
-#: geomat/stein/models.py:185
-msgid "name of handpiece"
-msgstr "Name des Handstücks"
-
-#: geomat/stein/models.py:196
-msgid "place of discovery"
-msgstr "Fundort"
-
-#: geomat/stein/models.py:201
-msgid "current location"
-msgstr "Standort"
-
-#: geomat/stein/models.py:206
-msgid "old inventory number"
-msgstr "Alte Intentarnummer"
-
-#: geomat/stein/models.py:228
-msgid "Handpiece"
-msgstr "Handstück"
-
-#: geomat/stein/models.py:229
-msgid "Handpieces"
-msgstr "Handstücke"
-
-#: geomat/stein/models.py:238
+#: geomat/stein/admin.py:38 geomat/stein/models.py:224
 msgid "mineral type(s)"
 msgstr "Mineralart"
 
-#: geomat/stein/models.py:248
+#: geomat/stein/models.py:17 geomat/stein/models.py:20
+#: geomat/stein/models.py:122
+msgid "classification"
+msgstr "Klassifikation"
+
+#: geomat/stein/models.py:21
+msgid "classifications"
+msgstr "Klassifikationen"
+
+#: geomat/stein/models.py:37
+msgid "Elements"
+msgstr "Elemente"
+
+#: geomat/stein/models.py:38
+msgid "Sulfides & Sulfosalts"
+msgstr "Sulfide und Sulfosalze"
+
+#: geomat/stein/models.py:39
+msgid "Halogenides"
+msgstr "Halogenide"
+
+#: geomat/stein/models.py:40
+msgid "Oxides and Hydroxides"
+msgstr "Oxide und Hydroxide"
+
+#: geomat/stein/models.py:41
+msgid "Carbonates and Nitrates"
+msgstr "Carbonate und Nitrate"
+
+#: geomat/stein/models.py:42
+msgid "Borates"
+msgstr "Borate"
+
+#: geomat/stein/models.py:43
+msgid "Sulfates"
+msgstr "Sulfate"
+
+#: geomat/stein/models.py:44
+msgid "Phosphates, Arsenates & Vanadates"
+msgstr "Phosphate, Arsenate und Vanadate"
+
+#: geomat/stein/models.py:45
+msgid "Silicates & Germanates"
+msgstr "Silikate und Germanate"
+
+#: geomat/stein/models.py:46
+msgid "Organic Compounds"
+msgstr "Organische Verbindungen"
+
+#: geomat/stein/models.py:49
+msgid "Conchoidal"
+msgstr "Muschelig"
+
+#: geomat/stein/models.py:50
+msgid "Earthy"
+msgstr "Erdig"
+
+#: geomat/stein/models.py:51
+msgid "Hackly"
+msgstr "Hakig"
+
+#: geomat/stein/models.py:52
+msgid "Splintery"
+msgstr "Splitterig"
+
+#: geomat/stein/models.py:53
+msgid "Uneven"
+msgstr "Uneben"
+
+#: geomat/stein/models.py:55
+msgid "Perfect"
+msgstr "Höchst vollkommen"
+
+#: geomat/stein/models.py:56
+msgid "Less perfect"
+msgstr "Vollkommen"
+
+#: geomat/stein/models.py:57
+msgid "Good"
+msgstr "Gut"
+
+#: geomat/stein/models.py:58
+msgid "Distinct"
+msgstr "Deutlich"
+
+#: geomat/stein/models.py:59
+msgid "Indistinct"
+msgstr "Undeutlich"
+
+#: geomat/stein/models.py:60
+msgid "None"
+msgstr "keine Spaltbarkeit"
+
+#: geomat/stein/models.py:62
+msgid "Adamantine"
+msgstr "Diamantglanz"
+
+#: geomat/stein/models.py:63
+msgid "Dull"
+msgstr "Matt"
+
+#: geomat/stein/models.py:64
+msgid "Greasy"
+msgstr "Fettglanz"
+
+#: geomat/stein/models.py:65
+msgid "Metallic"
+msgstr "Metallglanz"
+
+#: geomat/stein/models.py:66
+msgid "Pearly"
+msgstr "Perlmuttglanz"
+
+#: geomat/stein/models.py:67
+msgid "Silky"
+msgstr "Seidenglanz"
+
+#: geomat/stein/models.py:68
+msgid "Submetallic"
+msgstr "Halbmetallglanz"
+
+#: geomat/stein/models.py:69
+msgid "Vitreous"
+msgstr "Glasglanz"
+
+#: geomat/stein/models.py:70
+msgid "Waxy"
+msgstr "Wachsglanz"
+
+#: geomat/stein/models.py:73
+msgid "trivial name"
+msgstr "Trivialname"
+
+#: geomat/stein/models.py:78
+msgid "systematics"
+msgstr "Systematik"
+
+#: geomat/stein/models.py:80
+msgid "variety"
+msgstr "Varietät"
+
+#: geomat/stein/models.py:82
+msgid "minerals"
+msgstr "Mineralien"
+
+#: geomat/stein/models.py:83
+msgid "mohs scale"
+msgstr "Mohshärte"
+
+#: geomat/stein/models.py:85
+msgid "density"
+msgstr "Dichte"
+
+#: geomat/stein/models.py:86
+msgid "streak"
+msgstr "Strichfarbe"
+
+#: geomat/stein/models.py:88
+msgid "normal color"
+msgstr "Normalefarbe"
+
+#: geomat/stein/models.py:93
+msgid "fracture"
+msgstr "Bruch"
+
+#: geomat/stein/models.py:100
+msgid "cleavage"
+msgstr "Spaltbarkeit"
+
+#: geomat/stein/models.py:106
+msgid "lustre"
+msgstr "Glanz"
+
+#: geomat/stein/models.py:108
+msgid "chemical formula"
+msgstr "Chemismus"
+
+#: geomat/stein/models.py:110
+msgid "comment"
+msgstr "Kommentar"
+
+#: geomat/stein/models.py:112
+msgid "MinDat ID"
+msgstr "MinDat ID"
+
+#: geomat/stein/models.py:114
+msgid "MineralienAtlas ID"
+msgstr "MineralienAtlas ID"
+
+#: geomat/stein/models.py:116 geomat/stein/models.py:206
+#: geomat/stein/models.py:259
+msgid "created at"
+msgstr "Erstellt am"
+
+#: geomat/stein/models.py:118 geomat/stein/models.py:208
+#: geomat/stein/models.py:261
+msgid "last modified"
+msgstr "Zuletzt geändert"
+
+#: geomat/stein/models.py:126 geomat/stein/models.py:168
+#: geomat/stein/models.py:196
+msgid "mineral type"
+msgstr "Mineralart"
+
+#: geomat/stein/models.py:127
+msgid "mineral types"
+msgstr "Mineralarten"
+
+#: geomat/stein/models.py:157
+msgid "Triclinic"
+msgstr "Triklin"
+
+#: geomat/stein/models.py:158
+msgid "Monoclinic"
+msgstr "Monoklin"
+
+#: geomat/stein/models.py:159
+msgid "Orthorhombic"
+msgstr "Orthorhombisch"
+
+#: geomat/stein/models.py:160
+msgid "Tetragonal"
+msgstr "Tetragonal"
+
+#: geomat/stein/models.py:161
+msgid "Trigonal"
+msgstr "Trigonal"
+
+#: geomat/stein/models.py:162
+msgid "Hexagonal"
+msgstr "Hexagonal"
+
+#: geomat/stein/models.py:163
+msgid "Cubic"
+msgstr "Kubisch"
+
+#: geomat/stein/models.py:174
+msgid "crystal system"
+msgstr "Kristallsystem"
+
+#: geomat/stein/models.py:176
+msgid "temperature"
+msgstr "Temperatur"
+
+#: geomat/stein/models.py:178
+msgid "pressure"
+msgstr "Druck"
+
+#: geomat/stein/models.py:181
+msgid "Crystal System"
+msgstr "Kristallsystem"
+
+#: geomat/stein/models.py:182
+msgid "Crystal Systems"
+msgstr "Kristallsysteme"
+
+#: geomat/stein/models.py:194
+msgid "name of handpiece"
+msgstr "Name des Handstücks"
+
+#: geomat/stein/models.py:200
+msgid "place of discovery"
+msgstr "Fundort"
+
+#: geomat/stein/models.py:202
+msgid "current location"
+msgstr "Standort"
+
+#: geomat/stein/models.py:204
+msgid "old inventory number"
+msgstr "Alte Intentarnummer"
+
+#: geomat/stein/models.py:211
+msgid "Handpiece"
+msgstr "Handstück"
+
+#: geomat/stein/models.py:212
+msgid "Handpieces"
+msgstr "Handstücke"
+
+#: geomat/stein/models.py:234
 msgid "Top"
 msgstr "Oben"
 
-#: geomat/stein/models.py:249
+#: geomat/stein/models.py:235
 msgid "Bottom"
 msgstr "Unten"
 
-#: geomat/stein/models.py:250
+#: geomat/stein/models.py:236
 msgid "Side"
 msgstr "Seitlich"
 
-#: geomat/stein/models.py:253
+#: geomat/stein/models.py:238
 msgid "Micro"
 msgstr "Mikro"
 
-#: geomat/stein/models.py:254
+#: geomat/stein/models.py:239
 msgid "Macro"
 msgstr "Makro"
 
-#: geomat/stein/models.py:255
+#: geomat/stein/models.py:240
 msgid "Fisheye"
 msgstr "Fischauge"
 
-#: geomat/stein/models.py:256
+#: geomat/stein/models.py:241
 msgid "Tele"
 msgstr "Tele"
 
-#: geomat/stein/models.py:259
-msgid "image file"
-msgstr "Bilddatei"
-
-#: geomat/stein/models.py:264
+#: geomat/stein/models.py:253
 msgid "orientation"
 msgstr "Orientierung"
 
-#: geomat/stein/models.py:269
+#: geomat/stein/models.py:255
 msgid "shot type"
 msgstr "Aufnahmeart"
 
-#: geomat/stein/models.py:273
+#: geomat/stein/models.py:257
 msgid "active photograph?"
 msgstr "Aktiv?"
 
-#: geomat/stein/models.py:285
+#: geomat/stein/models.py:264
 msgid "Photograph"
 msgstr "Foto"
 
-#: geomat/stein/models.py:286
+#: geomat/stein/models.py:265
 msgid "Photographs"
 msgstr "Fotos"
 
-#: geomat/templates/account/email.html:7
-msgid "Account"
-msgstr ""
-
-#: geomat/templates/account/email.html:13
-msgid "E-mail Addresses"
-msgstr ""
-
-#: geomat/templates/account/email.html:15
-msgid "The following e-mail addresses are associated with your account:"
-msgstr ""
-
-#: geomat/templates/account/email.html:29
-msgid "Verified"
-msgstr ""
-
-#: geomat/templates/account/email.html:31
-msgid "Unverified"
-msgstr ""
-
-#: geomat/templates/account/email.html:33
-msgid "Primary"
-msgstr ""
-
-#: geomat/templates/account/email.html:39
-msgid "Make Primary"
-msgstr ""
-
-#: geomat/templates/account/email.html:40
-msgid "Re-send Verification"
-msgstr ""
-
-#: geomat/templates/account/email.html:41
-msgid "Remove"
-msgstr ""
-
-#: geomat/templates/account/email.html:48
-msgid "Warning:"
-msgstr ""
-
-#: geomat/templates/account/email.html:48
-msgid ""
-"You currently do not have any e-mail address set up. You should really add "
-"an e-mail address so you can receive notifications, reset your password, "
-"etc."
-msgstr ""
-
-#: geomat/templates/account/email.html:53
-msgid "Add E-mail Address"
-msgstr ""
-
-#: geomat/templates/account/email.html:58
-msgid "Add E-mail"
-msgstr ""
-
-#: geomat/templates/account/email.html:69
-msgid "Do you really want to remove the selected e-mail address?"
-msgstr ""
-
-#: geomat/templates/account/email_confirm.html:7
-#: geomat/templates/account/email_confirm.html:14
-#: geomat/templates/account/email_confirmed.html:6
-#: geomat/templates/account/email_confirmed.html:13
-msgid "Confirm E-mail Address"
-msgstr ""
-
-#: geomat/templates/account/email_confirm.html:20
-#, python-format
-msgid ""
-"Please confirm that <a href=\"mailto:%(email)s\">%(email)s</a> is an e-mail "
-"address for user %(user_display)s."
-msgstr ""
-
-#: geomat/templates/account/email_confirm.html:24
-msgid "Confirm"
-msgstr ""
-
-#: geomat/templates/account/email_confirm.html:31
-#, python-format
-msgid ""
-"This e-mail confirmation link expired or is invalid. Please <a "
-"href=\"%(email_url)s\">issue a new e-mail confirmation request</a>."
-msgstr ""
-
-#: geomat/templates/account/email_confirmed.html:17
-#, python-format
-msgid ""
-"You have confirmed that <a href=\"mailto:%(email)s\">%(email)s</a> is an "
-"e-mail address for user %(user_display)s."
-msgstr ""
-
-#: geomat/templates/account/login.html:8
-#: geomat/templates/account/login.html:14
-#: geomat/templates/account/login.html:41
-msgid "Sign In"
-msgstr ""
-
-#: geomat/templates/account/login.html:17
-#, python-format
-msgid ""
-"Please sign in with one\n"
-"      of your existing third party accounts. Or, <a href=\"%(signup_url)s\">sign up</a>\n"
-"      for a %(site_name)s account and sign in below:"
-msgstr ""
-
-#: geomat/templates/account/login.html:27
-msgid "or"
-msgstr ""
-
-#: geomat/templates/account/login.html:42
-msgid "Forgot Password?"
-msgstr ""
-
-#: geomat/templates/account/logout.html:6
-#: geomat/templates/account/logout.html:13
-#: geomat/templates/account/logout.html:22
-msgid "Sign Out"
-msgstr ""
-
-#: geomat/templates/account/logout.html:15
-msgid "Are you sure you want to sign out?"
-msgstr ""
-
-#: geomat/templates/account/password_change.html:5
-#: geomat/templates/account/password_change.html:11
-#: geomat/templates/account/password_change.html:16
-#: geomat/templates/account/password_reset_from_key.html:7
-#: geomat/templates/account/password_reset_from_key.html:13
-#: geomat/templates/account/password_reset_from_key_done.html:5
-#: geomat/templates/account/password_reset_from_key_done.html:11
-msgid "Change Password"
-msgstr ""
-
-#: geomat/templates/account/password_reset.html:7
-#: geomat/templates/account/password_reset.html:14
-#: geomat/templates/account/password_reset_done.html:6
-#: geomat/templates/account/password_reset_done.html:12
-msgid "Password Reset"
-msgstr ""
-
-#: geomat/templates/account/password_reset.html:19
-msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll send you"
-" an e-mail allowing you to reset it."
-msgstr ""
-
-#: geomat/templates/account/password_reset.html:24
-msgid "Reset My Password"
-msgstr ""
-
-#: geomat/templates/account/password_reset.html:27
-msgid "Please contact us if you have any trouble resetting your password."
-msgstr ""
-
-#: geomat/templates/account/password_reset_done.html:18
-msgid ""
-"We have sent you an e-mail. Please contact us if you do not receive it "
-"within a few minutes."
-msgstr ""
-
-#: geomat/templates/account/password_reset_from_key.html:13
-msgid "Bad Token"
-msgstr ""
-
-#: geomat/templates/account/password_reset_from_key.html:17
-#, python-format
-msgid ""
-"The password reset link was invalid, possibly because it has already been "
-"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password "
-"reset</a>."
-msgstr ""
-
-#: geomat/templates/account/password_reset_from_key.html:23
-msgid "change password"
-msgstr ""
-
-#: geomat/templates/account/password_reset_from_key.html:26
-#: geomat/templates/account/password_reset_from_key_done.html:12
-msgid "Your password is now changed."
-msgstr ""
-
-#: geomat/templates/account/password_set.html:6
-#: geomat/templates/account/password_set.html:12
-#: geomat/templates/account/password_set.html:17
-msgid "Set Password"
-msgstr ""
-
-#: geomat/templates/account/signup.html:7
-msgid "Signup"
-msgstr ""
-
-#: geomat/templates/account/signup.html:14
-#: geomat/templates/account/signup.html:24 geomat/templates/base.html.py:65
-msgid "Sign Up"
-msgstr ""
-
-#: geomat/templates/account/signup.html:16
-#, python-format
-msgid ""
-"Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>."
-msgstr ""
-
-#: geomat/templates/account/signup_closed.html:6
-#: geomat/templates/account/signup_closed.html:12
-msgid "Sign Up Closed"
-msgstr ""
-
-#: geomat/templates/account/signup_closed.html:14
-msgid "We are sorry, but the sign up is currently closed."
-msgstr ""
-
-#: geomat/templates/account/verification_sent.html:5
-#: geomat/templates/account/verification_sent.html:11
-#: geomat/templates/account/verified_email_required.html:6
-#: geomat/templates/account/verified_email_required.html:12
-msgid "Verify Your E-mail Address"
-msgstr ""
-
-#: geomat/templates/account/verification_sent.html:13
-#, python-format
-msgid ""
-"We have sent an e-mail to <a href=\"mailto:%(email)s\">%(email)s</a> for "
-"verification. Follow the link provided to finalize the signup process. "
-"Please contact us if you do not receive it within a few minutes."
-msgstr ""
-
-#: geomat/templates/account/verified_email_required.html:16
-msgid ""
-"This part of the site requires us to verify that\n"
-"        you are who you claim to be. For this purpose, we require that you\n"
-"        verify ownership of your e-mail address. "
-msgstr ""
-
-#: geomat/templates/account/verified_email_required.html:20
-msgid ""
-"We have sent an e-mail to you for\n"
-"        verification. Please click on the link inside this e-mail. Please\n"
-"        contact us if you do not receive it within a few minutes."
-msgstr ""
-
-#: geomat/templates/account/verified_email_required.html:24
-#, python-format
-msgid ""
-"<strong>Note:</strong> you can still <a href=\"%(email_url)s\">change your "
-"e-mail address</a>."
-msgstr ""
-
-#: geomat/templates/base.html:48
-msgid "Home"
-msgstr "Home"
-
-#: geomat/templates/base.html:51
-msgid "About"
-msgstr "Über"
-
-#: geomat/templates/base.html:58
-msgid "My Profile"
-msgstr "Mein Profil"
-
-#: geomat/templates/base.html:61
-msgid "Logout"
-msgstr ""
-
-#: geomat/templates/base.html:68
-msgid "Log In"
-msgstr ""
-
-#: geomat/users/models.py:16
+#: geomat/users/models.py:15
 msgid "Name of User"
-msgstr ""
+msgstr "Name des Nutzers"
+
+#, fuzzy
+#~ msgid "fracture 2"
+#~ msgstr "Bruch 2"
+
+#, fuzzy
+#~ msgid "cleavage 2"
+#~ msgstr "Spaltbarkeit 2"
+
+#, fuzzy
+#~ msgid "lustre 2"
+#~ msgstr "Glanz 2"
+
+#~ msgid "other"
+#~ msgstr "Weiteres"
+
+#~ msgid "image file"
+#~ msgstr "Bilddatei"
+
+#~ msgid "Home"
+#~ msgstr "Home"
+
+#~ msgid "About"
+#~ msgstr "Über"
+
+#~ msgid "My Profile"
+#~ msgstr "Mein Profil"

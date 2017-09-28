@@ -43,16 +43,14 @@ THIRD_PARTY_APPS = (
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
     'stdimage',  # standardized image field
-    'corsheaders',
-)
+    'corsheaders', )
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
     'geomat.users',  # custom users app
     # Your stuff: custom apps go here
     'geomat.stein',
-    'rest_framework',
-    )
+    'rest_framework', )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -62,7 +60,8 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 MIDDLEWARE = (
     # Make sure djangosecure.middleware.SecurityMiddleware is listed first
     'django.middleware.security.SecurityMiddleware',
-
+    # Enable CORS
+    'corsheaders.middleware.CorsMiddleware',
     # Use Whitenoise to serve static files
     # See: https://whitenoise.readthedocs.io/
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -271,9 +270,9 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES':
     ['rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'],
-    'DEFAULT_RENDERER_CLASSES':
-    ('rest_framework.renderers.JSONRenderer',
-     'rest_framework.renderers.BrowsableAPIRenderer', ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer', ),
     'TEST_REQUEST_DEFAULT_FORMAT':
     'json',
 }

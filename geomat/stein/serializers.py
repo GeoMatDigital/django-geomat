@@ -67,6 +67,7 @@ class MineralTypeSerializer(serializers.ModelSerializer):
     fracture = serializers.SerializerMethodField()
     cleavage = serializers.SerializerMethodField()
     lustre = serializers.SerializerMethodField()
+    chemical_formula = serializers.SerializerMethodField()
     class Meta:
         model = MineralType
         fields = '__all__'
@@ -91,7 +92,8 @@ class MineralTypeSerializer(serializers.ModelSerializer):
 	for choice in obj.lustre:
 	    lst.append(choice_dict.get(choice))
 	return lst
-
+    def get_chemical_formula(self, obj):
+	return "`" + obj.chemical_formula + "`"
 
 class CrystalSystemSerializer(serializers.ModelSerializer):
     mineral_type = MineralTypeSerializer()

@@ -1,5 +1,5 @@
 # Bleeding edge Django
-django==1.11.5
+django==1.11.6
 
 # Configuration
 django-environ==0.4.4
@@ -13,7 +13,7 @@ django-crispy-forms==1.6.1
 django-model-utils==3.0.0
 
 # Images
-Pillow==4.2.1
+Pillow==4.3.0
 
 # For user registration, either via email or social
 # Well-built with regular release cycles!
@@ -32,13 +32,13 @@ pytz==2017.2
 django-stdimage==2.4.2
 
 # REST-Framework
-djangorestframework==3.6.4
+djangorestframework==3.7.0
 markdown==2.6.9
 django-filter==1.0.4
 django-stdimage-serializer==0.1.2
 
 # Documentation of REST-Framework
-coreapi==2.3.1
+coreapi==2.3.3
 pygments==2.2.0
 
 #CORS

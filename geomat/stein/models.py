@@ -119,6 +119,7 @@ class MineralType(models.Model):
     classification = models.ForeignKey(
         Classification,
         null=True,
+        blank=True,
         verbose_name=_('classification'),
         related_name="mineral_type")
 

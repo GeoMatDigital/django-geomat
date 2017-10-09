@@ -160,7 +160,8 @@ class CrystalSystem(models.Model):
         ('TT', _("Tetragonal")),
         ('TR', _("Trigonal")),
         ('HG', _("Hexagonal")),
-        ('CB', _("Cubic")), )
+        ('CB', _("Cubic")),
+        ('AM', _("Amorph")),)
 
     mineral_type = models.ForeignKey(
         MineralType,

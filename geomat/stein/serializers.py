@@ -72,31 +72,37 @@ class MineralTypeSerializer(serializers.ModelSerializer):
         model = MineralType
         fields = '__all__'
         depth = 1
+
     def get_systematics(self, obj):
-	return obj.get_systematics_display()
+        return obj.get_systematics_display()
+
     def get_fracture(self, obj):
-	lst =[]
-	choice_dict = dict(obj.FRACTURE_CHOICES)
+        lst = []
+        choice_dict = dict(obj.FRACTURE_CHOICES)
         if obj.lustre:
             for choice in obj.fracture:
                 lst.append(choice_dict.get(choice))
-	return lst
+        return lst
+
     def get_cleavage(self, obj):
-	lst =[]
-	choice_dict = dict(obj.CLEAVAGE_CHOICES)
+        lst = []
+        choice_dict = dict(obj.CLEAVAGE_CHOICES)
         if obj.cleavage:
             for choice in obj.cleavage:
                 lst.append(choice_dict.get(choice))
-	return lst
+        return lst
+
     def get_lustre(self, obj):
-	lst =[]
-	choice_dict = dict(obj.LUSTRE_CHOICES)
+        lst = []
+        choice_dict = dict(obj.LUSTRE_CHOICES)
         if obj.lustre:
             for choice in obj.lustre:
                 lst.append(choice_dict.get(choice))
-	return lst
-    def get_chemical_formula(self, obj):
-	return "`" + obj.chemical_formula + "`"
+        return lst
+
+        # def get_chemical_formula(self, obj):
+        #     return "`" + obj.chemical_formula + "`"
+
 
 class CrystalSystemSerializer(serializers.ModelSerializer):
     mineral_type = MineralTypeSerializer()

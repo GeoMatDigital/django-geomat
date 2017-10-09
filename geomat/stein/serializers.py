@@ -67,7 +67,8 @@ class MineralTypeSerializer(serializers.ModelSerializer):
     fracture = serializers.SerializerMethodField()
     cleavage = serializers.SerializerMethodField()
     lustre = serializers.SerializerMethodField()
-    chemical_formula = serializers.SerializerMethodField()
+
+    # chemical_formula = serializers.SerializerMethodField()
     class Meta:
         model = MineralType
         fields = '__all__'
@@ -132,3 +133,11 @@ class PhotographSerializer(serializers.ModelSerializer):
         model = Photograph
         fields = ('id', 'image_file', 'handpiece', 'orientation', 'shot_type',
                   'online_status', 'created_at', 'last_modified')
+
+# some things have to be cleared out before work can continue
+
+# class ProfileSerializer(MineralTypeSerializer):
+#     images = serializers.SerializerMethodField()
+#
+#     def get_images(self, obj):
+#         pass

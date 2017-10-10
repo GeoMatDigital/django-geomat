@@ -3,8 +3,10 @@ from __future__ import unicode_literals
 from django.contrib import admin
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
+from django.forms.widgets import Textarea
+from django.contrib.postgres.fields import ArrayField
 
-from geomat.stein.models import Classification, CrystalSystem, Handpiece, MineralType, Photograph
+from geomat.stein.models import Classification, CrystalSystem, Handpiece, MineralType, Photograph, GlossaryEntry
 
 
 class PhotographInline(admin.TabularInline):
@@ -77,3 +79,13 @@ class ClassificationAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Classification, ClassificationAdmin)
+
+
+class GlossaryEntryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'header', 'description')
+    formfield_overrides = {
+        ArrayField: {'widget': Textarea},
+    }
+
+
+admin.site.register(GlossaryEntry, GlossaryEntryAdmin)

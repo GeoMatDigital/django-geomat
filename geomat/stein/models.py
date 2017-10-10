@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.postgres.fields import ArrayField
 from stdimage.models import StdImageField
 
 from geomat.stein.fields import ChoiceArrayField
@@ -273,3 +274,29 @@ class Photograph(models.Model):
     class Meta:
         verbose_name = _("Photograph")
         verbose_name_plural = _("Photographs")
+
+
+class GlossaryEntry(models.Model):
+    """
+    Defines a Model for the Glossary which is displayed in the GeoMat App.
+    """
+    id = models.CharField(max_length=100,
+                          verbose_name=_("id"),
+                          primary_key=True
+                          )
+    header = models.CharField(max_length=200,
+                              verbose_name=_("header"),
+                              null=True
+                              )
+    description = models.TextField(verbose_name=_("description"),
+                                   null=True)
+    examples = ArrayField(base_field=models.TextField(),
+                          verbose_name=_("examples"),
+                          null=True,
+                          help_text=_("When giving more than one example seperate them with a comma.")
+                          )
+
+    class Meta:
+        verbose_name = _("Glossary Entry")
+        verbose_name_plural = _("Glossary Entries")
+

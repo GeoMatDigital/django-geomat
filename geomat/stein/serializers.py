@@ -67,6 +67,7 @@ class MineralTypeSerializer(serializers.ModelSerializer):
     fracture = serializers.SerializerMethodField()
     cleavage = serializers.SerializerMethodField()
     lustre = serializers.SerializerMethodField()
+    images = StdImageField()
 
     # chemical_formula = serializers.SerializerMethodField()
     class Meta:

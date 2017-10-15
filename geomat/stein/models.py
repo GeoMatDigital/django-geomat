@@ -293,7 +293,6 @@ class GlossaryEntry(models.Model):
     examples = ArrayField(base_field=models.TextField(),
                           verbose_name=_("examples"),
                           null=True,
-                          help_text=_("When giving more than one example seperate them with a comma.")
                           )
 
     class Meta:

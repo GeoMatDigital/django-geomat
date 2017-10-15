@@ -8,13 +8,15 @@ from django.views.generic.list import ListView
 from rest_framework import generics
 from rest_framework.response import Response
 
-from geomat.stein.models import Classification, CrystalSystem, Handpiece, MineralType, Photograph
+from geomat.stein.models import Classification, CrystalSystem, Handpiece, MineralType, Photograph, QuizQuestion, QuizAnswer
 from geomat.stein.serializers import (
     ClassificationSerializer,
     CrystalSystemSerializer,
     HandpieceSerializer,
     MineralTypeSerializer,
-    PhotographSerializer
+    PhotographSerializer,
+    QuizAnswerFullSerializer,
+    QuizQuestionFullSerializer,
 )
 
 
@@ -228,3 +230,15 @@ class ProfileMineraltypeview(generics.RetrieveAPIView):
                         minerals, many=True).data
 
         return Response(data=data)
+
+
+class QuizQuestionList(generics.ListAPIView):
+    queryset = QuizQuestion.objects.all()
+    serializer_class = QuizQuestionFullSerializer
+    name = 'quizquestion-list'
+
+
+class QuizAnswerList(generics.ListAPIView):
+    queryset = QuizAnswer.objects.all()
+    serializer_class = QuizAnswerFullSerializer
+    name = 'quizanswer-list'

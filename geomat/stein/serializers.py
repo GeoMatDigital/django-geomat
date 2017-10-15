@@ -1,7 +1,8 @@
 """Serializers for REST framework"""
 from rest_framework import serializers
 
-from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph, Classification
+from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph, Classification, QuizQuestion,\
+    QuizAnswer
 
 
 class StdImageField(serializers.ImageField):
@@ -142,3 +143,46 @@ class PhotographSerializer(serializers.ModelSerializer):
 #
 #     def get_images(self, obj):
 #         pass
+
+
+
+
+
+class QuizAnswerLessSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = QuizAnswer
+        fields = ('id', 'atext', 'correct', 'feedback_correct', 'feedback_incorrect')
+
+
+class QuizQuestionLessSerializer(serializers.ModelSerializer):
+    qtype = serializers.SerializerMethodField()
+
+    class Meta:
+        model = QuizQuestion
+        fields = ('id', 'qtext', 'qtype', 'tags', 'difficulty')
+
+    def get_qtype(self, obj):
+        choice_dict = dict(obj.QTYPE_CHOICES)
+        return choice_dict.get(obj.qtype)
+
+
+class QuizAnswerFullSerializer(serializers.ModelSerializer):
+    question = QuizQuestionLessSerializer()
+
+    class Meta:
+        model = QuizAnswer
+        fields = '__all__'
+
+
+class QuizQuestionFullSerializer(serializers.ModelSerializer):
+    qtype = serializers.SerializerMethodField()
+    answers = QuizAnswerLessSerializer(many=True)
+
+    class Meta:
+        model = QuizQuestion
+        fields = '__all__'
+
+    def get_qtype(self, obj):
+        choice_dict = dict(obj.QTYPE_CHOICES)
+        return choice_dict.get(obj.qtype)

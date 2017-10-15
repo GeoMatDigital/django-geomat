@@ -5,7 +5,9 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from geomat.stein.forms import GlossaryEntryModelForm
 
-from geomat.stein.models import Classification, CrystalSystem, Handpiece, MineralType, Photograph, GlossaryEntry
+from geomat.stein.models import (Classification, CrystalSystem, Handpiece, MineralType, Photograph, GlossaryEntry,
+QuizQuestion, QuizAnswer)
+
 
 
 class PhotographInline(admin.TabularInline):
@@ -86,3 +88,40 @@ class GlossaryEntryAdmin(admin.ModelAdmin):
 
 
 admin.site.register(GlossaryEntry, GlossaryEntryAdmin)
+
+
+class QuizAnswerAdmin(admin.ModelAdmin):
+    list_display = ('id', 'link_question', 'correct', 'atext')
+
+    def link_question(self, obj):
+        """
+        Retrieve all `MineralType` objects, grabs their ID and creates a
+        link to show in the columns.
+        """
+        element = ""
+        question = obj.question
+
+        url = reverse("admin:stein_mineraltype_change", args=[question.pk])
+
+        element = '<a href="{}">{}</a>'.format(url, question.pk)
+        return element
+
+    link_question.allow_tags = True
+    link_question.short_description = _('question')
+
+
+class QuizAnswerInline(admin.TabularInline):
+    model = QuizAnswer
+
+
+admin.site.register(QuizAnswer, QuizAnswerAdmin)
+
+
+class QuizQuestionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'tags', 'difficulty', 'qtype')
+    inlines = [
+        QuizAnswerInline
+    ]
+
+
+admin.site.register(QuizQuestion, QuizQuestionAdmin)

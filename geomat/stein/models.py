@@ -326,9 +326,9 @@ class QuizQuestion(models.Model):
                              null=True,
                              verbose_name=_("question type"))
     tags = ArrayField(base_field=models.CharField(max_length=200),
-                       null=True,
-                       help_text="If you want to add more than one tag, seperate them with commas."
-                       )
+                      null=True,
+                      help_text="If you want to add more than one tag, seperate them with commas."
+                     )
     difficulty = models.IntegerField(choices=DIFFICULTY_CHOICES,
                                      null=True,
                                      verbose_name=_("difficulty")

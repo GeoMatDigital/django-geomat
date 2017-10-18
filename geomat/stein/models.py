@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.postgres.fields import ArrayField
 from stdimage.models import StdImageField
 
 from geomat.stein.fields import ChoiceArrayField
@@ -122,7 +123,6 @@ class MineralType(models.Model):
         blank=True,
         verbose_name=_('classification'),
         related_name="mineral_type")
-
     class Meta:
         verbose_name = _("mineral type")
         verbose_name_plural = _("mineral types")
@@ -265,3 +265,85 @@ class Photograph(models.Model):
     class Meta:
         verbose_name = _("Photograph")
         verbose_name_plural = _("Photographs")
+
+
+class GlossaryEntry(models.Model):
+    """
+    Defines a Model for the Glossary which is displayed in the GeoMat App.
+    """
+    id = models.CharField(max_length=100,
+                          verbose_name=_("id"),
+                          primary_key=True
+                          )
+    header = models.CharField(max_length=200,
+                              verbose_name=_("header"),
+                              null=True
+                              )
+    description = models.TextField(verbose_name=_("description"),
+                                   null=True)
+    examples = ArrayField(base_field=models.TextField(),
+                          verbose_name=_("examples"),
+                          null=True,
+                          )
+
+    class Meta:
+        verbose_name = _("Glossary Entry")
+        verbose_name_plural = _("Glossary Entries")
+
+
+class QuizQuestion(models.Model):
+    """
+    This Model Defines Questions for the Self-learn Quiz in the GeoMat App.
+    """
+
+    QTYPE_CHOICES = (
+        ("SC", _("Single Choice")),
+        ("MC", _("Multiple Choice")),
+        ("DD", _("Drag and Drop")),
+        ("RG", _("Ranking")),
+        ("HS", _("Hotspot")),
+                     )
+    DIFFICULTY_CHOICES = ((1, 1),
+                          (2, 2),
+                          (3, 3),
+                          (4, 4),
+                          (5, 5))
+
+    qtext = models.CharField(max_length=500,
+                             null=True,
+                             verbose_name=_("question text"))
+    qtype = models.CharField(max_length=2,
+                             choices=QTYPE_CHOICES,
+                             null=True,
+                             verbose_name=_("question type"))
+    tags = ArrayField(base_field=models.CharField(max_length=200),
+                      null=True,
+                      help_text="If you want to add more than one tag, seperate them with commas."
+                     )
+    difficulty = models.IntegerField(choices=DIFFICULTY_CHOICES,
+                                     null=True,
+                                     verbose_name=_("difficulty")
+                                     )
+
+
+class QuizAnswer(models.Model):
+    """
+    This Model Defines the Answers for a Question of the Self.learn Quiz in the GeoMat App.
+    """
+
+    atext = models.CharField(max_length=500,
+                             null=True,
+                             verbose_name=_("answer text")
+                             )
+    correct = models.BooleanField(verbose_name=_("correct"),
+                                  help_text="Nothing yet.")
+    feedback_correct = models.CharField(max_length=500,
+                                        null=True,
+                                        verbose_name=_("feedback if answered correctly"))
+    feedback_incorrect = models.CharField(max_length=500,
+                                          null=True,
+                                          verbose_name=_("feedback if answered incorrectly"))
+    question = models.ForeignKey(QuizQuestion,
+                                 null=True,
+                                 verbose_name=_("question"),
+                                 related_name="answers")

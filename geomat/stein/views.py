@@ -5,6 +5,7 @@ import ast
 from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.views.generic.list import ListView
+from django.db.models import Count
 from rest_framework import generics
 from rest_framework.response import Response
 
@@ -151,6 +152,8 @@ class CrystalsystemList(generics.ListAPIView):
 
 
 class MineraltypeList(generics.ListAPIView):
+
+#    queryset = MineralType.objects.annotate(handpiece_count=Count('handpiece')).all()
     queryset = MineralType.objects.all()
     serializer_class = MineralTypeSerializer
     name = 'mineraltype-list'

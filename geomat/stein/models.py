@@ -122,16 +122,6 @@ class MineralType(models.Model):
         null=True,
         verbose_name=_('classification'),
         related_name="mineral_type")
-    images = StdImageField(
-        variations={
-        'large': (1200, 800),
-        'medium': (900, 600),
-        'small': (600, 400),
-        'thumbnail': (100, 100, True),
-                    },
-        blank=True,
-        null=True)
-
     class Meta:
         verbose_name = _("mineral type")
         verbose_name_plural = _("mineral types")

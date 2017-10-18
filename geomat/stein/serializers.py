@@ -68,8 +68,6 @@ class MineralTypeSerializer(serializers.ModelSerializer):
     fracture = serializers.SerializerMethodField()
     cleavage = serializers.SerializerMethodField()
     lustre = serializers.SerializerMethodField()
-    images = StdImageField()
-
     # chemical_formula = serializers.SerializerMethodField()
     class Meta:
         model = MineralType
@@ -105,6 +103,18 @@ class MineralTypeSerializer(serializers.ModelSerializer):
 
         # def get_chemical_formula(self, obj):
         #     return "`" + obj.chemical_formula + "`"
+
+    # This is a first aproache to provide pictures for a Mineraltype
+    # Yet this is to be revisioned since not only a few Minerals have more than one handpiece
+    # but also a few of the handpieces have more than one photograph
+
+    # def get_images(self, obj):
+    #     images =[]
+    #     if obj.handpiece_count >1:
+    #         for handpiece in obj.handpiece_set.all():
+    #             images.append(StdImageField(handpiece.photograph.image_file))
+    #     else:
+    #         images.append(StdImageField(obj.handpiece_set.get().photograph.get().image_file))
 
 
 class CrystalSystemSerializer(serializers.ModelSerializer):
@@ -143,10 +153,6 @@ class PhotographSerializer(serializers.ModelSerializer):
 #
 #     def get_images(self, obj):
 #         pass
-
-
-
-
 
 class QuizAnswerLessSerializer(serializers.ModelSerializer):
 

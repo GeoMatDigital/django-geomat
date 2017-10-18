@@ -124,6 +124,17 @@ class ClassificationDetail(generics.RetrieveAPIView):
     name = 'classification'
 
 
+class QuizQuestionDetail(generics.RetrieveAPIView):
+    queryset = QuizQuestion.objects.all()
+    serializer_class = QuizQuestionFullSerializer
+    name = 'quizquestion'
+
+
+class QuizAnswerDetail(generics.RetrieveAPIView):
+    queryset = QuizAnswer.objects.all()
+    serializer_class = QuizAnswerFullSerializer
+    name = 'quizanswer'
+
 # API List views
 
 
@@ -155,6 +166,18 @@ class ClassificationList(generics.ListAPIView):
     queryset = Classification.objects.all()
     serializer_class = ClassificationSerializer
     name = 'classification-list'
+
+
+class QuizQuestionList(generics.ListAPIView):
+    queryset = QuizQuestion.objects.all()
+    serializer_class = QuizQuestionFullSerializer
+    name = 'quizquestion-list'
+
+
+class QuizAnswerList(generics.ListAPIView):
+    queryset = QuizAnswer.objects.all()
+    serializer_class = QuizAnswerFullSerializer
+    name = 'quizanswer-list'
 
 
 # Filter API Views
@@ -232,13 +255,3 @@ class ProfileMineraltypeview(generics.RetrieveAPIView):
         return Response(data=data)
 
 
-class QuizQuestionList(generics.ListAPIView):
-    queryset = QuizQuestion.objects.all()
-    serializer_class = QuizQuestionFullSerializer
-    name = 'quizquestion-list'
-
-
-class QuizAnswerList(generics.ListAPIView):
-    queryset = QuizAnswer.objects.all()
-    serializer_class = QuizAnswerFullSerializer
-    name = 'quizanswer-list'

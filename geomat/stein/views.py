@@ -5,16 +5,19 @@ import ast
 from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.views.generic.list import ListView
+from django.db.models import Count
 from rest_framework import generics
 from rest_framework.response import Response
 
-from geomat.stein.models import Classification, CrystalSystem, Handpiece, MineralType, Photograph
+from geomat.stein.models import Classification, CrystalSystem, Handpiece, MineralType, Photograph, QuizQuestion, QuizAnswer
 from geomat.stein.serializers import (
     ClassificationSerializer,
     CrystalSystemSerializer,
     HandpieceSerializer,
     MineralTypeSerializer,
-    PhotographSerializer
+    PhotographSerializer,
+    QuizAnswerFullSerializer,
+    QuizQuestionFullSerializer,
 )
 
 
@@ -122,6 +125,17 @@ class ClassificationDetail(generics.RetrieveAPIView):
     name = 'classification'
 
 
+class QuizQuestionDetail(generics.RetrieveAPIView):
+    queryset = QuizQuestion.objects.all()
+    serializer_class = QuizQuestionFullSerializer
+    name = 'quizquestion'
+
+
+class QuizAnswerDetail(generics.RetrieveAPIView):
+    queryset = QuizAnswer.objects.all()
+    serializer_class = QuizAnswerFullSerializer
+    name = 'quizanswer'
+
 # API List views
 
 
@@ -138,6 +152,8 @@ class CrystalsystemList(generics.ListAPIView):
 
 
 class MineraltypeList(generics.ListAPIView):
+
+#    queryset = MineralType.objects.annotate(handpiece_count=Count('handpiece')).all()
     queryset = MineralType.objects.all()
     serializer_class = MineralTypeSerializer
     name = 'mineraltype-list'
@@ -153,6 +169,18 @@ class ClassificationList(generics.ListAPIView):
     queryset = Classification.objects.all()
     serializer_class = ClassificationSerializer
     name = 'classification-list'
+
+
+class QuizQuestionList(generics.ListAPIView):
+    queryset = QuizQuestion.objects.all()
+    serializer_class = QuizQuestionFullSerializer
+    name = 'quizquestion-list'
+
+
+class QuizAnswerList(generics.ListAPIView):
+    queryset = QuizAnswer.objects.all()
+    serializer_class = QuizAnswerFullSerializer
+    name = 'quizanswer-list'
 
 
 # Filter API Views
@@ -228,3 +256,5 @@ class ProfileMineraltypeview(generics.RetrieveAPIView):
                         minerals, many=True).data
 
         return Response(data=data)
+
+

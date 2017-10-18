@@ -1,7 +1,8 @@
 """Serializers for REST framework"""
 from rest_framework import serializers
 
-from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph, Classification
+from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph, Classification, QuizQuestion,\
+    QuizAnswer
 
 
 class StdImageField(serializers.ImageField):
@@ -67,7 +68,6 @@ class MineralTypeSerializer(serializers.ModelSerializer):
     fracture = serializers.SerializerMethodField()
     cleavage = serializers.SerializerMethodField()
     lustre = serializers.SerializerMethodField()
-
     # chemical_formula = serializers.SerializerMethodField()
     class Meta:
         model = MineralType
@@ -103,6 +103,18 @@ class MineralTypeSerializer(serializers.ModelSerializer):
 
         # def get_chemical_formula(self, obj):
         #     return "`" + obj.chemical_formula + "`"
+
+    # This is a first aproache to provide pictures for a Mineraltype
+    # Yet this is to be revisioned since not only a few Minerals have more than one handpiece
+    # but also a few of the handpieces have more than one photograph
+
+    # def get_images(self, obj):
+    #     images =[]
+    #     if obj.handpiece_count >1:
+    #         for handpiece in obj.handpiece_set.all():
+    #             images.append(StdImageField(handpiece.photograph.image_file))
+    #     else:
+    #         images.append(StdImageField(obj.handpiece_set.get().photograph.get().image_file))
 
 
 class CrystalSystemSerializer(serializers.ModelSerializer):
@@ -141,3 +153,42 @@ class PhotographSerializer(serializers.ModelSerializer):
 #
 #     def get_images(self, obj):
 #         pass
+
+class QuizAnswerLessSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = QuizAnswer
+        fields = ('id', 'atext', 'correct', 'feedback_correct', 'feedback_incorrect')
+
+
+class QuizQuestionLessSerializer(serializers.ModelSerializer):
+    qtype = serializers.SerializerMethodField()
+
+    class Meta:
+        model = QuizQuestion
+        fields = ('id', 'qtext', 'qtype', 'tags', 'difficulty')
+
+    def get_qtype(self, obj):
+        choice_dict = dict(obj.QTYPE_CHOICES)
+        return choice_dict.get(obj.qtype)
+
+
+class QuizAnswerFullSerializer(serializers.ModelSerializer):
+    question = QuizQuestionLessSerializer()
+
+    class Meta:
+        model = QuizAnswer
+        fields = '__all__'
+
+
+class QuizQuestionFullSerializer(serializers.ModelSerializer):
+    qtype = serializers.SerializerMethodField()
+    answers = QuizAnswerLessSerializer(many=True)
+
+    class Meta:
+        model = QuizQuestion
+        fields = '__all__'
+
+    def get_qtype(self, obj):
+        choice_dict = dict(obj.QTYPE_CHOICES)
+        return choice_dict.get(obj.qtype)

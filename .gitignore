@@ -19,7 +19,6 @@ pip-log.txt
 # Unit test / coverage reports
 .coverage
 .tox
-nosetests.xml
 htmlcov
 
 # Translations
@@ -30,22 +29,12 @@ htmlcov
 .idea
 
 # Vim
-
 *~
 *.swp
 *.swo
-
-# npm
-node_modules/
-
-# Compass
-.sass-cache
 
 # virtual environments
 .env
 
 # User-uploaded media
 geomat/media/
-
-#Batch-file for starting docker container
-docker_geomat_batch.bat

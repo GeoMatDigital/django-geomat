@@ -1,18 +1,38 @@
-sudo: false
+sudo: required
+
+services:
+  - docker
+  - postgresql
 
 language: python
+python:
+  - "3.6"
 
 cache:
   apt: true
   directories:
     - $HOME/.cache/pip
 
-python:
-  - "3.6"
-install:
-  - "pip install -U setuptools"
-  - "pip install -r requirements/local.txt"
-script:
-  - "py.test --cov=./"
-after_success:
-  - "codecov"
+jobs:
+  include:
+    - stage: Start local development environment
+      before_script:
+        - docker-compose up --build -d
+      script:
+        - docker-compose run web python manage.py help
+      after_script:
+        - docker-compose down
+    - stage: Start production ready server
+      before_script:
+      - psql -c "CREATE DATABASE db_app;" -U postgres
+      - psql -c "CREATE USER db_user WITH PASSWORD 'db_pass';" -U postgres
+      script:
+        - docker build . --file docker/dokku/Dockerfile
+    - stage: Unit tests
+      before_script:
+        - pip install pipenv
+        - pipenv install --dev --verbose
+      script:
+        - pipenv run "pytest --cov=./"
+      after_success:
+        - codecov

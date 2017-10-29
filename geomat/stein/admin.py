@@ -6,8 +6,18 @@ from django.utils.translation import ugettext_lazy as _
 from geomat.stein.forms import GlossaryEntryModelForm
 
 from geomat.stein.models import (Classification, CrystalSystem, Handpiece, MineralType, Photograph, GlossaryEntry,
-QuizQuestion, QuizAnswer)
+                                 QuizQuestion, QuizAnswer, FractureTwo)
 
+
+class FractureInline(admin.TabularInline):
+    model = FractureTwo
+
+
+class FractureAdmin(admin.ModelAdmin):
+    list_display = ('fracture', 'coordinates')
+
+
+admin.site.register(FractureTwo, FractureAdmin)
 
 
 class PhotographInline(admin.TabularInline):
@@ -61,6 +71,7 @@ class MineralTypeAdmin(admin.ModelAdmin):
 
     inlines = [
         CrystalSystemInline,
+        FractureInline,
     ]
 
 

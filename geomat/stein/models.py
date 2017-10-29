@@ -134,6 +134,36 @@ class MineralType(models.Model):
         return self.trivial_name
 
 
+class FractureTwo(models.Model):
+    """
+    Defines teh Fracture containing the name/ short name
+    and the Lattice koordinates in which direction the Fracture occurs.
+    """
+
+    FRACTURE_CHOICES = (
+        ('CF', _("Conchoidal")),
+        ('EF', _("Earthy")),
+        ('HF', _("Hackly")),
+        ('SF', _("Splintery")),
+        ('UF', _("Uneven")),)
+
+    fracture = models.CharField(
+        max_length=2,
+        choices=FRACTURE_CHOICES,
+        verbose_name=_("fracture"),
+        null=True)
+    coordinates = models.CharField(
+        max_length=20,
+        verbose_name=_("coordinates"),
+        null=True,
+        blank=True,
+        help_text="Enter Coordinates as Following : {x,y,z,a} with the curly braces.")
+    mineral_type = models.ForeignKey(
+        MineralType,
+        verbose_name=_("mineraltype"),
+        null=True,
+        blank=True,
+        related_name="fracturetwo")
 # class Classification(models.Model):
 #     """
 #     Defines a classification field which can be added as a ForeignKey to the MineralType class.

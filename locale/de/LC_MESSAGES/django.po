@@ -80,49 +80,49 @@ msgstr "Silikate und Germanate"
 msgid "Organic Compounds"
 msgstr "Organische Verbindungen"
 
-#: geomat/stein/models.py:49
+#: geomat/stein/models.py:137
 msgid "Conchoidal"
-msgstr "Muschelig"
+msgstr "muschelig"
 
-#: geomat/stein/models.py:50
+#: geomat/stein/models.py:138
 msgid "Earthy"
-msgstr "Erdig"
+msgstr "erdig"
 
-#: geomat/stein/models.py:51
+#: geomat/stein/models.py:139
 msgid "Hackly"
-msgstr "Hakig"
+msgstr "hakig"
 
-#: geomat/stein/models.py:52
+#: geomat/stein/models.py:140
 msgid "Splintery"
-msgstr "Splitterig"
+msgstr "splitterig"
 
-#: geomat/stein/models.py:53
+#: geomat/stein/models.py:141
 msgid "Uneven"
-msgstr "Uneben"
+msgstr "uneben"
 
 #: geomat/stein/models.py:55
 msgid "Perfect"
-msgstr "Höchst vollkommen"
+msgstr "höchst vollkommen"
 
 #: geomat/stein/models.py:56
 msgid "Less perfect"
-msgstr "Vollkommen"
+msgstr "vollkommen"
 
 #: geomat/stein/models.py:57
 msgid "Good"
-msgstr "Gut"
+msgstr "gut"
 
 #: geomat/stein/models.py:58
 msgid "Distinct"
-msgstr "Deutlich"
+msgstr "deutlich"
 
 #: geomat/stein/models.py:59
 msgid "Indistinct"
-msgstr "Undeutlich"
+msgstr "undeutlich"
 
 #: geomat/stein/models.py:60
 msgid "None"
-msgstr "keine Spaltbarkeit"
+msgstr "keine"
 
 #: geomat/stein/models.py:62
 msgid "Adamantine"

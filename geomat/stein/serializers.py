@@ -2,7 +2,7 @@
 from rest_framework import serializers
 
 from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph, Classification, QuizQuestion,\
-    QuizAnswer
+    QuizAnswer, Fracture
 
 
 class StdImageField(serializers.ImageField):
@@ -62,14 +62,26 @@ class NameClassificationSerializer(serializers.ModelSerializer):
         fields = ('classification_name',)
 
 
+class FractureSerializer(serializers.ModelSerializer):
+    fracture_full = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Fracture
+        fields = ("fracture", "fracture_full", "coordinates")
+
+    def get_fracture_full(self, obj):
+        return obj.get_fracture_display()
+
+
 class MineralTypeSerializer(serializers.ModelSerializer):
     classification = NameClassificationSerializer()
     systematics = serializers.SerializerMethodField()
-    fracture = serializers.SerializerMethodField()
+    fracture = FractureSerializer(many=True)
     cleavage = serializers.SerializerMethodField()
     lustre = serializers.SerializerMethodField()
     display_name = serializers.SerializerMethodField()
     # chemical_formula = serializers.SerializerMethodField()
+
     class Meta:
         model = MineralType
         fields = '__all__'

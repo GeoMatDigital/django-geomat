@@ -26,7 +26,7 @@ psycopg2==2.7.3.1
 awesome-slugify==1.6.5
 
 # Time zones support
-pytz==2017.2
+pytz==2017.3
 
 # Your custom requirements go here
 django-stdimage==2.4.2

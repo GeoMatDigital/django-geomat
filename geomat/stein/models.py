@@ -363,9 +363,11 @@ class QuizAnswer(models.Model):
                                   help_text="Nothing yet.")
     feedback_correct = models.CharField(max_length=500,
                                         null=True,
+                                        blank=True,
                                         verbose_name=_("feedback if answered correctly"))
     feedback_incorrect = models.CharField(max_length=500,
                                           null=True,
+                                          blank=True,
                                           verbose_name=_("feedback if answered incorrectly"))
     question = models.ForeignKey(QuizQuestion,
                                  null=True,

@@ -45,30 +45,23 @@ class MineralType(models.Model):
         ('PV', _("Phosphates, Arsenates & Vanadates")),
         ('SG', _("Silicates & Germanates")),
         ('OC', _("Organic Compounds")), )
-
-    FRACTURE_CHOICES = (
-        ('CF', _("Conchoidal")),
-        ('EF', _("Earthy")),
-        ('HF', _("Hackly")),
-        ('SF', _("Splintery")),
-        ('UF', _("Uneven")), )
     CLEAVAGE_CHOICES = (
-        ('PE', _("Perfect")),
-        ('LP', _("Less perfect")),
-        ('GO', _("Good")),
-        ('DI', _("Distinct")),
-        ('ID', _("Indistinct")),
-        ('NO', _("None")), )
+        ('PE', _("perfect")),
+        ('LP', _("less perfect")),
+        ('GO', _("good")),
+        ('DI', _("distinct")),
+        ('ID', _("indistinct")),
+        ('NO', _("none")), )
     LUSTRE_CHOICES = (
-        ('AM', _("Adamantine")),
-        ('DL', _("Dull")),
-        ('GR', _("Greasy")),
-        ('MT', _("Metallic")),
-        ('PY', _("Pearly")),
-        ('SL', _("Silky")),
-        ('SM', _("Submetallic")),
-        ('VT', _("Vitreous")),
-        ('WY', _("Waxy")), )
+        ('AM', _("adamantine lustre")),
+        ('DL', _("dull lustre")),
+        ('GR', _("greasy lustre")),
+        ('MT', _("metallic lustre")),
+        ('PY', _("pearly lustre")),
+        ('SL', _("silky lustre")),
+        ('SM', _("submetallic lustre")),
+        ('VT', _("vitreous lustre")),
+        ('WY', _("waxy lustre")), )
 
     trivial_name = models.CharField(
         max_length=100, blank=True, verbose_name=_("trivial name"))
@@ -135,12 +128,11 @@ class Fracture(models.Model):
     """
 
     FRACTURE_CHOICES = (
-        ('CF', _("Conchoidal")),
-        ('EF', _("Earthy")),
-        ('HF', _("Hackly")),
-        ('SF', _("Splintery")),
-        ('UF', _("Uneven")),)
-
+        ('CF', _("conchoidal")),
+        ('EF', _("earthy")),
+        ('HF', _("hackly")),
+        ('SF', _("splintery")),
+        ('UF', _("uneven")), )
     fracture = models.CharField(
         max_length=2,
         choices=FRACTURE_CHOICES,
@@ -362,10 +354,12 @@ class QuizAnswer(models.Model):
     correct = models.BooleanField(verbose_name=_("correct"),
                                   help_text="Nothing yet.")
     feedback_correct = models.CharField(max_length=500,
-                                        null=True,
+                                        default="",
+                                        blank=True,
                                         verbose_name=_("feedback if answered correctly"))
     feedback_incorrect = models.CharField(max_length=500,
-                                          null=True,
+                                          default="",
+                                          blank=True,
                                           verbose_name=_("feedback if answered incorrectly"))
     question = models.ForeignKey(QuizQuestion,
                                  null=True,

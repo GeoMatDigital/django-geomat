@@ -69,12 +69,12 @@ class MineralType(models.Model):
         ('SF', _("splintery")),
         ('UF', _("uneven")),)
 
-    fracture_two = ChoiceArrayField(
+    fracture = ChoiceArrayField(
         models.CharField(
             max_length=2,
             choices=FRACTURE_CHOICES, ),
         null=True,
-        verbose_name=_("fracture_two"))
+        verbose_name=_("fracture"))
     trivial_name = models.CharField(
         max_length=100, blank=True, verbose_name=_("trivial name"))
     systematics = models.CharField(
@@ -122,6 +122,7 @@ class MineralType(models.Model):
         blank=True,
         verbose_name=_('classification'),
         related_name="mineral_type")
+
     class Meta:
         verbose_name = _("mineral type")
         verbose_name_plural = _("mineral types")
@@ -131,50 +132,6 @@ class MineralType(models.Model):
 
     def __str__(self):
         return self.trivial_name
-
-
-class Fracture(models.Model):
-    """
-    Defines teh Fracture containing the name/ short name
-    and the Lattice koordinates in which direction the Fracture occurs.
-    """
-
-    FRACTURE_CHOICES = (
-        ('CF', _("conchoidal")),
-        ('EF', _("earthy")),
-        ('HF', _("hackly")),
-        ('SF', _("splintery")),
-        ('UF', _("uneven")), )
-    fracture = models.CharField(
-        max_length=2,
-        choices=FRACTURE_CHOICES,
-        verbose_name=_("fracture"),
-        null=True)
-    coordinates = models.CharField(
-        max_length=20,
-        verbose_name=_("coordinates"),
-        null=True,
-        blank=True,
-        help_text="Enter Coordinates as Following : {x,y,z,a} with the curly braces.")
-    mineral_type = models.ForeignKey(
-        MineralType,
-        verbose_name=_("mineraltype"),
-        null=True,
-        blank=True,
-        related_name="fracture")
-# class Classification(models.Model):
-#     """
-#     Defines a classification field which can be added as a ForeignKey to the MineralType class.
-#     """
-#     # mineral_type = models.ForeignKey(
-#     #     MineralType, null=True, verbose_name=_('mineral type'), related_name="classification")
-#     classification_name = models.CharField(
-#         max_length=100, blank=True, verbose_name=_("classification"))
-#
-#
-#     class Meta:
-#         verbose_name = _("Classification")
-#         verbose_name_plural = _("Classifications")
 
 
 class CrystalSystem(models.Model):

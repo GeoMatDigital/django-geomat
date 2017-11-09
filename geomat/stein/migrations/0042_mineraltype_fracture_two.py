@@ -15,8 +15,12 @@ def transfer_back_fracture(apps, schema_editor):
         mineral.fracture_two = fractures
         mineral.save()
 
+
 def revert(apps, schema_editor):
-    pass
+    mineral_type = apps.get_model("stein", "MineralType")
+    for mineral in mineral_type.objects.all():
+        mineral.fracture_two = []
+        mineral.save()
 
 
 class Migration(migrations.Migration):

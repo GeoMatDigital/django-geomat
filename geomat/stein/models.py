@@ -62,7 +62,19 @@ class MineralType(models.Model):
         ('SM', _("submetallic lustre")),
         ('VT', _("vitreous lustre")),
         ('WY', _("waxy lustre")), )
+    FRACTURE_CHOICES = (
+        ('CF', _("conchoidal")),
+        ('EF', _("earthy")),
+        ('HF', _("hackly")),
+        ('SF', _("splintery")),
+        ('UF', _("uneven")),)
 
+    fracture_two = ChoiceArrayField(
+        models.CharField(
+            max_length=2,
+            choices=FRACTURE_CHOICES, ),
+        null=True,
+        verbose_name=_("fracture_two"))
     trivial_name = models.CharField(
         max_length=100, blank=True, verbose_name=_("trivial name"))
     systematics = models.CharField(

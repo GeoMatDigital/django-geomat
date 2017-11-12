@@ -134,7 +134,7 @@ class MineralTypeSerializer(serializers.ModelSerializer):
 
 class MineralProfilesSerializer(MineralTypeSerializer):
 
-    images = serializers.SerializerMethodField()
+    image_file = serializers.SerializerMethodField()
     IMAGE_DICT = {
         # Min : #Photo
         1: 34, 2: 31, 3: 32, 4: 35, 5: 36, 6: 37, 7: 139, 8: 47, 9: 99, 10: 40,
@@ -149,7 +149,7 @@ class MineralProfilesSerializer(MineralTypeSerializer):
         115: 154, 116: 162,
     }
 
-    def get_images(self, obj):
+    def get_image_file(self, obj):
         if obj.pk in MineralProfilesSerializer.IMAGE_DICT.keys():
             photo_pk = MineralProfilesSerializer.IMAGE_DICT[obj.pk]
             photo = Photograph.objects.only("image_file").get(pk=photo_pk)

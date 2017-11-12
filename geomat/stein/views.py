@@ -18,6 +18,7 @@ from geomat.stein.serializers import (
     PhotographSerializer,
     QuizAnswerFullSerializer,
     QuizQuestionFullSerializer,
+    MineralProfilesSerializer
 )
 
 
@@ -230,31 +231,8 @@ class FilterPhotographList(ListFilterAPIView):
 
 # API View for the Mineraltype Profiles
 
+class MineraltypeProfiles(generics.ListAPIView):
 
-class ProfileMineraltypeview(generics.RetrieveAPIView):
     queryset = MineralType.objects.all()
-    serializer_class = MineralTypeSerializer
-    name = 'mineral-profiles'
-
-    def get(self, request, *args, **kwargs):
-
-        categories = MineralType.MINERAL_CATEGORIES
-        data = {}
-
-        for cat in categories:
-            cat_string = cat[0]
-            classification = Classification.objects.filter(
-                mineral_type__systematics=cat_string).all()
-            human_string = cat[1]
-            data[unicode(human_string)] = {}
-            for clas in classification:
-                minerals = MineralType.objects.filter(
-                    systematics=cat_string, classification=clas).all()
-
-                data[unicode(human_string)][
-                    clas.classification_name] = MineralTypeSerializer(
-                        minerals, many=True).data
-
-        return Response(data=data)
-
-
+    serializer_class = MineralProfilesSerializer
+    name = 'mineraltype-profiles'

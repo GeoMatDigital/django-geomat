@@ -132,6 +132,31 @@ class MineralTypeSerializer(serializers.ModelSerializer):
     #         images.append(StdImageField(obj.handpiece_set.get().photograph.get().image_file))
 
 
+class MineralProfilesSerializer(MineralTypeSerializer):
+
+    images = serializers.SerializerMethodField()
+    IMAGE_DICT = {
+        # Min : #Photo
+        1: 34, 2: 31, 3: 32, 4: 35, 5: 36, 6: 37, 7: 139, 8: 47, 9: 99, 10: 40,
+        11: 44, 12: 98, 13: 41, 14: 151, 15: 97, 16: 131, 18: 134, 19: 135,
+        20: 132, 21: 133, 22: 144, 25: 48, 26: 113, 28: 117, 29: 122, 30: 140, 31: 74,
+        34: 50, 35: 146, 36: 49, 37: 54, 38: 150, 39: 51, 40: 52, 41: 56, 42: 59, 44: 60,
+        46: 61, 48: 63, 49: 64, 50: 67, 51: 65, 52: 68, 53: 77, 54: 79, 55: 80, 56: 75, 57: 69,
+        58: 70, 59: 71, 60: 143, 61: 123, 62: 72, 63: 73, 64: 101, 66: 137, 67: 136, 68: 141,
+        69: 102, 70: 82, 71: 81, 83: 84, 84: 85, 85: 145, 86: 112, 87: 104, 88: 138, 89: 108,
+        90: 111, 91: 114, 92: 114, 93: 107, 96: 129, 97: 119, 98: 120, 99: 116, 100: 128,
+        101: 105, 102: 109, 104: 29, 105: 124, 106: 125, 107: 126, 108: 127, 114: 153,
+        115: 154, 116: 162,
+    }
+
+    def get_images(self, obj):
+        if obj.pk in MineralProfilesSerializer.IMAGE_DICT.keys():
+            photo_pk = MineralProfilesSerializer.IMAGE_DICT[obj.pk]
+            photo = Photograph.objects.only("image_file").get(pk=photo_pk)
+            return StdImageField().to_representation(obj=photo.image_file)
+        return {}
+
+
 class CrystalSystemSerializer(serializers.ModelSerializer):
     mineral_type = MineralTypeSerializer()
 

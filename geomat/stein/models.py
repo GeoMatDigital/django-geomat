@@ -261,7 +261,9 @@ class Photograph(models.Model):
         'medium': (900, 600),
         'small': (600, 400),
         'thumbnail': (100, 100, True),
-    })
+    },
+        db_index=True
+    )
     handpiece = models.ForeignKey(Handpiece, related_name="photograph")
     orientation = models.CharField(
         max_length=1,

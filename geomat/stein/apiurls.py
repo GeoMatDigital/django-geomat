@@ -17,11 +17,11 @@ from geomat.stein.views import (
     MineraltypeList,
     PhotographDetail,
     PhotographList,
-    ProfileMineraltypeview,
     QuizQuestionList,
     QuizAnswerList,
     QuizQuestionDetail,
     QuizAnswerDetail,
+    MineraltypeProfiles,
 )
 
 app_name = "api"
@@ -101,9 +101,9 @@ urlpatterns = [
         FilterPhotographList.as_view(),
         name=FilterPhotographList.name),
     url(
-        r'^mineral_profiles',
-        ProfileMineraltypeview.as_view(),
-        name=ProfileMineraltypeview.name
+        r'^profiles',
+        MineraltypeProfiles.as_view(),
+        name=MineraltypeProfiles.name
     ),
 ]
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json'])

@@ -69,12 +69,6 @@ class MineralType(models.Model):
         ('SF', _("splintery")),
         ('UF', _("uneven")),)
 
-    fracture = ChoiceArrayField(
-        models.CharField(
-            max_length=2,
-            choices=FRACTURE_CHOICES, ),
-        null=True,
-        verbose_name=_("fracture"))
     trivial_name = models.CharField(
         max_length=100, blank=True, verbose_name=_("trivial name"))
     systematics = models.CharField(
@@ -92,12 +86,12 @@ class MineralType(models.Model):
     streak = models.CharField(max_length=100, verbose_name=_("streak"))
     normal_color = models.CharField(
         max_length=100, verbose_name=_("normal color"))
-    cleavage = ChoiceArrayField(
+    fracture = ChoiceArrayField(
         models.CharField(
             max_length=2,
-            choices=CLEAVAGE_CHOICES, ),
+            choices=FRACTURE_CHOICES, ),
         null=True,
-        verbose_name=_("cleavage"))
+        verbose_name=_("fracture"))
     lustre = ChoiceArrayField(
         models.CharField(
             max_length=2,
@@ -132,6 +126,41 @@ class MineralType(models.Model):
 
     def __str__(self):
         return self.trivial_name
+
+
+class Cleavage(models.Model):
+    """
+    Defines a Cleavage which should be used as a ForeignKey
+    inside the Mineraltype Class.
+    """
+
+    CLEAVAGE_CHOICES = (
+        ('PE', _("perfect")),
+        ('LP', _("less perfect")),
+        ('GO', _("good")),
+        ('DI', _("distinct")),
+        ('ID', _("indistinct")),
+        ('NO', _("none")),)
+
+    cleavage = models.CharField(
+        max_length=2,
+        choices=CLEAVAGE_CHOICES,
+        verbose_name=_("cleavage"))
+
+    coordinates = models.CharField(
+        max_length=100,
+        default="",
+        blank=True,
+        verbose_name=_("coordinates")
+    )
+
+    mineral_type = models.ForeignKey(
+        MineralType,
+        blank=True,
+        null=True,
+        verbose_name=_("mineral type"),
+        related_name="cleavage"
+    )
 
 
 class CrystalSystem(models.Model):

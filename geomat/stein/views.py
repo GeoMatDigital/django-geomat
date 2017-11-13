@@ -18,6 +18,7 @@ from geomat.stein.serializers import (
     PhotographSerializer,
     QuizAnswerFullSerializer,
     QuizQuestionFullSerializer,
+    MineralProfilesSerializer
 )
 
 
@@ -28,16 +29,16 @@ class GalleryListView(ListView):
 
 def gallery_view(request):
     sorting_dict = {
-        "list1": [
-            34, 29, 31, 32, 35, 144, 99, 38, 43, 44, 40, 39, 98, 46, 41, 42,
+        "list1": (
+            34, 29, 31, 32, 35, 144, 99, 38, 44, 40, 39, 98, 46, 41, 42,
             36, 139, 37, 47, 48, 151, 152, 153, 131, 97, 132, 133, 134, 135,
             113, 126, 117, 118, 122, 140, 74, 127, 49, 46, 50, 54, 55, 52, 53,
             51, 150, 58, 56, 154, 59, 60, 61, 62, 63, 64, 67, 148, 65, 66, 68,
-            76, 77, 78, 79, 80, 75, 69, 70, 71, 143, 123, 72, 73, 124, 103,
-            102, 83, 82, 147, 81, 125, 84, 85, 145, 137, 136, 142, 141, 100,
-            101, 112, 104, 138, 108, 110, 111, 114, 115, 149, 106, 107, 119,
-            120, 116, 130, 129, 109, 105, 128
-        ],
+            76, 77, 78, 79, 80, 75, 69, 70, 71, 143, 123, 72, 73, 124, 100, 101,
+            137, 136, 142, 141, 103, 102, 83, 82, 147, 81, 125, 84, 85, 145, 112,
+            104, 138, 108, 110, 111, 114, 115, 149, 106, 107, 119, 120, 116, 130,
+            129, 109, 105, 128,
+        ),
     }
     sorted_photo_list_dict = {}
     for name, id_list in sorting_dict.items():
@@ -230,31 +231,8 @@ class FilterPhotographList(ListFilterAPIView):
 
 # API View for the Mineraltype Profiles
 
+class MineraltypeProfiles(generics.ListAPIView):
 
-class ProfileMineraltypeview(generics.RetrieveAPIView):
     queryset = MineralType.objects.all()
-    serializer_class = MineralTypeSerializer
-    name = 'mineral-profiles'
-
-    def get(self, request, *args, **kwargs):
-
-        categories = MineralType.MINERAL_CATEGORIES
-        data = {}
-
-        for cat in categories:
-            cat_string = cat[0]
-            classification = Classification.objects.filter(
-                mineral_type__systematics=cat_string).all()
-            human_string = cat[1]
-            data[unicode(human_string)] = {}
-            for clas in classification:
-                minerals = MineralType.objects.filter(
-                    systematics=cat_string, classification=clas).all()
-
-                data[unicode(human_string)][
-                    clas.classification_name] = MineralTypeSerializer(
-                        minerals, many=True).data
-
-        return Response(data=data)
-
-
+    serializer_class = MineralProfilesSerializer
+    name = 'mineraltype-profiles'

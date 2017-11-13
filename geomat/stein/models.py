@@ -62,6 +62,12 @@ class MineralType(models.Model):
         ('SM', _("submetallic lustre")),
         ('VT', _("vitreous lustre")),
         ('WY', _("waxy lustre")), )
+    FRACTURE_CHOICES = (
+        ('CF', _("conchoidal")),
+        ('EF', _("earthy")),
+        ('HF', _("hackly")),
+        ('SF', _("splintery")),
+        ('UF', _("uneven")),)
 
     trivial_name = models.CharField(
         max_length=100, blank=True, verbose_name=_("trivial name"))
@@ -80,12 +86,12 @@ class MineralType(models.Model):
     streak = models.CharField(max_length=100, verbose_name=_("streak"))
     normal_color = models.CharField(
         max_length=100, verbose_name=_("normal color"))
-    cleavage = ChoiceArrayField(
+    fracture = ChoiceArrayField(
         models.CharField(
             max_length=2,
-            choices=CLEAVAGE_CHOICES, ),
+            choices=FRACTURE_CHOICES, ),
         null=True,
-        verbose_name=_("cleavage"))
+        verbose_name=_("fracture"))
     lustre = ChoiceArrayField(
         models.CharField(
             max_length=2,
@@ -110,6 +116,7 @@ class MineralType(models.Model):
         blank=True,
         verbose_name=_('classification'),
         related_name="mineral_type")
+
     class Meta:
         verbose_name = _("mineral type")
         verbose_name_plural = _("mineral types")
@@ -121,48 +128,39 @@ class MineralType(models.Model):
         return self.trivial_name
 
 
-class Fracture(models.Model):
+class Cleavage(models.Model):
     """
-    Defines teh Fracture containing the name/ short name
-    and the Lattice koordinates in which direction the Fracture occurs.
+    Defines a Cleavage which should be used as a ForeignKey
+    inside the Mineraltype Class.
     """
 
-    FRACTURE_CHOICES = (
-        ('CF', _("conchoidal")),
-        ('EF', _("earthy")),
-        ('HF', _("hackly")),
-        ('SF', _("splintery")),
-        ('UF', _("uneven")), )
-    fracture = models.CharField(
+    CLEAVAGE_CHOICES = (
+        ('PE', _("perfect")),
+        ('LP', _("less perfect")),
+        ('GO', _("good")),
+        ('DI', _("distinct")),
+        ('ID', _("indistinct")),
+        ('NO', _("none")),)
+
+    cleavage = models.CharField(
         max_length=2,
-        choices=FRACTURE_CHOICES,
-        verbose_name=_("fracture"),
-        null=True)
+        choices=CLEAVAGE_CHOICES,
+        verbose_name=_("cleavage"))
+
     coordinates = models.CharField(
-        max_length=20,
-        verbose_name=_("coordinates"),
-        null=True,
+        max_length=100,
+        default="",
         blank=True,
-        help_text="Enter Coordinates as Following : {x,y,z,a} with the curly braces.")
+        verbose_name=_("coordinates")
+    )
+
     mineral_type = models.ForeignKey(
         MineralType,
-        verbose_name=_("mineraltype"),
-        null=True,
         blank=True,
-        related_name="fracture")
-# class Classification(models.Model):
-#     """
-#     Defines a classification field which can be added as a ForeignKey to the MineralType class.
-#     """
-#     # mineral_type = models.ForeignKey(
-#     #     MineralType, null=True, verbose_name=_('mineral type'), related_name="classification")
-#     classification_name = models.CharField(
-#         max_length=100, blank=True, verbose_name=_("classification"))
-#
-#
-#     class Meta:
-#         verbose_name = _("Classification")
-#         verbose_name_plural = _("Classifications")
+        null=True,
+        verbose_name=_("mineral type"),
+        related_name="cleavage"
+    )
 
 
 class CrystalSystem(models.Model):
@@ -263,7 +261,9 @@ class Photograph(models.Model):
         'medium': (900, 600),
         'small': (600, 400),
         'thumbnail': (100, 100, True),
-    })
+    },
+        db_index=True
+    )
     handpiece = models.ForeignKey(Handpiece, related_name="photograph")
     orientation = models.CharField(
         max_length=1,

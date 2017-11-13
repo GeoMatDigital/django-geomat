@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-09-28 09:57+0200\n"
-"PO-Revision-Date: 2017-09-28 09:57+0053\n"
-"Last-Translator:   <mgecht@asd.de>\n"
+"PO-Revision-Date: 2017-11-09 11:21+0053\n"
+"Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -80,84 +80,84 @@ msgstr "Silikate und Germanate"
 msgid "Organic Compounds"
 msgstr "Organische Verbindungen"
 
-#: geomat/stein/models.py:49
-msgid "Conchoidal"
-msgstr "Muschelig"
+#: geomat/stein/models.py:137
+msgid "conchoidal"
+msgstr "muschelig"
 
-#: geomat/stein/models.py:50
-msgid "Earthy"
-msgstr "Erdig"
+#: geomat/stein/models.py:138
+msgid "earthy"
+msgstr "erdig"
 
-#: geomat/stein/models.py:51
-msgid "Hackly"
-msgstr "Hakig"
+#: geomat/stein/models.py:139
+msgid "hackly"
+msgstr "hakig"
 
-#: geomat/stein/models.py:52
-msgid "Splintery"
-msgstr "Splitterig"
+#: geomat/stein/models.py:140
+msgid "splintery"
+msgstr "splitterig"
 
-#: geomat/stein/models.py:53
-msgid "Uneven"
-msgstr "Uneben"
+#: geomat/stein/models.py:141
+msgid "uneven"
+msgstr "uneben"
 
 #: geomat/stein/models.py:55
-msgid "Perfect"
-msgstr "Höchst vollkommen"
+msgid "perfect"
+msgstr "höchst vollkommen"
 
 #: geomat/stein/models.py:56
-msgid "Less perfect"
-msgstr "Vollkommen"
+msgid "less perfect"
+msgstr "vollkommen"
 
 #: geomat/stein/models.py:57
-msgid "Good"
-msgstr "Gut"
+msgid "good"
+msgstr "gut"
 
 #: geomat/stein/models.py:58
-msgid "Distinct"
-msgstr "Deutlich"
+msgid "distinct"
+msgstr "deutlich"
 
 #: geomat/stein/models.py:59
-msgid "Indistinct"
-msgstr "Undeutlich"
+msgid "indistinct"
+msgstr "undeutlich"
 
 #: geomat/stein/models.py:60
-msgid "None"
-msgstr "keine Spaltbarkeit"
+msgid "none"
+msgstr "keine"
 
 #: geomat/stein/models.py:62
-msgid "Adamantine"
+msgid "adamantine lustre"
 msgstr "Diamantglanz"
 
 #: geomat/stein/models.py:63
-msgid "Dull"
-msgstr "Matt"
+msgid "dull lustre"
+msgstr "Mattglanz"
 
 #: geomat/stein/models.py:64
-msgid "Greasy"
+msgid "greasy lustre"
 msgstr "Fettglanz"
 
 #: geomat/stein/models.py:65
-msgid "Metallic"
+msgid "metallic lustre"
 msgstr "Metallglanz"
 
 #: geomat/stein/models.py:66
-msgid "Pearly"
+msgid "pearly lustre"
 msgstr "Perlmuttglanz"
 
 #: geomat/stein/models.py:67
-msgid "Silky"
+msgid "silky lustre"
 msgstr "Seidenglanz"
 
 #: geomat/stein/models.py:68
-msgid "Submetallic"
+msgid "submetallic lustre"
 msgstr "Halbmetallglanz"
 
 #: geomat/stein/models.py:69
-msgid "Vitreous"
+msgid "vitreous lustre"
 msgstr "Glasglanz"
 
 #: geomat/stein/models.py:70
-msgid "Waxy"
+msgid "waxy lustre"
 msgstr "Wachsglanz"
 
 #: geomat/stein/models.py:73

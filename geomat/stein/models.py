@@ -45,30 +45,29 @@ class MineralType(models.Model):
         ('PV', _("Phosphates, Arsenates & Vanadates")),
         ('SG', _("Silicates & Germanates")),
         ('OC', _("Organic Compounds")), )
-
-    FRACTURE_CHOICES = (
-        ('CF', _("Conchoidal")),
-        ('EF', _("Earthy")),
-        ('HF', _("Hackly")),
-        ('SF', _("Splintery")),
-        ('UF', _("Uneven")), )
     CLEAVAGE_CHOICES = (
-        ('PE', _("Perfect")),
-        ('LP', _("Less perfect")),
-        ('GO', _("Good")),
-        ('DI', _("Distinct")),
-        ('ID', _("Indistinct")),
-        ('NO', _("None")), )
+        ('PE', _("perfect")),
+        ('LP', _("less perfect")),
+        ('GO', _("good")),
+        ('DI', _("distinct")),
+        ('ID', _("indistinct")),
+        ('NO', _("none")), )
     LUSTRE_CHOICES = (
-        ('AM', _("Adamantine")),
-        ('DL', _("Dull")),
-        ('GR', _("Greasy")),
-        ('MT', _("Metallic")),
-        ('PY', _("Pearly")),
-        ('SL', _("Silky")),
-        ('SM', _("Submetallic")),
-        ('VT', _("Vitreous")),
-        ('WY', _("Waxy")), )
+        ('AM', _("adamantine lustre")),
+        ('DL', _("dull lustre")),
+        ('GR', _("greasy lustre")),
+        ('MT', _("metallic lustre")),
+        ('PY', _("pearly lustre")),
+        ('SL', _("silky lustre")),
+        ('SM', _("submetallic lustre")),
+        ('VT', _("vitreous lustre")),
+        ('WY', _("waxy lustre")), )
+    FRACTURE_CHOICES = (
+        ('CF', _("conchoidal")),
+        ('EF', _("earthy")),
+        ('HF', _("hackly")),
+        ('SF', _("splintery")),
+        ('UF', _("uneven")),)
 
     trivial_name = models.CharField(
         max_length=100, blank=True, verbose_name=_("trivial name"))
@@ -91,14 +90,8 @@ class MineralType(models.Model):
         models.CharField(
             max_length=2,
             choices=FRACTURE_CHOICES, ),
-        verbose_name=_("fracture"),
-        null=True)
-    cleavage = ChoiceArrayField(
-        models.CharField(
-            max_length=2,
-            choices=CLEAVAGE_CHOICES, ),
         null=True,
-        verbose_name=_("cleavage"))
+        verbose_name=_("fracture"))
     lustre = ChoiceArrayField(
         models.CharField(
             max_length=2,
@@ -123,6 +116,7 @@ class MineralType(models.Model):
         blank=True,
         verbose_name=_('classification'),
         related_name="mineral_type")
+
     class Meta:
         verbose_name = _("mineral type")
         verbose_name_plural = _("mineral types")
@@ -134,19 +128,39 @@ class MineralType(models.Model):
         return self.trivial_name
 
 
-# class Classification(models.Model):
-#     """
-#     Defines a classification field which can be added as a ForeignKey to the MineralType class.
-#     """
-#     # mineral_type = models.ForeignKey(
-#     #     MineralType, null=True, verbose_name=_('mineral type'), related_name="classification")
-#     classification_name = models.CharField(
-#         max_length=100, blank=True, verbose_name=_("classification"))
-#
-#
-#     class Meta:
-#         verbose_name = _("Classification")
-#         verbose_name_plural = _("Classifications")
+class Cleavage(models.Model):
+    """
+    Defines a Cleavage which should be used as a ForeignKey
+    inside the Mineraltype Class.
+    """
+
+    CLEAVAGE_CHOICES = (
+        ('PE', _("perfect")),
+        ('LP', _("less perfect")),
+        ('GO', _("good")),
+        ('DI', _("distinct")),
+        ('ID', _("indistinct")),
+        ('NO', _("none")),)
+
+    cleavage = models.CharField(
+        max_length=2,
+        choices=CLEAVAGE_CHOICES,
+        verbose_name=_("cleavage"))
+
+    coordinates = models.CharField(
+        max_length=100,
+        default="",
+        blank=True,
+        verbose_name=_("coordinates")
+    )
+
+    mineral_type = models.ForeignKey(
+        MineralType,
+        blank=True,
+        null=True,
+        verbose_name=_("mineral type"),
+        related_name="cleavage"
+    )
 
 
 class CrystalSystem(models.Model):
@@ -247,7 +261,9 @@ class Photograph(models.Model):
         'medium': (900, 600),
         'small': (600, 400),
         'thumbnail': (100, 100, True),
-    })
+    },
+        db_index=True
+    )
     handpiece = models.ForeignKey(Handpiece, related_name="photograph")
     orientation = models.CharField(
         max_length=1,
@@ -338,10 +354,12 @@ class QuizAnswer(models.Model):
     correct = models.BooleanField(verbose_name=_("correct"),
                                   help_text="Nothing yet.")
     feedback_correct = models.CharField(max_length=500,
-                                        null=True,
+                                        default="",
+                                        blank=True,
                                         verbose_name=_("feedback if answered correctly"))
     feedback_incorrect = models.CharField(max_length=500,
-                                          null=True,
+                                          default="",
+                                          blank=True,
                                           verbose_name=_("feedback if answered incorrectly"))
     question = models.ForeignKey(QuizQuestion,
                                  null=True,

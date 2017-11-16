@@ -2,25 +2,33 @@
 """Views file for stein app"""
 import ast
 
+from django.db.models import Count
 from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.views.generic.list import ListView
-from django.db.models import Count
 from rest_framework import generics
 from rest_framework.response import Response
 
-from geomat.stein.models import Classification, CrystalSystem, Handpiece, MineralType, Photograph, QuizQuestion, QuizAnswer, \
-    GlossaryEntry
+from geomat.stein.models import (
+    Classification,
+    CrystalSystem,
+    GlossaryEntry,
+    Handpiece,
+    MineralType,
+    Photograph,
+    QuizAnswer,
+    QuizQuestion
+)
 from geomat.stein.serializers import (
     ClassificationSerializer,
     CrystalSystemSerializer,
+    GlossaryEntrySerializer,
     HandpieceSerializer,
+    MineralProfilesSerializer,
     MineralTypeSerializer,
     PhotographSerializer,
     QuizAnswerFullSerializer,
-    QuizQuestionFullSerializer,
-    MineralProfilesSerializer,
-    GlossaryEntrySerializer
+    QuizQuestionFullSerializer
 )
 
 
@@ -31,19 +39,17 @@ class GalleryListView(ListView):
 
 def gallery_view(request):
     sorting_dict = {
-        "list1": (
-            34, 29, 31, 32, 35, 144, 99, 38, 44, 40, 39, 98, 46, 41, 42,
-            36, 139, 37, 47, 48, 151, 152, 153, 131, 97, 132, 133, 134, 135,
-            113, 126, 117, 118, 122, 140, 74, 127, 49, 46, 50, 54, 55, 52, 53,
-            51, 150, 58, 56, 154, 59, 60, 61, 62, 63, 64, 67, 148, 65, 66, 68,
-            76, 77, 78, 79, 80, 75, 69, 70, 71, 143, 123, 72, 73, 124, 100, 101,
-            137, 136, 142, 141, 103, 102, 83, 82, 147, 81, 125, 84, 85, 145, 112,
-            104, 138, 108, 110, 111, 114, 115, 149, 106, 107, 119, 120, 116, 130,
-            129, 109, 105, 128,
-        ),
+        "list1":
+        (34, 29, 31, 32, 35, 144, 99, 38, 44, 40, 39, 98, 46, 41, 42, 36, 139,
+         37, 47, 48, 151, 152, 153, 131, 97, 132, 133, 134, 135, 113, 126, 117,
+         118, 122, 140, 74, 127, 49, 46, 50, 54, 55, 52, 53, 51, 150, 58, 56,
+         154, 59, 60, 61, 62, 63, 64, 67, 148, 65, 66, 68, 76, 77, 78, 79, 80,
+         75, 69, 70, 71, 143, 123, 72, 73, 124, 100, 101, 137, 136, 142, 141,
+         103, 102, 83, 82, 147, 81, 125, 84, 85, 145, 112, 104, 138, 108, 110,
+         111, 114, 115, 149, 106, 107, 119, 120, 116, 130, 129, 109, 105, 128),
     }
     sorted_photo_list_dict = {}
-    for name, id_list in sorting_dict.items():
+    for name, id_list in list(sorting_dict.items()):
         all_photos = list(Photograph.objects.filter(pk__in=id_list))
         all_photos.sort(key=lambda x: id_list.index(x.pk))
         sorted_photo_list_dict["{}".format(name)] = all_photos
@@ -139,6 +145,7 @@ class QuizAnswerDetail(generics.RetrieveAPIView):
     serializer_class = QuizAnswerFullSerializer
     name = 'quizanswer'
 
+
 # API List views
 
 
@@ -156,7 +163,7 @@ class CrystalsystemList(generics.ListAPIView):
 
 class MineraltypeList(generics.ListAPIView):
 
-#    queryset = MineralType.objects.annotate(handpiece_count=Count('handpiece')).all()
+    #    queryset = MineralType.objects.annotate(handpiece_count=Count('handpiece')).all()
     queryset = MineralType.objects.all()
     serializer_class = MineralTypeSerializer
     name = 'mineraltype-list'
@@ -232,18 +239,14 @@ class FilterPhotographList(ListFilterAPIView):
 
 
 # API View for the Mineraltype Profiles
-
 class MineraltypeProfiles(generics.ListAPIView):
-
     queryset = MineralType.objects.all()
     serializer_class = MineralProfilesSerializer
     name = 'mineraltype-profiles'
 
 
 # Api View for the Glossary
-
 class GlossaryView(generics.ListAPIView):
-
     queryset = GlossaryEntry.objects.all()
     serializer_class = GlossaryEntrySerializer
     name = 'glossary'

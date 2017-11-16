@@ -41,8 +41,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'GU Geomat'
-copyright = u"2015, Michael Gecht"
+project = 'GU Geomat'
+copyright = "2015, Michael Gecht"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -186,8 +186,8 @@ latex_elements = {
 latex_documents = [
     ('index',
      'geomat.tex',
-     u'GU Geomat Documentation',
-     u"Michael Gecht", 'manual'),
+     'GU Geomat Documentation',
+     "Michael Gecht", 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -216,8 +216,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'geomat', u'GU Geomat Documentation',
-     [u"Michael Gecht"], 1)
+    ('index', 'geomat', 'GU Geomat Documentation',
+     ["Michael Gecht"], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -230,8 +230,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    ('index', 'geomat', u'GU Geomat Documentation',
-     u"Michael Gecht", 'GU Geomat',
+    ('index', 'geomat', 'GU Geomat Documentation',
+     "Michael Gecht", 'GU Geomat',
      'Geomat - Datenbank fuer die Lehre', 'Miscellaneous'),
 ]
 

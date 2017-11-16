@@ -19,11 +19,11 @@ def convert(input):
     if isinstance(input, dict):
         return {
             convert(key): convert(value)
-            for key, value in input.iteritems()
+            for key, value in list(input.items())
         }
     elif isinstance(input, list):
         return [convert(element) for element in input]
-    elif isinstance(input, unicode):
+    elif isinstance(input, str):
         return input.encode('utf-8')
     else:
         return input
@@ -748,7 +748,7 @@ class FilterApiViewTestCase(TestCase):
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         print(response_dict)
-        print(self.mineraltype_one_dict)
+        print((self.mineraltype_one_dict))
         assert self.mineraltype_one_dict in response_dict
         assert len(response_dict) == 1
 

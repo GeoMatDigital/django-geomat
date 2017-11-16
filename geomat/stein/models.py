@@ -198,7 +198,7 @@ class CrystalSystem(models.Model):
         verbose_name_plural = _("Crystal Systems")
 
     def __unicode__(self):
-        return self.mineral_type.minerals + u" " + u"(" + self.crystal_system + u")"
+        return self.mineral_type.minerals + " " + "(" + self.crystal_system + ")"
 
 
 class Handpiece(models.Model):

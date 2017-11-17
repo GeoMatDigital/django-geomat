@@ -9,7 +9,8 @@ from django.db.models import Count
 from rest_framework import generics
 from rest_framework.response import Response
 
-from geomat.stein.models import Classification, CrystalSystem, Handpiece, MineralType, Photograph, QuizQuestion, QuizAnswer
+from geomat.stein.models import Classification, CrystalSystem, Handpiece, MineralType, Photograph, QuizQuestion, QuizAnswer, \
+    GlossaryEntry
 from geomat.stein.serializers import (
     ClassificationSerializer,
     CrystalSystemSerializer,
@@ -18,7 +19,8 @@ from geomat.stein.serializers import (
     PhotographSerializer,
     QuizAnswerFullSerializer,
     QuizQuestionFullSerializer,
-    MineralProfilesSerializer
+    MineralProfilesSerializer,
+    GlossaryEntrySerializer
 )
 
 
@@ -236,3 +238,12 @@ class MineraltypeProfiles(generics.ListAPIView):
     queryset = MineralType.objects.all()
     serializer_class = MineralProfilesSerializer
     name = 'mineraltype-profiles'
+
+
+# Api View for the Glossary
+
+class GlossaryView(generics.ListAPIView):
+
+    queryset = GlossaryEntry.objects.all()
+    serializer_class = GlossaryEntrySerializer
+    name = 'glossary'

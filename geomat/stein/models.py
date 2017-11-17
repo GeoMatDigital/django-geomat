@@ -297,10 +297,6 @@ class GlossaryEntry(models.Model):
                               )
     description = models.TextField(verbose_name=_("description"),
                                    null=True)
-    examples = ArrayField(base_field=models.TextField(),
-                          verbose_name=_("examples"),
-                          null=True,
-                          )
 
     class Meta:
         verbose_name = _("Glossary Entry")

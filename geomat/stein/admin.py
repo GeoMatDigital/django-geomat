@@ -95,7 +95,6 @@ admin.site.register(Classification, ClassificationAdmin)
 
 class GlossaryEntryAdmin(admin.ModelAdmin):
     list_display = ('id', 'header', 'description')
-    form = GlossaryEntryModelForm
 
 
 admin.site.register(GlossaryEntry, GlossaryEntryAdmin)

@@ -2,7 +2,7 @@
 from rest_framework import serializers
 
 from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph, Classification, QuizQuestion,\
-    QuizAnswer, Cleavage
+    QuizAnswer, Cleavage, GlossaryEntry
 
 
 class StdImageField(serializers.ImageField):
@@ -232,3 +232,10 @@ class QuizQuestionFullSerializer(serializers.ModelSerializer):
     def get_qtype(self, obj):
         choice_dict = dict(obj.QTYPE_CHOICES)
         return choice_dict.get(obj.qtype)
+
+
+class GlossaryEntrySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = GlossaryEntry
+        fields = '__all__'

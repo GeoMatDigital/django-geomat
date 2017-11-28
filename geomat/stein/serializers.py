@@ -32,7 +32,7 @@ class StdImageField(serializers.ImageField):
             # Get the variations
             variations = field.variations
             # Go through the variations dict
-            for key in variations.keys():
+            for key in list(variations.keys()):
                 # Just to be sure if the stdimage object has it stored in the obj
                 if hasattr(obj, key):
                     # get the by stdimage properties
@@ -150,7 +150,7 @@ class MineralProfilesSerializer(MineralTypeSerializer):
     }
 
     def get_image_file(self, obj):
-        if obj.pk in MineralProfilesSerializer.IMAGE_DICT.keys():
+        if obj.pk in list(MineralProfilesSerializer.IMAGE_DICT.keys()):
             photo_pk = MineralProfilesSerializer.IMAGE_DICT[obj.pk]
             photo = Photograph.objects.only("image_file").get(pk=photo_pk)
             return StdImageField().to_representation(obj=photo.image_file)

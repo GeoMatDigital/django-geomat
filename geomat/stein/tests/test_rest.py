@@ -1,5 +1,6 @@
 """Tests for the REST framework"""
 import json
+import tempfile
 from pprint import pprint
 
 import pytest
@@ -8,9 +9,8 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph, Classification
+from geomat.stein.models import Classification, CrystalSystem, Handpiece, MineralType, Photograph
 from geomat.stein.serializers import StdImageField
-
 
 # Helper functions
 
@@ -19,11 +19,11 @@ def convert(input):
     if isinstance(input, dict):
         return {
             convert(key): convert(value)
-            for key, value in input.iteritems()
+            for key, value in list(input.items())
         }
     elif isinstance(input, list):
         return [convert(element) for element in input]
-    elif isinstance(input, unicode):
+    elif isinstance(input, str):
         return input.encode('utf-8')
     else:
         return input
@@ -49,11 +49,12 @@ class ApiViewTestCase(TestCase):
         self.crystalsystem_two = CrystalSystem.objects.create(
             crystal_system="HT", temperature=92)
 
+        image = tempfile.NamedTemporaryFile(suffix='.jpg').name
         self.photograph_one = Photograph.objects.create(
-            handpiece=self.handpiece_one, online_status=True)
+            handpiece=self.handpiece_one, image_file=image, online_status=True)
         # Second test photograph since we also test ListViews
         self.photograph_two = Photograph.objects.create(
-            handpiece=self.handpiece_two, online_status=True)
+            handpiece=self.handpiece_two, image_file=image, online_status=True)
 
         self.mineraltype_one = MineralType.objects.create(
             trivial_name="testmineraltype", minerals="many minerals")
@@ -403,10 +404,16 @@ class FilterApiViewTestCase(TestCase):
         # we need at least 2 objects of each  model to be sure that it actually filters
 
         self.client = APIClient()
-        self.classification_one = Classification.objects.create(classification_name="classi one")
-        self.classification_one_dict = {'classification_name': "classi one", }
-        self.classification_two = Classification.objects.create(classification_name="classi two")
-        self.classification_two_dict = {'classification_name': "classi two", }
+        self.classification_one = Classification.objects.create(
+            classification_name="classi one")
+        self.classification_one_dict = {
+            'classification_name': "classi one",
+        }
+        self.classification_two = Classification.objects.create(
+            classification_name="classi two")
+        self.classification_two_dict = {
+            'classification_name': "classi two",
+        }
 
         self.mineraltype_one = MineralType.objects.create(
             trivial_name="testmineral one",
@@ -423,8 +430,7 @@ class FilterApiViewTestCase(TestCase):
             chemical_formula="CHEMONE",
             other="other one",
             resource_mindat="mindat one",
-            resource_mineralienatlas="atlas one",
-        )
+            resource_mineralienatlas="atlas one", )
         self.mineraltype_one.classification = self.classification_one
         self.mineraltype_one.save()
         self.mineraltype_one_dict = {
@@ -450,7 +456,7 @@ class FilterApiViewTestCase(TestCase):
             'cleavage': ["PE"],
             'lustre': ["AM"],
             'chemical_formula':
-                "`CHEMONE`",
+            "`CHEMONE`",
             'other':
             "other one",
             'resource_mindat':
@@ -462,7 +468,8 @@ class FilterApiViewTestCase(TestCase):
             'last_modified':
             self.mineraltype_one.last_modified.isoformat().replace(
                 '+00:00', 'Z'),
-            "classification": self.classification_one_dict
+            "classification":
+            self.classification_one_dict
         }
         self.mineraltype_two = MineralType.objects.create(
             trivial_name="testmineral two",
@@ -504,7 +511,7 @@ class FilterApiViewTestCase(TestCase):
             'cleavage': ["DI"],
             'lustre': ["DL"],
             'chemical_formula':
-                "`CHEMTWO`",
+            "`CHEMTWO`",
             'other':
             "other two",
             'resource_mindat':
@@ -516,7 +523,8 @@ class FilterApiViewTestCase(TestCase):
             'last_modified':
             self.mineraltype_two.last_modified.isoformat().replace(
                 '+00:00', 'Z'),
-            "classification": self.classification_two_dict
+            "classification":
+            self.classification_two_dict
         }
 
         self.crystalsystem_one = CrystalSystem.objects.create(
@@ -740,7 +748,7 @@ class FilterApiViewTestCase(TestCase):
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         print(response_dict)
-        print(self.mineraltype_one_dict)
+        print((self.mineraltype_one_dict))
         assert self.mineraltype_one_dict in response_dict
         assert len(response_dict) == 1
 

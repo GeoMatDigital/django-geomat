@@ -1,0 +1,12 @@
+#editor-output-label {
+  font-weight: bold;
+}
+
+#editor-output {
+  margin-left: 170px;
+  padding: 10px;
+}
+
+#editor > input {
+  width: 40%;
+}

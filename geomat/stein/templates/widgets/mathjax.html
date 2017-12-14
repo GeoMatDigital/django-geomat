@@ -1,0 +1,5 @@
+<div id="editor">
+  <input v-model="input" type="{{ widget.type }}" name="{{ widget.name }}"{% if widget.value != None %} value="{{ widget.value|stringformat:'s' }}"{% endif %}{% include "django/forms/widgets/attrs.html" %} />
+  <div id="editor-output-label">Live preview:</div>
+  <div v-html="output" id="editor-output"></div>
+</div>

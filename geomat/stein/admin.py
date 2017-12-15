@@ -1,12 +1,19 @@
-from __future__ import unicode_literals
-
 from django.contrib import admin
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
-from geomat.stein.forms import GlossaryEntryModelForm
 
-from geomat.stein.models import (Classification, CrystalSystem, Handpiece, MineralType, Photograph, GlossaryEntry,
-                                 QuizQuestion, QuizAnswer, Cleavage)
+from geomat.stein.forms import GlossaryEntryModelForm, MineralTypeAdminForm
+from geomat.stein.models import (
+    Classification,
+    Cleavage,
+    CrystalSystem,
+    GlossaryEntry,
+    Handpiece,
+    MineralType,
+    Photograph,
+    QuizAnswer,
+    QuizQuestion
+)
 
 
 class CleavageInline(admin.TabularInline):
@@ -65,14 +72,12 @@ admin.site.register(CrystalSystem, CrystallSystemAdmin)
 
 
 class MineralTypeAdmin(admin.ModelAdmin):
+    form = MineralTypeAdminForm
     list_display = ('trivial_name', 'classification', 'systematics', 'variety',
                     'minerals', 'mohs_scale', 'created_at', 'last_modified',
                     'id')
 
-    inlines = [
-        CrystalSystemInline,
-        CleavageInline
-    ]
+    inlines = [CrystalSystemInline, CleavageInline]
 
 
 admin.site.register(MineralType, MineralTypeAdmin)
@@ -129,9 +134,7 @@ admin.site.register(QuizAnswer, QuizAnswerAdmin)
 
 class QuizQuestionAdmin(admin.ModelAdmin):
     list_display = ('id', 'tags', 'difficulty', 'qtype')
-    inlines = [
-        QuizAnswerInline
-    ]
+    inlines = [QuizAnswerInline]
 
 
 admin.site.register(QuizQuestion, QuizQuestionAdmin)

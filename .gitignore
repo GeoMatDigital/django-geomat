@@ -1,16 +1,9 @@
-### OSX ###
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# project files should be checked into the repository, unless a significant
-# proportion of contributors will probably not be using SublimeText
-# *.sublime-project
-
 # Basics
 *.py[cod]
 *.pyc
 __pycache__
+.cache
+.local
 
 # Logs
 *.log
@@ -38,3 +31,6 @@ htmlcov
 
 # User-uploaded media
 geomat/media/
+
+# OSX
+.DS_Store

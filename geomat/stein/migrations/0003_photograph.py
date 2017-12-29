@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('online_status', models.BooleanField(default=False, verbose_name='active photograph?')),
                 ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='created at')),
                 ('last_modified', models.DateTimeField(auto_now=True, verbose_name='last modified')),
-                ('handpiece', models.ForeignKey(to='stein.Handpiece')),
+                ('handpiece', models.ForeignKey(on_delete=models.deletion.CASCADE, to='stein.Handpiece')),
             ],
         ),
     ]

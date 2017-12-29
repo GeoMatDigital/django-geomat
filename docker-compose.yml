@@ -23,7 +23,6 @@ services:
       - .:/app
     depends_on:
       - db
-      - assets
     links:
       - db
     ports:

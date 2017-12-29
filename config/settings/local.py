@@ -25,7 +25,6 @@ ALLOWED_HOSTS = ['192.168.99.100', 'localhost']
 # ------------------------------------------------------------------------------
 
 EMAIL_PORT = 1025
-
 EMAIL_HOST = 'localhost'
 EMAIL_BACKEND = env(
     'DJANGO_EMAIL_BACKEND',
@@ -36,9 +35,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'db_app',
-        'USER': 'db_user',
+        'USER': 'postgres' if env('TRAVIS_CI', default=False) else 'db_user',
         'PASSWORD': 'db_pass',
-        'HOST': 'db',
+        'HOST': 'db' if env('INSIDE_DOCKER', default=False) else 'localhost',
         'PORT': 5432,
     }
 }
@@ -62,8 +61,9 @@ INTERNAL_IPS = [
     '10.0.2.2',
     '192.168.99.100',
 ]
-# tricks to have debug toolbar when developing with docker
-if os.environ.get('USE_DOCKER') == 'yes':
+
+# Fix django-debug-toolbar when running Django in a Docker container
+if env('INSIDE_DOCKER', default=False):
     ip = socket.gethostbyname(socket.gethostname())
     INTERNAL_IPS += [ip[:-1] + "1"]
 

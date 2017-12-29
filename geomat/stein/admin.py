@@ -12,7 +12,7 @@ from geomat.stein.models import (
     MineralType,
     Photograph,
     QuizAnswer,
-    QuizQuestion
+    QuizQuestion,
 )
 
 

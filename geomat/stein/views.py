@@ -17,7 +17,7 @@ from geomat.stein.models import (
     MineralType,
     Photograph,
     QuizAnswer,
-    QuizQuestion
+    QuizQuestion,
 )
 from geomat.stein.serializers import (
     ClassificationSerializer,
@@ -28,7 +28,7 @@ from geomat.stein.serializers import (
     MineralTypeSerializer,
     PhotographSerializer,
     QuizAnswerFullSerializer,
-    QuizQuestionFullSerializer
+    QuizQuestionFullSerializer,
 )
 
 
@@ -66,28 +66,30 @@ class ListFilterAPIView(generics.ListAPIView):
     """ A View which creates a filters dict and returns a List of objects matching alle given Filters.
         View only for Retrieving Data."""
     varchar_fields = (
-    )  # Tupel containing all modelfileds which are varcharfields
-    int_fields = ()  # Tupel containing all modelfileds which are integerfields
+    )    # Tupel containing all modelfileds which are varcharfields
+    int_fields = (
+    )    # Tupel containing all modelfileds which are integerfields
     model_fields = (
-    )  # Tupel containing all modelfileds which are Model relation fields those are also ints
+    )    # Tupel containing all modelfileds which are Model relation fields those are also ints
 
     def get_filters(self):
         """ Method which creates the filters dict.
         Matches the given Parameters from the request with the allowed lookup_fields, and only maps non-empty fields.
         """
         filters = {}
-        for field in self.lookup_field:  # goes on for every field we defined as lookup_field
+        for field in self.lookup_field:    # goes on for every field we defined as lookup_field
             if self.request.GET.get(field, None):
-                if field in self.varchar_fields:  # we do not want the filter to contain "empty" fields
+                if field in self.varchar_fields:    # we do not want the filter to contain "empty" fields
                     filters[field] = ast.literal_eval(
                         self.request.GET.get(field, None))
-                elif field in self.int_fields:  # Modelreferences are searched by pk
+                elif field in self.int_fields:    # Modelreferences are searched by pk
                     filters[field] = int(self.request.GET.get(field, None))
                 elif field in self.model_fields:
                     filters[field] = int(self.request.GET.get(field, None))
                 else:
                     filters[field] = self.request.GET.get(
-                        field, None)  # get the value of the field from request
+                        field,
+                        None)    # get the value of the field from request
 
         return filters
 
@@ -241,8 +243,29 @@ class FilterPhotographList(ListFilterAPIView):
 # API View for the Mineraltype Profiles
 class MineraltypeProfiles(generics.ListAPIView):
     queryset = MineralType.objects.all()
-    serializer_class = MineralProfilesSerializer
-    name = 'mineraltype-profiles'
+    serializer_class = MineralTypeSerializer
+    name = 'mineral-profiles'
+
+    def get(self, request, *args, **kwargs):
+
+        categories = MineralType.MINERAL_CATEGORIES
+        data = {}
+
+        for cat in categories:
+            cat_string = cat[0]
+            classification = Classification.objects.filter(
+                mineral_type__systematics=cat_string).all()
+            human_string = cat[1]
+            data[str(human_string)] = {}
+            for clas in classification:
+                minerals = MineralType.objects.filter(
+                    systematics=cat_string, classification=clas).all()
+
+                data[str(human_string)][
+                    clas.classification_name] = MineralTypeSerializer(
+                        minerals, many=True).data
+
+        return Response(data=data)
 
 
 # Api View for the Glossary

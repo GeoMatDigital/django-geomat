@@ -19,7 +19,7 @@ urlpatterns = [
     url(r'^preview/', RedirectView.as_view(pattern_name='home')),
 
     # Django Admin, use {% url 'admin:index' %}
-    url(settings.ADMIN_URL, include(admin.site.urls)),
+    url(settings.ADMIN_URL, admin.site.urls),
 
     # Documentation for the REST API
     url(r'^api-docs/', include_docs_urls(title='GeoMat API documentation')),

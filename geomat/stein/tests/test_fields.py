@@ -3,7 +3,7 @@ from django.forms.fields import ChoiceField, MultipleChoiceField
 from django.forms.widgets import SelectMultiple
 from django.test import TestCase
 
-from geomat.stein.fields import ArrayField
+from geomat.stein.fields import ChoiceArrayField
 
 FRACTURE_CHOICES = (('CF', "Conchoidal"), ('EF', "Earthy"), ('HF', "Hackly"),
                     ('SF', "Splintery"), ('UF', "Uneven"), )

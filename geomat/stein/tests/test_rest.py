@@ -9,7 +9,13 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from geomat.stein.models import Classification, CrystalSystem, Handpiece, MineralType, Photograph
+from geomat.stein.models import (
+    Classification,
+    CrystalSystem,
+    Handpiece,
+    MineralType,
+    Photograph,
+)
 from geomat.stein.serializers import StdImageField
 
 # Helper functions
@@ -17,10 +23,7 @@ from geomat.stein.serializers import StdImageField
 
 def convert(input):
     if isinstance(input, dict):
-        return {
-            convert(key): convert(value)
-            for key, value in list(input.items())
-        }
+        return {convert(key): convert(value) for key, value in input.items()}
     elif isinstance(input, list):
         return [convert(element) for element in input]
     elif isinstance(input, str):

@@ -1,18 +1,5 @@
 # -*- coding: utf-8 -*-
-'''
-Production Configurations
-
-- Use djangosecure
-- Use mailgun to send emails
-
-- Use sentry for error logging
-
-'''
-
-
 import logging
-
-from django.utils import six
 
 from .common import *  # noqa
 
@@ -59,10 +46,9 @@ X_FRAME_OPTIONS = 'DENY'
 # ------------------------------------------------------------------------------
 # Hosts/domain names that are valid for this site
 # See https://docs.djangoproject.com/en/1.6/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = env.list(
-    'DJANGO_ALLOWED_HOSTS', default=['geomat.uni-frankfurt.de'])
-# END SITE CONFIGURATION
+ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS')
 
+# END SITE CONFIGURATION
 INSTALLED_APPS += ("gunicorn", )
 
 # STORAGE CONFIGURATION
@@ -73,7 +59,7 @@ DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
 # URL that handles the media served from MEDIA_ROOT, used for managing
 # stored files.
-MEDIA_URL = 'https://cdn.geomat.uni-frankfurt.de/'
+MEDIA_URL = env("DJANGO_GEOMAT_CDN_URL")
 
 # Static Assets
 # ------------------------
@@ -83,7 +69,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # ------------------------------------------------------------------------------
 DEFAULT_FROM_EMAIL = env(
     'DJANGO_DEFAULT_FROM_EMAIL',
-    default='GU Geomat <noreply@geomat.uni-frankfurt.de>')
+    default='GU Geomat <{}>'.format(env("DJANGO_GEOMAT_EMAIL")))
 EMAIL_SUBJECT_PREFIX = env(
     "DJANGO_EMAIL_SUBJECT_PREFIX", default='[GU GeoMat] ')
 SERVER_EMAIL = env('DJANGO_SERVER_EMAIL', default=DEFAULT_FROM_EMAIL)
@@ -110,7 +96,8 @@ TEMPLATES[0]['OPTIONS']['loaders'] = [
 # DATABASE CONFIGURATION
 # ------------------------------------------------------------------------------
 # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
-DATABASES['default'] = env.db("DATABASE_URL")
+DATABASES = {'default': env.db("DATABASE_URL")}
+DATABASES['default']['ATOMIC_REQUESTS'] = True
 
 # Sentry Configuration
 SENTRY_DSN = env('DJANGO_SENTRY_DSN')

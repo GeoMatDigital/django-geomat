@@ -14,17 +14,19 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RemoveField(
             model_name='classification',
-            name='mineral_type',
-        ),
+            name='mineral_type', ),
         migrations.AddField(
             model_name='mineraltype',
             name='classification',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='mineral_type',
-                                    to='stein.Classification', verbose_name='classification'),
-        ),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='mineral_type',
+                to='stein.Classification',
+                verbose_name='classification'), ),
         migrations.AlterField(
             model_name='classification',
             name='classification_name',
-            field=models.CharField(max_length=100, null=True, verbose_name='classification'),
-        ),
+            field=models.CharField(
+                max_length=100, null=True, verbose_name='classification'), ),
     ]

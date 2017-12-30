@@ -112,7 +112,8 @@ class MineralType(models.Model):
         null=True,
         blank=True,
         verbose_name=_('classification'),
-        related_name="mineral_type")
+        related_name="mineral_type",
+        on_delete=models.deletion.CASCADE)
 
     class Meta:
         verbose_name = _("mineral type")
@@ -147,7 +148,8 @@ class Cleavage(models.Model):
         blank=True,
         null=True,
         verbose_name=_("mineral type"),
-        related_name="cleavage")
+        related_name="cleavage",
+        on_delete=models.deletion.CASCADE)
 
 
 class CrystalSystem(models.Model):
@@ -169,7 +171,8 @@ class CrystalSystem(models.Model):
         MineralType,
         null=True,
         verbose_name=_('mineral type'),
-        related_name="crystallsystem")
+        related_name="crystallsystem",
+        on_delete=models.deletion.CASCADE)
     crystal_system = models.CharField(
         max_length=2,
         blank=True,
@@ -241,15 +244,16 @@ class Photograph(models.Model):
         ('FE', _("Fisheye")),
         ('TL', _("Tele")), )
 
-    image_file = StdImageField(
-        variations={
-            'large': (1200, 800),
-            'medium': (900, 600),
-            'small': (600, 400),
-            'thumbnail': (100, 100, True),
-        },
-        db_index=True)
-    handpiece = models.ForeignKey(Handpiece, related_name="photograph")
+    image_file = StdImageField(variations={
+        'large': (1200, 800),
+        'medium': (900, 600),
+        'small': (600, 400),
+        'thumbnail': (100, 100, True),
+    })
+    handpiece = models.ForeignKey(
+        Handpiece,
+        related_name="photograph",
+        on_delete=models.deletion.CASCADE)
     orientation = models.CharField(
         max_length=1,
         choices=ORIENTATION_CHOICES,
@@ -277,6 +281,10 @@ class GlossaryEntry(models.Model):
     header = models.CharField(
         max_length=200, verbose_name=_("header"), null=True)
     description = models.TextField(verbose_name=_("description"), null=True)
+    examples = ArrayField(
+        base_field=models.TextField(),
+        verbose_name=_("examples"),
+        null=True, )
 
     class Meta:
         verbose_name = _("Glossary Entry")
@@ -323,16 +331,15 @@ class QuizAnswer(models.Model):
         verbose_name=_("correct"), help_text="Nothing yet.")
     feedback_correct = models.CharField(
         max_length=500,
-        default="",
-        blank=True,
+        null=True,
         verbose_name=_("feedback if answered correctly"))
     feedback_incorrect = models.CharField(
         max_length=500,
-        default="",
-        blank=True,
+        null=True,
         verbose_name=_("feedback if answered incorrectly"))
     question = models.ForeignKey(
         QuizQuestion,
         null=True,
         verbose_name=_("question"),
-        related_name="answers")
+        related_name="answers",
+        on_delete=models.deletion.CASCADE)

@@ -15,11 +15,18 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Classification',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('classification', models.CharField(blank=True, max_length=100, verbose_name='classification')),
-                ('mineral_type',
-                 models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='stein.MineralType',
-                                   verbose_name='mineral type')),
-            ],
-        ),
+                ('id', models.AutoField(
+                    auto_created=True,
+                    primary_key=True,
+                    serialize=False,
+                    verbose_name='ID')),
+                ('classification', models.CharField(
+                    blank=True, max_length=100,
+                    verbose_name='classification')),
+                ('mineral_type', models.ForeignKey(
+                    null=True,
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to='stein.MineralType',
+                    verbose_name='mineral type')),
+            ], ),
     ]

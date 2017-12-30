@@ -15,24 +15,30 @@ class Migration(migrations.Migration):
         migrations.RenameField(
             model_name='classification',
             old_name='classification',
-            new_name='classification_name',
-        ),
+            new_name='classification_name', ),
         migrations.AlterField(
             model_name='classification',
             name='mineral_type',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE,
-                                    related_name='classification', to='stein.MineralType', verbose_name='mineral type'),
-        ),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='classification',
+                to='stein.MineralType',
+                verbose_name='mineral type'), ),
         migrations.AlterField(
             model_name='crystalsystem',
             name='mineral_type',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE,
-                                    related_name='crystallsystem', to='stein.MineralType', verbose_name='mineral type'),
-        ),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='crystallsystem',
+                to='stein.MineralType',
+                verbose_name='mineral type'), ),
         migrations.AlterField(
             model_name='photograph',
             name='handpiece',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='photograph',
-                                    to='stein.Handpiece'),
-        ),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='photograph',
+                to='stein.Handpiece'), ),
     ]

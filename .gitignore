@@ -1,16 +1,9 @@
-### OSX ###
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# project files should be checked into the repository, unless a significant
-# proportion of contributors will probably not be using SublimeText
-# *.sublime-project
-
 # Basics
 *.py[cod]
 *.pyc
 __pycache__
+.cache
+.local
 
 # Logs
 *.log
@@ -19,7 +12,6 @@ pip-log.txt
 # Unit test / coverage reports
 .coverage
 .tox
-nosetests.xml
 htmlcov
 
 # Translations
@@ -30,16 +22,9 @@ htmlcov
 .idea
 
 # Vim
-
 *~
 *.swp
 *.swo
-
-# npm
-node_modules/
-
-# Compass
-.sass-cache
 
 # virtual environments
 .env
@@ -47,5 +32,5 @@ node_modules/
 # User-uploaded media
 geomat/media/
 
-#Batch-file for starting docker container
-docker_geomat_batch.bat
+# OSX
+.DS_Store

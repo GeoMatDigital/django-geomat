@@ -8,13 +8,11 @@ https://docs.djangoproject.com/en/dev/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/dev/ref/settings/
 """
-
-
 import environ
 from django.utils.translation import ugettext_lazy as _
 
 ROOT_DIR = environ.Path(
-    __file__) - 3  # (geomat/config/settings/common.py - 3 = geomat/)
+    __file__) - 3    # (geomat/config/settings/common.py - 3 = geomat/)
 APPS_DIR = ROOT_DIR.path('geomat')
 
 env = environ.Env()
@@ -38,16 +36,16 @@ DJANGO_APPS = (
     # Admin
     'django.contrib.admin', )
 THIRD_PARTY_APPS = (
-    'crispy_forms',  # Form layouts
-    'allauth',  # registration
-    'allauth.account',  # registration
-    'allauth.socialaccount',  # registration
-    'stdimage',  # standardized image field
+    'crispy_forms',    # Form layouts
+    'allauth',    # registration
+    'allauth.account',    # registration
+    'allauth.socialaccount',    # registration
+    'stdimage',    # standardized image field
     'corsheaders', )
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
-    'geomat.users',  # custom users app
+    'geomat.users',    # custom users app
     # Your stuff: custom apps go here
     'geomat.stein',
     'rest_framework', )
@@ -101,17 +99,6 @@ ADMINS = (("""Michael Gecht""", 'mgecht@stud.uni-frankfurt.de'), )
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
 
-# DATABASE CONFIGURATION
-# ------------------------------------------------------------------------------
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
-DATABASES = {
-    # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
-    'default':
-    env.db(
-        "DATABASE_URL", default="postgres://postgres@localhost:5432/postgres"),
-}
-DATABASES['default']['ATOMIC_REQUESTS'] = True
-
 # GENERAL CONFIGURATION
 # ------------------------------------------------------------------------------
 # Local time zone for this installation. Choices can be found here:
@@ -145,23 +132,23 @@ USE_TZ = True
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#templates
 TEMPLATES = [
     {
-        # See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-TEMPLATES-BACKEND
+    # See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-TEMPLATES-BACKEND
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
+    # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
         'DIRS': [
             str(APPS_DIR.path('templates')),
         ],
         'OPTIONS': {
-            # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
+    # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
             'debug':
             DEBUG,
-            # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
-            # https://docs.djangoproject.com/en/dev/ref/templates/api/#loader-types
+    # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
+    # https://docs.djangoproject.com/en/dev/ref/templates/api/#loader-types
             'loaders': [
                 'django.template.loaders.filesystem.Loader',
                 'django.template.loaders.app_directories.Loader',
             ],
-            # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
+    # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -171,7 +158,7 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
-                # Your stuff: custom template context processors go here
+    # Your stuff: custom template context processors go here
                 'django.template.context_processors.request',
             ],
         },

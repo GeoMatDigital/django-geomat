@@ -3,8 +3,8 @@
 
 
 import django.contrib.postgres.fields
-from django.db import migrations, models
 import django.db.models.deletion
+from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
@@ -17,31 +17,69 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='QuizAnswer',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('atext', models.CharField(max_length=500, null=True, verbose_name='answer text')),
-                ('correct', models.BooleanField(help_text=b'Nothing yet.', verbose_name='correct')),
-                ('feedback_correct', models.CharField(max_length=500, null=True, verbose_name='feedback if answered correctly')),
-                ('feedback_incorrect', models.CharField(max_length=500, null=True, verbose_name='feedback if answered incorrectly')),
-            ],
-        ),
+                ('id', models.AutoField(
+                    auto_created=True,
+                    primary_key=True,
+                    serialize=False,
+                    verbose_name='ID')),
+                ('atext', models.CharField(
+                    max_length=500, null=True, verbose_name='answer text')),
+                ('correct', models.BooleanField(
+                    help_text=b'Nothing yet.', verbose_name='correct')),
+                ('feedback_correct', models.CharField(
+                    max_length=500,
+                    null=True,
+                    verbose_name='feedback if answered correctly')),
+                ('feedback_incorrect', models.CharField(
+                    max_length=500,
+                    null=True,
+                    verbose_name='feedback if answered incorrectly')),
+            ], ),
         migrations.CreateModel(
             name='QuizQuestion',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('qtext', models.CharField(max_length=500, null=True, verbose_name='question text')),
-                ('qtype', models.CharField(choices=[(b'SC', 'Single Choice'), (b'MC', 'Multiple Choice'), (b'DD', 'Drag and Drop'), (b'RG', 'Ranking'), (b'HS', 'Hotspot')], max_length=2, null=True, verbose_name='question type')),
-                ('tags', django.contrib.postgres.fields.ArrayField(base_field=models.CharField(max_length=200), help_text=b'If you want to add more than one tag, seperate them with commas.', null=True, size=None)),
-                ('difficulty', models.IntegerField(choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)], max_length=1, null=True, verbose_name='difficulty')),
-            ],
-        ),
+                ('id', models.AutoField(
+                    auto_created=True,
+                    primary_key=True,
+                    serialize=False,
+                    verbose_name='ID')),
+                ('qtext', models.CharField(
+                    max_length=500, null=True, verbose_name='question text')),
+                ('qtype', models.CharField(
+                    choices=[(b'SC', 'Single Choice'), (b'MC',
+                                                        'Multiple Choice'),
+                             (b'DD', 'Drag and Drop'), (b'RG', 'Ranking'),
+                             (b'HS', 'Hotspot')],
+                    max_length=2,
+                    null=True,
+                    verbose_name='question type')),
+                ('tags', django.contrib.postgres.fields.ArrayField(
+                    base_field=models.CharField(max_length=200),
+                    help_text=
+                    b'If you want to add more than one tag, seperate them with commas.',
+                    null=True,
+                    size=None)),
+                ('difficulty', models.IntegerField(
+                    choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
+                    max_length=1,
+                    null=True,
+                    verbose_name='difficulty')),
+            ], ),
         migrations.AlterField(
             model_name='glossaryentry',
             name='examples',
-            field=django.contrib.postgres.fields.ArrayField(base_field=models.TextField(), null=True, size=None, verbose_name='examples'),
-        ),
+            field=django.contrib.postgres.fields.ArrayField(
+                base_field=models.TextField(),
+                null=True,
+                size=None,
+                verbose_name='examples'), ),
         migrations.AddField(
             model_name='quizanswer',
             name='question',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='answers', to='stein.QuizQuestion', verbose_name='question'),
-        ),
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name='answers',
+                to='stein.QuizQuestion',
+                verbose_name='question'), ),
     ]

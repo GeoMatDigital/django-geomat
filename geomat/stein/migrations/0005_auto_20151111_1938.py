@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='mineraltype',
             name='lustre',
-            field=models.CharField(default=b'AM', max_length=2, verbose_name='lustre', choices=[(b'AM', 'Adamantine'), (b'DL', 'Dull'), (b'GR', 'Greasy'), (b'MT', 'Metallic'), (b'PY', 'Pearly'), (b'SL', 'Silky'), (b'SM', 'Submetallic'), (b'VT', 'Vitreous'), (b'WY', 'Waxy')]),
+            field=models.CharField(default='AM', max_length=2, verbose_name='lustre', choices=[('AM', 'Adamantine'), ('DL', 'Dull'), ('GR', 'Greasy'), ('MT', 'Metallic'), ('PY', 'Pearly'), ('SL', 'Silky'), ('SM', 'Submetallic'), ('VT', 'Vitreous'), ('WY', 'Waxy')]),
         ),
     ]

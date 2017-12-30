@@ -16,11 +16,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='mineraltype',
             name='image_file',
-            field=stdimage.models.StdImageField(blank=True, null=True, upload_to=b''),
+            field=stdimage.models.StdImageField(blank=True, null=True, upload_to=''),
         ),
         migrations.AlterField(
             model_name='crystalsystem',
             name='crystal_system',
-            field=models.CharField(blank=True, choices=[(b'TC', 'Triclinic'), (b'MC', 'Monoclinic'), (b'OR', 'Orthorhombic'), (b'TT', 'Tetragonal'), (b'TR', 'Trigonal'), (b'HG', 'Hexagonal'), (b'CB', 'Cubic'), (b'AM', 'Amorph')], max_length=2, verbose_name='crystal system'),
+            field=models.CharField(blank=True, choices=[('TC', 'Triclinic'), ('MC', 'Monoclinic'), ('OR', 'Orthorhombic'), ('TT', 'Tetragonal'), ('TR', 'Trigonal'), ('HG', 'Hexagonal'), ('CB', 'Cubic'), ('AM', 'Amorph')], max_length=2, verbose_name='crystal system'),
         ),
     ]

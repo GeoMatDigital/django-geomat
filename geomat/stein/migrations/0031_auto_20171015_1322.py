@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('atext', models.CharField(max_length=500, null=True, verbose_name='answer text')),
-                ('correct', models.BooleanField(help_text=b'Nothing yet.', verbose_name='correct')),
+                ('correct', models.BooleanField(help_text='Nothing yet.', verbose_name='correct')),
                 ('feedback_correct', models.CharField(max_length=500, null=True, verbose_name='feedback if answered correctly')),
                 ('feedback_incorrect', models.CharField(max_length=500, null=True, verbose_name='feedback if answered incorrectly')),
             ],
@@ -29,8 +29,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('qtext', models.CharField(max_length=500, null=True, verbose_name='question text')),
-                ('qtype', models.CharField(choices=[(b'SC', 'Single Choice'), (b'MC', 'Multiple Choice'), (b'DD', 'Drag and Drop'), (b'RG', 'Ranking'), (b'HS', 'Hotspot')], max_length=2, null=True, verbose_name='question type')),
-                ('tags', django.contrib.postgres.fields.ArrayField(base_field=models.CharField(max_length=200), help_text=b'If you want to add more than one tag, seperate them with commas.', null=True, size=None)),
+                ('qtype', models.CharField(choices=[('SC', 'Single Choice'), ('MC', 'Multiple Choice'), ('DD', 'Drag and Drop'), ('RG', 'Ranking'), ('HS', 'Hotspot')], max_length=2, null=True, verbose_name='question type')),
+                ('tags', django.contrib.postgres.fields.ArrayField(base_field=models.CharField(max_length=200), help_text='If you want to add more than one tag, seperate them with commas.', null=True, size=None)),
                 ('difficulty', models.IntegerField(choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)], max_length=1, null=True, verbose_name='difficulty')),
             ],
         ),

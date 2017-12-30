@@ -25,11 +25,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='quizanswer',
             name='feedback_correct',
-            field=models.CharField(blank=True, default=b'', max_length=500, verbose_name='feedback if answered correctly'),
+            field=models.CharField(blank=True, default='', max_length=500, verbose_name='feedback if answered correctly'),
         ),
         migrations.AlterField(
             model_name='quizanswer',
             name='feedback_incorrect',
-            field=models.CharField(blank=True, default=b'', max_length=500, verbose_name='feedback if answered incorrectly'),
+            field=models.CharField(blank=True, default='', max_length=500, verbose_name='feedback if answered incorrectly'),
         ),
     ]

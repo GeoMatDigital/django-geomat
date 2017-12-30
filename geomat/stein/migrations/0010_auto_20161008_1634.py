@@ -17,23 +17,23 @@ class Migration(migrations.Migration):
             model_name='mineraltype',
             name='fracture',
             field=geomat.stein.fields.ChoiceArrayField(base_field=models.CharField(
-                choices=[(b'CF', 'Conchoidal'), (b'EF', 'Earthy'), (b'HF', 'Hackly'), (b'SF', 'Splintery'),
-                         (b'UF', 'Uneven')], max_length=2), null=True, size=None, verbose_name='fracture'),
+                choices=[('CF', 'Conchoidal'), ('EF', 'Earthy'), ('HF', 'Hackly'), ('SF', 'Splintery'),
+                         ('UF', 'Uneven')], max_length=2), null=True, size=None, verbose_name='fracture'),
         ),
         migrations.AddField(
             model_name='mineraltype',
             name='cleavage',
             field=geomat.stein.fields.ChoiceArrayField(base_field=models.CharField(
-                choices=[(b'PE', 'Perfect'), (b'LP', 'Less perfect'), (b'GO', 'Good'), (b'DI', 'Distinct'),
-                         (b'ID', 'Indistinct'), (b'NO', 'None')], max_length=2), null=True, size=None,
+                choices=[('PE', 'Perfect'), ('LP', 'Less perfect'), ('GO', 'Good'), ('DI', 'Distinct'),
+                         ('ID', 'Indistinct'), ('NO', 'None')], max_length=2), null=True, size=None,
                                                        verbose_name='cleavage'),
         ),
         migrations.AddField(
             model_name='mineraltype',
             name='lustre',
             field=geomat.stein.fields.ChoiceArrayField(base_field=models.CharField(
-                choices=[(b'AM', 'Adamantine'), (b'DL', 'Dull'), (b'GR', 'Greasy'), (b'MT', 'Metallic'),
-                         (b'PY', 'Pearly'), (b'SL', 'Silky'), (b'SM', 'Submetallic'), (b'VT', 'Vitreous'),
-                         (b'WY', 'Waxy')], max_length=2), null=True, size=None, verbose_name='lustre'),
+                choices=[('AM', 'Adamantine'), ('DL', 'Dull'), ('GR', 'Greasy'), ('MT', 'Metallic'),
+                         ('PY', 'Pearly'), ('SL', 'Silky'), ('SM', 'Submetallic'), ('VT', 'Vitreous'),
+                         ('WY', 'Waxy')], max_length=2), null=True, size=None, verbose_name='lustre'),
         ),
     ]

@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
             name='FractureTwo',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('fracture', models.CharField(choices=[(b'CF', 'Conchoidal'), (b'EF', 'Earthy'), (b'HF', 'Hackly'), (b'SF', 'Splintery'), (b'UF', 'Uneven')], max_length=2, null=True, verbose_name='fracture')),
+                ('fracture', models.CharField(choices=[('CF', 'Conchoidal'), ('EF', 'Earthy'), ('HF', 'Hackly'), ('SF', 'Splintery'), ('UF', 'Uneven')], max_length=2, null=True, verbose_name='fracture')),
                 ('coordinates', models.CharField(blank=True, max_length=20, null=True, verbose_name='coordinates')),
                 ('mineral_type', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='stein.MineralType', verbose_name='mineraltype')),
             ],

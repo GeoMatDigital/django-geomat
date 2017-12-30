@@ -14,8 +14,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='mineraltype',
             name='cleavage2',
-            field=models.CharField(blank=True, choices=[(b'PE', 'Perfect'), (b'LP', 'Less perfect'), (b'GO', 'Good'),
-                                                        (b'DI', 'Distinct'), (b'ID', 'Indistinct'), (b'NO', 'None')],
+            field=models.CharField(blank=True, choices=[('PE', 'Perfect'), ('LP', 'Less perfect'), ('GO', 'Good'),
+                                                        ('DI', 'Distinct'), ('ID', 'Indistinct'), ('NO', 'None')],
                                    max_length=2, verbose_name='cleavage 2'),
         ),
         migrations.AddField(
@@ -26,16 +26,16 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='mineraltype',
             name='fracture2',
-            field=models.CharField(blank=True, choices=[(b'CF', 'Conchoidal'), (b'EF', 'Earthy'), (b'HF', 'Hackly'),
-                                                        (b'SF', 'Splintery'), (b'UF', 'Uneven')], max_length=2,
+            field=models.CharField(blank=True, choices=[('CF', 'Conchoidal'), ('EF', 'Earthy'), ('HF', 'Hackly'),
+                                                        ('SF', 'Splintery'), ('UF', 'Uneven')], max_length=2,
                                    verbose_name='fracture 2'),
         ),
         migrations.AddField(
             model_name='mineraltype',
             name='lustre2',
-            field=models.CharField(blank=True, choices=[(b'AM', 'Adamantine'), (b'DL', 'Dull'), (b'GR', 'Greasy'),
-                                                        (b'MT', 'Metallic'), (b'PY', 'Pearly'), (b'SL', 'Silky'),
-                                                        (b'SM', 'Submetallic'), (b'VT', 'Vitreous'), (b'WY', 'Waxy')],
+            field=models.CharField(blank=True, choices=[('AM', 'Adamantine'), ('DL', 'Dull'), ('GR', 'Greasy'),
+                                                        ('MT', 'Metallic'), ('PY', 'Pearly'), ('SL', 'Silky'),
+                                                        ('SM', 'Submetallic'), ('VT', 'Vitreous'), ('WY', 'Waxy')],
                                    max_length=2, verbose_name='lustre 2'),
         ),
         migrations.AddField(
@@ -57,10 +57,10 @@ class Migration(migrations.Migration):
             model_name='mineraltype',
             name='systematics',
             field=models.CharField(
-                choices=[(b'EL', 'Elements'), (b'SF', 'Sulfides & Sulfosalts'), (b'HG', 'Halogenides'),
-                         (b'OH', 'Oxides and Hydroxides'), (b'CN', 'Carbonates and Nitrates'), (b'BR', 'Borates'),
-                         (b'SL', 'Sulfates'), (b'PV', 'Phosphates, Arsenates & Vanadates'),
-                         (b'SG', 'Silicates & Germanates'), (b'OC', 'Organic Compounds')], default=b'EL', max_length=2,
+                choices=[('EL', 'Elements'), ('SF', 'Sulfides & Sulfosalts'), ('HG', 'Halogenides'),
+                         ('OH', 'Oxides and Hydroxides'), ('CN', 'Carbonates and Nitrates'), ('BR', 'Borates'),
+                         ('SL', 'Sulfates'), ('PV', 'Phosphates, Arsenates & Vanadates'),
+                         ('SG', 'Silicates & Germanates'), ('OC', 'Organic Compounds')], default='EL', max_length=2,
                 verbose_name='systematics'),
         ),
         migrations.AlterField(
@@ -77,9 +77,9 @@ class Migration(migrations.Migration):
             model_name='mineraltype',
             name='crystal_system',
             field=models.CharField(blank=True,
-                                   choices=[(b'TC', 'Triclinic'), (b'MC', 'Monoclinic'), (b'OR', 'Orthorhombic'),
-                                            (b'TT', 'Tetragonal'), (b'TR', 'Trigonal'), (b'HG', 'Hexagonal'),
-                                            (b'CB', 'Cubic')], max_length=2, verbose_name='crystal system'),
+                                   choices=[('TC', 'Triclinic'), ('MC', 'Monoclinic'), ('OR', 'Orthorhombic'),
+                                            ('TT', 'Tetragonal'), ('TR', 'Trigonal'), ('HG', 'Hexagonal'),
+                                            ('CB', 'Cubic')], max_length=2, verbose_name='crystal system'),
         ),
         migrations.AlterField(
             model_name='mineraltype',

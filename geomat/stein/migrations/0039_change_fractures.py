@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='fracturetwo',
             name='coordinates',
-            field=models.CharField(blank=True, help_text=b'Enter Coordinates as Following : {x,y,z,a} with the curly braces.', max_length=20, null=True, verbose_name='coordinates'),
+            field=models.CharField(blank=True, help_text='Enter Coordinates as Following : {x,y,z,a} with the curly braces.', max_length=20, null=True, verbose_name='coordinates'),
         ),
         migrations.AlterField(
             model_name='fracturetwo',

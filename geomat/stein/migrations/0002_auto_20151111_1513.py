@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='mineraltype',
             name='crystal_system',
-            field=models.CharField(default=b'TC', max_length=2, verbose_name='crystal system', choices=[(b'TC', 'Triclinic'), (b'MC', 'Monoclinic'), (b'OR', 'Orthorhombic'), (b'TT', 'Tetragonal'), (b'TR', 'Trigonal'), (b'HG', 'Hexagonal'), (b'CB', 'Cubic')]),
+            field=models.CharField(default='TC', max_length=2, verbose_name='crystal system', choices=[('TC', 'Triclinic'), ('MC', 'Monoclinic'), ('OR', 'Orthorhombic'), ('TT', 'Tetragonal'), ('TR', 'Trigonal'), ('HG', 'Hexagonal'), ('CB', 'Cubic')]),
         ),
     ]

@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='mineraltype',
             name='fracture_two',
-            field=geomat.stein.fields.ChoiceArrayField(base_field=models.CharField(choices=[(b'PE', 'perfect'), (b'LP', 'less perfect'), (b'GO', 'good'), (b'DI', 'distinct'), (b'ID', 'indistinct'), (b'NO', 'none')], max_length=2), null=True, size=None, verbose_name='fracture_two'),
+            field=geomat.stein.fields.ChoiceArrayField(base_field=models.CharField(choices=[('PE', 'perfect'), ('LP', 'less perfect'), ('GO', 'good'), ('DI', 'distinct'), ('ID', 'indistinct'), ('NO', 'none')], max_length=2), null=True, size=None, verbose_name='fracture_two'),
         ),
         migrations.RunPython(transfer_back_fracture, revert)
     ]

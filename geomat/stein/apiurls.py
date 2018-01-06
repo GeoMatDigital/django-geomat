@@ -1,5 +1,5 @@
 """URL definitions for REST framework"""
-from django.conf.urls import url
+from django.conf.urls import url, include
 from rest_framework.urlpatterns import format_suffix_patterns
 
 from geomat.stein.views import (
@@ -27,7 +27,12 @@ from geomat.stein.views import (
 
 app_name = "api"
 urlpatterns = [
+    # Api Documentation
+
+    url(r'^', include('docs.api_docs', namespace='api_docs')),
+
     # Detail Views for Crystalsystems, Handpieces, Photographs, Mineraltypes and Classifications
+
     url(
         r'^crystalsystem/(?P<pk>[0-9]+)/',
         CrystalsystemDetail.as_view(),
@@ -114,4 +119,4 @@ urlpatterns = [
         name=GlossaryView.name
     ),
 ]
-urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json'])
+# urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'yaml'])

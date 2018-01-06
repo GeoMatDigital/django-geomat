@@ -156,9 +156,17 @@ class HandpieceList(generics.ListAPIView):
 
 
 class CrystalsystemList(generics.ListAPIView):
+    """
+
+    This is a test
+
+    """
     queryset = CrystalSystem.objects.all()
     serializer_class = CrystalSystemSerializer
     name = 'crystalsystem-list'
+
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
 
 class MineraltypeList(generics.ListAPIView):

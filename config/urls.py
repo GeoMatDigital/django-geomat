@@ -21,9 +21,6 @@ urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
     url(settings.ADMIN_URL, include(admin.site.urls)),
 
-    # Documentation for the REST API
-    url(r'^api-docs/', include_docs_urls(title='GeoMat API documentation')),
-
     # REST framework
     url(r'^api-auth/',
         include('rest_framework.urls', namespace='rest_framework')),

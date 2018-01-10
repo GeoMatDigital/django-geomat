@@ -21,7 +21,7 @@ pytest-django==3.1.2
 pytest-sugar==0.9.0
 
 # Own stuff
-django-rosetta==0.7.14
+django-rosetta==0.8.0
 
 # Codecov
 pytest-cov==2.5.1

@@ -29,38 +29,38 @@ app_name = "api"
 urlpatterns = [
     # Api Documentation
 
-    url(r'^', include('docs.api_docs', namespace='api_docs')),
+    # url(r'^', include('docs.api_docs', namespace='api_docs')),
 
     # Detail Views for Crystalsystems, Handpieces, Photographs, Mineraltypes and Classifications
 
     url(
-        r'^crystalsystem/(?P<pk>[0-9]+)/',
+        r'^crystalsystem/(?P<pk>[0-9]+)/$',
         CrystalsystemDetail.as_view(),
         name=CrystalsystemDetail.name),
     url(
-        r'^handpiece/(?P<pk>[0-9]+)/',
+        r'^handpiece/(?P<pk>[0-9]+)/$',
         HandpieceDetail.as_view(),
         name=HandpieceDetail.name),
     url(
-        r'^photograph/(?P<pk>[0-9]+)/',
+        r'^photograph/(?P<pk>[0-9]+)/$',
         PhotographDetail.as_view(),
         name=PhotographDetail.name),
     url(
-        r'^mineraltype/(?P<pk>[0-9]+)/',
+        r'^mineraltype/(?P<pk>[0-9]+)/$',
         MineraltypeDetail.as_view(),
         name=MineraltypeDetail.name),
     url(
-        r'^classification/(?P<pk>[0-9]+)',
+        r'^classification/(?P<pk>[0-9]+)/$',
         ClassificationDetail.as_view(),
         name=ClassificationDetail.name
     ),
     url(
-        r'^quizquestion/(?P<pk>[0-9]+)',
+        r'^quizquestion/(?P<pk>[0-9]+)/$',
         QuizQuestionDetail.as_view(),
         name=QuizQuestionDetail.name
     ),
     url(
-        r'^quizanswer/(?P<pk>[0-9]+)',
+        r'^quizanswer/(?P<pk>[0-9]+)/$',
         QuizAnswerDetail.as_view(),
         name=QuizAnswerDetail.name
     ),

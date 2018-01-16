@@ -1,6 +1,7 @@
 """URL definitions for REST framework"""
 from django.conf.urls import url, include
 from rest_framework.urlpatterns import format_suffix_patterns
+from geomat.feedback.views import FeedBackView
 
 from geomat.stein.views import (
     ClassificationDetail,
@@ -30,6 +31,11 @@ urlpatterns = [
     # Api Documentation
 
     url(r'^', include('docs.api_docs', namespace='api_docs')),
+
+    # Feedback
+    url(r'^feedback',
+        FeedBackView.as_view(),
+        name='feedback'),
 
     # Detail Views for Crystalsystems, Handpieces, Photographs, Mineraltypes and Classifications
 

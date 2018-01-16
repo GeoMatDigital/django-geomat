@@ -29,7 +29,7 @@ app_name = "api"
 urlpatterns = [
     # Api Documentation
 
-    # url(r'^', include('docs.api_docs', namespace='api_docs')),
+    url(r'^', include('docs.api_docs', namespace='api_docs')),
 
     # Detail Views for Crystalsystems, Handpieces, Photographs, Mineraltypes and Classifications
 

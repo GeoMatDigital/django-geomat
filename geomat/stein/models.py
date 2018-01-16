@@ -281,6 +281,7 @@ class GlossaryEntry(models.Model):
     class Meta:
         verbose_name = _("Glossary Entry")
         verbose_name_plural = _("Glossary Entries")
+        ordering = ('header',)
 
 
 class QuizQuestion(models.Model):

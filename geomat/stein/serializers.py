@@ -73,17 +73,32 @@ class CleavageSerializer(serializers.ModelSerializer):
         return obj.get_cleavage_display()
 
 
+class CrystalSystemLessSerializer(serializers.ModelSerializer):
+    crystal_system = serializers.SerializerMethodField()
+
+    def get_crystal_system(self, obj):
+        choice_dict = dict(obj.CRYSTAL_SYSTEM_CHOICES)
+        return choice_dict[obj.crystal_system]
+
+
+    class Meta:
+        model = CrystalSystem
+        fields = ('id', 'mineral_type', 'crystal_system', 'temperature',
+                  'pressure')
+
+
 class MineralTypeSerializer(serializers.ModelSerializer):
     classification = NameClassificationSerializer()
     systematics = serializers.SerializerMethodField()
     fracture = serializers.SerializerMethodField()
     cleavage = CleavageSerializer(many=True)
     lustre = serializers.SerializerMethodField()
+    crystal_system = CrystalSystemLessSerializer(many=True)
 
     class Meta:
         model = MineralType
         fields = '__all__'
-        depth = 1
+        depth = 2
 
     def get_systematics(self, obj):
         return obj.get_systematics_display()
@@ -138,7 +153,7 @@ class MineralProfilesSerializer(MineralTypeSerializer):
         return {}
 
 
-class CrystalSystemSerializer(serializers.ModelSerializer):
+class CrystalSystemFullSerializer(serializers.ModelSerializer):
     mineral_type = MineralTypeSerializer()
 
     class Meta:

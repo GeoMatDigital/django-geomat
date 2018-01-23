@@ -169,7 +169,7 @@ class CrystalSystem(models.Model):
         MineralType,
         null=True,
         verbose_name=_('mineral type'),
-        related_name="crystallsystem")
+        related_name="crystal_system")
     crystal_system = models.CharField(
         max_length=2,
         blank=True,

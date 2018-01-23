@@ -79,8 +79,6 @@ class MineralTypeSerializer(serializers.ModelSerializer):
     fracture = serializers.SerializerMethodField()
     cleavage = CleavageSerializer(many=True)
     lustre = serializers.SerializerMethodField()
-    display_name = serializers.SerializerMethodField()
-    # chemical_formula = serializers.SerializerMethodField()
 
     class Meta:
         model = MineralType
@@ -113,23 +111,6 @@ class MineralTypeSerializer(serializers.ModelSerializer):
             for choice in obj.lustre:
                 lst.append(choice_dict.get(choice))
         return lst
-
-    def get_display_name(self, obj):
-        return obj.variety if obj.variety else obj.minerals
-        # def get_chemical_formula(self, obj):
-        #     return "`" + obj.chemical_formula + "`"
-
-    # This is a first aproache to provide pictures for a Mineraltype
-    # Yet this is to be revisioned since not only a few Minerals have more than one handpiece
-    # but also a few of the handpieces have more than one photograph
-
-    # def get_images(self, obj):
-    #     images =[]
-    #     if obj.handpiece_count >1:
-    #         for handpiece in obj.handpiece_set.all():
-    #             images.append(StdImageField(handpiece.photograph.image_file))
-    #     else:
-    #         images.append(StdImageField(obj.handpiece_set.get().photograph.get().image_file))
 
 
 class MineralProfilesSerializer(MineralTypeSerializer):
@@ -186,13 +167,6 @@ class PhotographSerializer(serializers.ModelSerializer):
         fields = ('id', 'image_file', 'handpiece', 'orientation', 'shot_type',
                   'online_status', 'created_at', 'last_modified')
 
-# some things have to be cleared out before work can continue
-
-# class ProfileSerializer(MineralTypeSerializer):
-#     images = serializers.SerializerMethodField()
-#
-#     def get_images(self, obj):
-#         pass
 
 class QuizAnswerLessSerializer(serializers.ModelSerializer):
 

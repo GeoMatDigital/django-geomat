@@ -4,6 +4,7 @@ from django.conf.urls import url
 from rest_framework import permissions
 from django.urls import reverse
 
+# This is the documentation for the API, generated for swagger and Redoc standart
 
 schema_view = get_schema_view(
     openapi.Info(

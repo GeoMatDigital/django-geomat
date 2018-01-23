@@ -74,6 +74,10 @@ class CleavageSerializer(serializers.ModelSerializer):
 
 
 class CrystalSystemLessSerializer(serializers.ModelSerializer):
+    """
+    This Serializer is used to represent a Version without the full mineraltype
+    """
+
     crystal_system = serializers.SerializerMethodField()
 
     def get_crystal_system(self, obj):

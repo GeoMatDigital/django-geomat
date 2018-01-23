@@ -21,7 +21,7 @@ from geomat.stein.models import (
 )
 from geomat.stein.serializers import (
     ClassificationSerializer,
-    CrystalSystemSerializer,
+    CrystalSystemFullSerializer,
     GlossaryEntrySerializer,
     HandpieceSerializer,
     MineralProfilesSerializer,
@@ -112,7 +112,7 @@ class HandpieceDetail(generics.RetrieveAPIView):
 
 class CrystalsystemDetail(generics.RetrieveAPIView):
     queryset = CrystalSystem.objects.all()
-    serializer_class = CrystalSystemSerializer
+    serializer_class = CrystalSystemFullSerializer
     name = 'crystalsystem'
 
 
@@ -162,7 +162,7 @@ class CrystalsystemList(generics.ListAPIView):
 
     """
     queryset = CrystalSystem.objects.all()
-    serializer_class = CrystalSystemSerializer
+    serializer_class = CrystalSystemFullSerializer
     name = 'crystalsystem-list'
 
     def list(self, request, *args, **kwargs):
@@ -220,7 +220,7 @@ class FilterMineraltypeList(ListFilterAPIView):
 
 class FilterCrystalSystemList(ListFilterAPIView):
     queryset = CrystalSystem.objects.all()
-    serializer_class = CrystalSystemSerializer
+    serializer_class = CrystalSystemFullSerializer
     name = 'crystalsystem-filter'
     lookup_field = ('mineral_type', 'crystal_system', 'temperature',
                     'pressure')

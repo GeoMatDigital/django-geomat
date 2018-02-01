@@ -52,8 +52,13 @@ class MineralType(models.Model):
         ('SI', _('Silicates')),
         ('GE', _('Germanates')), )
     SUB_CHOICES=(
-
-    )
+        ("IS", _("Island Silicates")),
+        ("GS", _("Group Silicates")),
+        ("CS", _("Chain Silicates")),
+        ("DS", _("Double Chain Silicates")),
+        ("CC", _("Cyclo Silicates")),
+        ("PS", _("Phyllo Silicates")),
+        ("FS", _("Framework Silicates")), )
     CLEAVAGE_CHOICES = (
         ('PE', _("perfect")),
         ('LP', _("less perfect")),

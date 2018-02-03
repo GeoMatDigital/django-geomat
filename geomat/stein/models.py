@@ -41,16 +41,18 @@ class MineralType(models.Model):
         ('PV', _("Phosphates, Arsenates & Vanadates")),
         ('SG', _("Silicates & Germanates")),
         ('OC', _("Organic Compounds")), )
-    SPLIT_CHOICES=(
+    SPLIT_CHOICES = (
         ('SU', _('Sulfides')),
         ('SS', _('Sulfosalts')),
         ('CA', _('Carbonates')),
         ('NI', _('Nitrates')),
-        ('PH', _('Phospates')),
+        ('PH', _('Phosphates')),
         ('AR', _('Arsenates')),
         ('VA', _('Vanadates')),
         ('SI', _('Silicates')),
-        ('GE', _('Germanates')), )
+        ('GE', _('Germanates')),
+        ("OX", _("Oxides")),
+        ("HY", _("Hydroxides")), )
     SUB_CHOICES=(
         ("IS", _("Island Silicates")),
         ("GS", _("Group Silicates")),

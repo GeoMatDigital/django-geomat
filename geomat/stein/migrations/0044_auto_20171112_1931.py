@@ -50,14 +50,14 @@ class Migration(migrations.Migration):
             name='Cleavage',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('cleavage', models.CharField(choices=[(b'PE', 'perfect'), (b'LP', 'less perfect'), (b'GO', 'good'), (b'DI', 'distinct'), (b'ID', 'indistinct'), (b'NO', 'none')], max_length=2, verbose_name='cleavage')),
-                ('coordinates', models.CharField(blank=True, default=b'', max_length=100, verbose_name='coordinates')),
+                ('cleavage', models.CharField(choices=[('PE', 'perfect'), ('LP', 'less perfect'), ('GO', 'good'), ('DI', 'distinct'), ('ID', 'indistinct'), ('NO', 'none')], max_length=2, verbose_name='cleavage')),
+                ('coordinates', models.CharField(blank=True, default='', max_length=100, verbose_name='coordinates')),
             ],
         ),
         migrations.AlterField(
             model_name='mineraltype',
             name='fracture',
-            field=geomat.stein.fields.ChoiceArrayField(base_field=models.CharField(choices=[(b'CF', 'conchoidal'), (b'EF', 'earthy'), (b'HF', 'hackly'), (b'SF', 'splintery'), (b'UF', 'uneven')], max_length=2), null=True, size=None, verbose_name='fracture'),
+            field=geomat.stein.fields.ChoiceArrayField(base_field=models.CharField(choices=[('CF', 'conchoidal'), ('EF', 'earthy'), ('HF', 'hackly'), ('SF', 'splintery'), ('UF', 'uneven')], max_length=2), null=True, size=None, verbose_name='fracture'),
         ),
         migrations.AddField(
             model_name='cleavage',

@@ -1,48 +1,48 @@
-﻿# GeoMat _digital_
+# GeoMat _digital_ API
 
-Folgt.
+[![Build Status](https://travis-ci.org/GeoMatDigital/django-geomat.svg?branch=develop)](https://travis-ci.org/GeoMatDigital/django-geomat) [![codecov](https://codecov.io/gh/GeoMatDigital/django-geomat/branch/develop/graph/badge.svg)](https://codecov.io/gh/GeoMatDigital/django-geomat/branch/develop)
 
+## Table of Contents
 
-## Mitarbeit
+- [Install](#install)
+- [Usage](#usage)
+- [Maintainers](#maintainers)
+- [Contribute](#contribute)
+- [License](#license)
 
-Das aktuelle Layout dieser Repository basiert auf [cookiecutter-django](https://github.com/pydanny/cookiecutter-django). Dementsprechend findet sich die generelle Nutzungsanleitung in [deren ReadTheDocs](http://cookiecutter-django.readthedocs.org/en/latest/developing-locally.html).
+## Background
 
-### Anleitung
+_WIP._
 
-Hier für muss die aktuelle Version von Docker installiert sein. Abhängig vom Betriebssystem und dem zur Entwicklung genutzten Rechner wird hierbei eine andere Version gebraucht. Zu bevorzugen ist immer das Paket ``Docker for Windows`` bzw. ``Docker for OS X``. Ersteres setzt allerdings Windows 10, sowie Hyper-V Unterstützung voraus.
+## Install
 
-Nutzer von Docker Toolbox folgen führen den Schritt 2a aus, während man sich das bei ``Docker for $OS`` sparen kann.
+This project uses [docker-compose](https://docs.docker.com/compose/) and [pipenv](https://docs.pipenv.org). Go check them out if you don't have them locally installed.
 
-#### 1. Develop branch klonen
+To get started run `make`, which will pull all dependencies and build the Docker container.
 
-    git clone https://github.com/mimischi/django-geomat.git --branch develop
+```sh
+$ make build
+```
 
-#### 2: Nur für Nutzer von Docker Toolbox
+## Usage
 
-Aktuell muss auf OS X (und Windows) eine extra VM eingerichtet werden, damit Docker läuft. Dazu muss auch [VirtualBox](https://www.virtualbox.org/) installiert sein.
+To start the system, run:
 
-    docker-machine create --driver virtualbox geomat
-    
-Danach muss die soeben erstellte Maschine zur aktuell genutzten gesetzt werden:
+```sh
+$ docker-compose up -d
+```
 
-    eval "$(docker-machine env geomat)"
+The API is now available on [http://localhost:8000](http://localhost:8000).
 
-Für Windows Nutzer :
-    @FOR /f "tokens=*" %i IN ('docker-machine env geomat') DO @%i
+## Maintainers
 
-#### 3. System aufbauen & starten
+- [@chgad](https://github.com/chgad)
+- [@mimischi](https://github.com/mimischi)
 
-    docker-compose -f dev.yml build
-    docker-compose -f dev.yml up -d
-   
-#### 4. Datenbank migrieren
+## Contribute
 
-    docker-compose -f dev.yml run django python manage.py migrate
+Feel free to dive in! [Open an issue](https://github.com/GeoMatDigital/django-geomat/issues/new) or submit PRs.
 
-Note : Für Windows 7 , 8.1 user run -d flag setzen
+## License
 
-Dazu kann jetzt noch ein Superuser erstellt werden. Grundsätzlich läuft das System jetzt. Unter Linux ist die Seite nun unter localhost:8000 aufrufbar. Unter OS X/Windows führt man folgenden Befehl aus und findet die zugehörige IP heraus:
-
-    docker-machine env geomat
-
-Für weitere Hilfe einfach der [offiziellen Anleitung von cookiecutter-django](http://cookiecutter-django.readthedocs.org/en/latest/developing-locally-docker.html) folgen.
+[BSD 3](LICENSE) © Michael Gecht

@@ -16,16 +16,16 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='fracture',
             name='fracture',
-            field=models.CharField(choices=[(b'CF', 'conchoidal'), (b'EF', 'earthy'), (b'HF', 'hackly'), (b'SF', 'splintery'), (b'UF', 'uneven')], max_length=2, null=True, verbose_name='fracture'),
+            field=models.CharField(choices=[('CF', 'conchoidal'), ('EF', 'earthy'), ('HF', 'hackly'), ('SF', 'splintery'), ('UF', 'uneven')], max_length=2, null=True, verbose_name='fracture'),
         ),
         migrations.AlterField(
             model_name='mineraltype',
             name='cleavage',
-            field=geomat.stein.fields.ChoiceArrayField(base_field=models.CharField(choices=[(b'PE', 'perfect'), (b'LP', 'less perfect'), (b'GO', 'good'), (b'DI', 'distinct'), (b'ID', 'indistinct'), (b'NO', 'none')], max_length=2), null=True, size=None, verbose_name='cleavage'),
+            field=geomat.stein.fields.ChoiceArrayField(base_field=models.CharField(choices=[('PE', 'perfect'), ('LP', 'less perfect'), ('GO', 'good'), ('DI', 'distinct'), ('ID', 'indistinct'), ('NO', 'none')], max_length=2), null=True, size=None, verbose_name='cleavage'),
         ),
         migrations.AlterField(
             model_name='mineraltype',
             name='lustre',
-            field=geomat.stein.fields.ChoiceArrayField(base_field=models.CharField(choices=[(b'AM', 'adamantine lustre'), (b'DL', 'dull lustre'), (b'GR', 'greasy lustre'), (b'MT', 'metallic lustre'), (b'PY', 'pearly lustre'), (b'SL', 'silky lustre'), (b'SM', 'submetallic lustre'), (b'VT', 'vitreous lustre'), (b'WY', 'waxy lustre')], max_length=2), null=True, size=None, verbose_name='lustre'),
+            field=geomat.stein.fields.ChoiceArrayField(base_field=models.CharField(choices=[('AM', 'adamantine lustre'), ('DL', 'dull lustre'), ('GR', 'greasy lustre'), ('MT', 'metallic lustre'), ('PY', 'pearly lustre'), ('SL', 'silky lustre'), ('SM', 'submetallic lustre'), ('VT', 'vitreous lustre'), ('WY', 'waxy lustre')], max_length=2), null=True, size=None, verbose_name='lustre'),
         ),
     ]

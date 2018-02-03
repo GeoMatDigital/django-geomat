@@ -1,9 +1,8 @@
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from stdimage.models import StdImageField
-
 from geomat.stein.fields import ChoiceArrayField
+from stdimage.models import StdImageField
 
 
 # Mostly all fields are defined as CharFields, so the input is easier.
@@ -112,7 +111,8 @@ class MineralType(models.Model):
         null=True,
         blank=True,
         verbose_name=_('classification'),
-        related_name="mineral_type")
+        related_name="mineral_type",
+        on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = _("mineral type")
@@ -147,7 +147,8 @@ class Cleavage(models.Model):
         blank=True,
         null=True,
         verbose_name=_("mineral type"),
-        related_name="cleavage")
+        related_name="cleavage",
+        on_delete=models.CASCADE)
 
 
 class CrystalSystem(models.Model):
@@ -169,6 +170,7 @@ class CrystalSystem(models.Model):
         MineralType,
         null=True,
         verbose_name=_('mineral type'),
+        on_delete=models.CASCADE,
         related_name="crystal_system")
     crystal_system = models.CharField(
         max_length=2,
@@ -249,7 +251,8 @@ class Photograph(models.Model):
             'thumbnail': (100, 100, True),
         },
         db_index=True)
-    handpiece = models.ForeignKey(Handpiece, related_name="photograph")
+    handpiece = models.ForeignKey(
+        Handpiece, related_name="photograph", on_delete=models.CASCADE)
     orientation = models.CharField(
         max_length=1,
         choices=ORIENTATION_CHOICES,
@@ -336,4 +339,5 @@ class QuizAnswer(models.Model):
         QuizQuestion,
         null=True,
         verbose_name=_("question"),
-        related_name="answers")
+        related_name="answers",
+        on_delete=models.CASCADE)

@@ -41,6 +41,24 @@ class MineralType(models.Model):
         ('PV', _("Phosphates, Arsenates & Vanadates")),
         ('SG', _("Silicates & Germanates")),
         ('OC', _("Organic Compounds")), )
+    SPLIT_CHOICES=(
+        ('SU', _('Sulfides')),
+        ('SS', _('Sulfosalts')),
+        ('CA', _('Carbonates')),
+        ('NI', _('Nitrates')),
+        ('PH', _('Phospates')),
+        ('AR', _('Arsenates')),
+        ('VA', _('Vanadates')),
+        ('SI', _('Silicates')),
+        ('GE', _('Germanates')), )
+    SUB_CHOICES=(
+        ("IS", _("Island Silicates")),
+        ("GS", _("Group Silicates")),
+        ("CS", _("Chain Silicates")),
+        ("DS", _("Double Chain Silicates")),
+        ("CC", _("Cyclo Silicates")),
+        ("PS", _("Phyllo Silicates")),
+        ("FS", _("Framework Silicates")), )
     CLEAVAGE_CHOICES = (
         ('PE', _("perfect")),
         ('LP', _("less perfect")),
@@ -72,6 +90,17 @@ class MineralType(models.Model):
         choices=MINERAL_CATEGORIES,
         default="EL",
         verbose_name=_("systematics"))
+    split_systematics = models.CharField(
+        max_length=2,
+        choices=SPLIT_CHOICES,
+        blank=True,
+        verbose_name=_("splitted systematics"))
+    sub_systematics = models.CharField(
+        max_length=2,
+        choices=SUB_CHOICES,
+        blank=True,
+        verbose_name=_("subsystematics")
+    )
     variety = models.CharField(
         max_length=100, blank=True, verbose_name=_("variety"))
     minerals = models.CharField(

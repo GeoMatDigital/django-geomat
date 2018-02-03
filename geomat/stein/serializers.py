@@ -1,7 +1,7 @@
 """Serializers for REST framework"""
 from rest_framework import serializers
 
-from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph, Classification, QuizQuestion,\
+from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph, QuizQuestion,\
     QuizAnswer, Cleavage, GlossaryEntry
 
 
@@ -50,18 +50,6 @@ class StdImageField(serializers.ImageField):
         return return_object
 
 
-class ClassificationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Classification
-        fields = ('classification_name', 'mineral_type')
-
-
-class NameClassificationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Classification
-        fields = ('classification_name',)
-
-
 class CleavageSerializer(serializers.ModelSerializer):
     cleavage = serializers.SerializerMethodField()
 
@@ -92,7 +80,6 @@ class CrystalSystemLessSerializer(serializers.ModelSerializer):
 
 
 class MineralTypeSerializer(serializers.ModelSerializer):
-    classification = NameClassificationSerializer()
     systematics = serializers.SerializerMethodField()
     sub_systematics = serializers.SerializerMethodField()
     split_systematics = serializers.SerializerMethodField()

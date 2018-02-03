@@ -4,8 +4,6 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from geomat.feedback.views import FeedBackView
 
 from geomat.stein.views import (
-    ClassificationDetail,
-    ClassificationList,
     CrystalsystemDetail,
     CrystalsystemList,
     FilterCrystalSystemList,
@@ -56,11 +54,6 @@ urlpatterns = [
         MineraltypeDetail.as_view(),
         name=MineraltypeDetail.name),
     url(
-        r'^classification/(?P<pk>[0-9]+)/$',
-        ClassificationDetail.as_view(),
-        name=ClassificationDetail.name
-    ),
-    url(
         r'^quizquestion/(?P<pk>[0-9]+)/$',
         QuizQuestionDetail.as_view(),
         name=QuizQuestionDetail.name
@@ -85,9 +78,6 @@ urlpatterns = [
         r'^mineraltype_list',
         MineraltypeList.as_view(),
         name=MineraltypeList.name),
-    url(r'^classification_list',
-        ClassificationList.as_view(),
-        name=ClassificationList.name),
     url(r"^quizquestion_list",
         QuizQuestionList.as_view(),
         name=QuizQuestionList.name),

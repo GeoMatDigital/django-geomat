@@ -4,7 +4,6 @@ from django.utils.translation import ugettext_lazy as _
 
 from geomat.stein.forms import GlossaryEntryModelForm, MineralTypeAdminForm
 from geomat.stein.models import (
-    Classification,
     Cleavage,
     CrystalSystem,
     GlossaryEntry,
@@ -73,7 +72,7 @@ admin.site.register(CrystalSystem, CrystallSystemAdmin)
 
 class MineralTypeAdmin(admin.ModelAdmin):
     form = MineralTypeAdminForm
-    list_display = ('trivial_name', 'classification', 'systematics', 'split_systematics', 'sub_systematics', 'variety',
+    list_display = ('trivial_name', 'systematics', 'split_systematics', 'sub_systematics', 'variety',
                     'minerals', 'mohs_scale', 'created_at', 'last_modified',
                     'id')
 
@@ -89,13 +88,6 @@ class PhotographAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Photograph, PhotographAdmin)
-
-
-class ClassificationAdmin(admin.ModelAdmin):
-    list_display = ('classification_name', 'id')
-
-
-admin.site.register(Classification, ClassificationAdmin)
 
 
 class GlossaryEntryAdmin(admin.ModelAdmin):

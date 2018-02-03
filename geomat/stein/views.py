@@ -10,7 +10,6 @@ from rest_framework import generics
 from rest_framework.response import Response
 
 from geomat.stein.models import (
-    Classification,
     CrystalSystem,
     GlossaryEntry,
     Handpiece,
@@ -20,7 +19,6 @@ from geomat.stein.models import (
     QuizQuestion
 )
 from geomat.stein.serializers import (
-    ClassificationSerializer,
     CrystalSystemFullSerializer,
     GlossaryEntrySerializer,
     HandpieceSerializer,
@@ -128,12 +126,6 @@ class PhotographDetail(generics.RetrieveAPIView):
     name = 'photograph'
 
 
-class ClassificationDetail(generics.RetrieveAPIView):
-    queryset = Classification.objects.all()
-    serializer_class = ClassificationSerializer
-    name = 'classification'
-
-
 class QuizQuestionDetail(generics.RetrieveAPIView):
     queryset = QuizQuestion.objects.all()
     serializer_class = QuizQuestionFullSerializer
@@ -181,12 +173,6 @@ class PhotographList(generics.ListAPIView):
     queryset = Photograph.objects.all()
     serializer_class = PhotographSerializer
     name = 'photograph-list'
-
-
-class ClassificationList(generics.ListAPIView):
-    queryset = Classification.objects.all()
-    serializer_class = ClassificationSerializer
-    name = 'classification-list'
 
 
 class QuizQuestionList(generics.ListAPIView):

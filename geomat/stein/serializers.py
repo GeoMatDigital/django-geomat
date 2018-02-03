@@ -94,8 +94,9 @@ class CrystalSystemLessSerializer(serializers.ModelSerializer):
 class MineralTypeSerializer(serializers.ModelSerializer):
     classification = NameClassificationSerializer()
     systematics = serializers.SerializerMethodField()
+    sub_systematics = serializers.SerializerMethodField()
+    split_systematics = serializers.SerializerMethodField()
     fracture = serializers.SerializerMethodField()
-    cleavage = CleavageSerializer(many=True)
     lustre = serializers.SerializerMethodField()
     crystal_system = CrystalSystemLessSerializer(many=True)
 
@@ -106,6 +107,12 @@ class MineralTypeSerializer(serializers.ModelSerializer):
 
     def get_systematics(self, obj):
         return obj.get_systematics_display()
+
+    def get_sub_systematics(self, obj):
+        return obj.get_sub_systematics_display()
+
+    def get_split_systematics(self, obj):
+        return obj.get_split_systematics_display()
 
     def get_fracture(self, obj):
         lst = []

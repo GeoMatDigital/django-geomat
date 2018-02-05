@@ -238,6 +238,38 @@ class MineraltypeProfiles(generics.ListAPIView):
     serializer_class = MineralProfilesSerializer
     name = 'mineraltype-profiles'
 
+    def list(self, request, *args, **kwargs):
+        """
+        We build the structure in the Backend so that the Appp only has to
+        loop over the rResponse and create the profiles dynamically
+        """
+
+        data = {}
+        query = self.get_queryset()
+        serializer = self.get_serializer_class()
+        for short, systematic in MineralType.MINERAL_CATEGORIES:
+            data[str(systematic)] = {}
+            data[str(systematic)]["img"] = ""  # image corresponding to systematic
+            for sh, sp_syst in MineralType.SPLIT_CHOICES:
+                data[str(systematic)][str(sp_syst)] = {}
+                data[str(systematic)][str(sp_syst)]["img"] = "" # immage corresponding to split_systematic
+
+                for abv, sub in MineralType.SUB_CHOICES:
+
+                    query = query.filter(systematics=short, split_systematics=sh,
+                                         sub_systematics=abv)
+                    if not query.exists():
+                        continue
+
+                    data[str(systematic)][str(sp_syst)][str(sub)]["profiles"] = serializer(query, many=True).data
+                    data[str(systematic)][str(sp_syst)][str(sub)]["img"] = "" # image corresponding to sub_systematics
+
+                query = query = query.filter(systematics=short, split_systematics=sh)
+                data[str(systematic)][str(sp_syst)]["profiles"] = serializer(query, many=True).data
+
+        return Response(data)
+
+
 
 # Api View for the Glossary
 class GlossaryView(generics.ListAPIView):

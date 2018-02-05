@@ -8,7 +8,6 @@ from stdimage.models import StdImageField
 # Mostly all fields are defined as CharFields, so the input is easier.
 # The max_length is a total arbitrary value that I defined in the beginning.
 
-
 class MineralType(models.Model):
     """
     Defines the mineral type model. This model is used as a

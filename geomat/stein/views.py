@@ -6,6 +6,12 @@ from django.db.models import Count
 from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.views.generic.list import ListView
+from django.urls import reverse
+from django.utils.translation import ugettext_lazy as _
+from django.utils import translation
+from django.utils.text import format_lazy
+from django.utils.translation import pgettext_lazy
+
 from rest_framework import generics
 from rest_framework.response import Response
 
@@ -238,37 +244,39 @@ class MineraltypeProfiles(generics.ListAPIView):
     serializer_class = MineralProfilesSerializer
     name = 'mineraltype-profiles'
 
-    def list(self, request, *args, **kwargs):
-        """
-        We build the structure in the Backend so that the Appp only has to
-        loop over the rResponse and create the profiles dynamically
-        """
+
+# FUTURE API View for the Mineraltype Profiles
+# processes a url looking like this :
+# profiles/<int:layer>/<str:item>
+
+class FutureMineraltypeProfiles(generics.RetrieveAPIView):
+    queryset = MineralType.objects.all()
+    serializer_class = MineralProfilesSerializer
+    name = 'mineraltype-profiles'
+    app = "api"
+    layers = {0:MineralType.MINERAL_CATEGORIES,
+              1:MineralType.SPLIT_CHOICES,
+              2:MineralType.SUB_CHOICES}
+
+    def get(self, request,layer, item=None, *args, **kwargs):
 
         data = {}
-        query = self.get_queryset()
-        serializer = self.get_serializer_class()
-        for short, systematic in MineralType.MINERAL_CATEGORIES:
-            data[str(systematic)] = {}
-            data[str(systematic)]["img"] = ""  # image corresponding to systematic
-            for sh, sp_syst in MineralType.SPLIT_CHOICES:
-                data[str(systematic)][str(sp_syst)] = {}
-                data[str(systematic)][str(sp_syst)]["img"] = "" # immage corresponding to split_systematic
+        tpl = self.layers[layer]
+        item = _(item)
+        for short, entry in tpl:
+            if not (str(entry) in str(item)) and layer>0:
+                continue
 
-                for abv, sub in MineralType.SUB_CHOICES:
+            key = str(entry)
+            translation.activate('en')      # this is a hack
+            krgs = {"layer":layer+1, "item":entry}
 
-                    query = query.filter(systematics=short, split_systematics=sh,
-                                         sub_systematics=abv)
-                    if not query.exists():
-                        continue
+            data[key] = {"link": reverse("{0}:{1}".format(self.app,self.name),
+                                                kwargs=krgs)}
+            translation.deactivate()
 
-                    data[str(systematic)][str(sp_syst)][str(sub)]["profiles"] = serializer(query, many=True).data
-                    data[str(systematic)][str(sp_syst)][str(sub)]["img"] = "" # image corresponding to sub_systematics
 
-                query = query = query.filter(systematics=short, split_systematics=sh)
-                data[str(systematic)][str(sp_syst)]["profiles"] = serializer(query, many=True).data
-
-        return Response(data)
-
+        return  Response(data)
 
 
 # Api View for the Glossary

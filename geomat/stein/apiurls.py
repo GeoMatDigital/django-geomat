@@ -1,5 +1,6 @@
 """URL definitions for REST framework"""
 from django.conf.urls import url, include
+from django.urls import path, re_path
 from rest_framework.urlpatterns import format_suffix_patterns
 from geomat.feedback.views import FeedBackView
 
@@ -21,7 +22,8 @@ from geomat.stein.views import (
     QuizQuestionDetail,
     QuizAnswerDetail,
     MineraltypeProfiles,
-    GlossaryView
+    GlossaryView,
+    FutureMineraltypeProfiles
 )
 
 app_name = "api"
@@ -103,11 +105,15 @@ urlpatterns = [
         FilterPhotographList.as_view(),
         name=FilterPhotographList.name),
     # Mineral Profiles View
-    url(
-        r'^profiles',
-        MineraltypeProfiles.as_view(),
-        name=MineraltypeProfiles.name
-    ),
+    path('profiles/<int:layer>/<str:item>',
+        FutureMineraltypeProfiles.as_view(),
+        name=MineraltypeProfiles.name),
+
+    # url(
+    #     r'^profiles',
+    #     MineraltypeProfiles.as_view(),
+    #     name=MineraltypeProfiles.name
+    # ),
     # Glossary View
     url(
         r'^glossary',

@@ -12,7 +12,7 @@ from django.utils import translation
 from django.utils.text import format_lazy
 from django.utils.translation import pgettext_lazy
 
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.response import Response
 
 from geomat.stein.models import (
@@ -250,33 +250,76 @@ class MineraltypeProfiles(generics.ListAPIView):
 # profiles/<int:layer>/<str:item>
 
 class FutureMineraltypeProfiles(generics.RetrieveAPIView):
-    queryset = MineralType.objects.all()
+    model = MineralType
+    queryset = model.objects.all()
     serializer_class = MineralProfilesSerializer
     name = 'mineraltype-profiles'
     app = "api"
-    layers = {0:MineralType.MINERAL_CATEGORIES,
-              1:MineralType.SPLIT_CHOICES,
-              2:MineralType.SUB_CHOICES}
+    # layers = {0:MineralType.MINERAL_CATEGORIES,
+    #           1:MineralType.SPLIT_CHOICES,
+    #           2:MineralType.SUB_CHOICES}
+
+    fields = {0:"systematics",
+              1:"split_systematics",
+              2:"sub_systematics"}
 
     def get(self, request,layer, item=None, *args, **kwargs):
 
-        data = {}
-        tpl = self.layers[layer]
-        item = _(item)
-        for short, entry in tpl:
-            if not (str(entry) in str(item)) and layer>0:
-                continue
 
-            key = str(entry)
-            translation.activate('en')      # this is a hack
-            krgs = {"layer":layer+1, "item":entry}
+        if len(self.fields) == layer:
 
-            data[key] = {"link": reverse("{0}:{1}".format(self.app,self.name),
-                                                kwargs=krgs)}
+            field = self.get_layer_field(layer - 1)
+            tpl = self.get_choices(field)
+
+            translation.activate('en')
+            query = self.get_queryset().filter(**{field: self.get_search_abrev(tpl, item)})
             translation.deactivate()
 
+            return Response(self.get_serializer(query, many=True).data)
 
-        return  Response(data)
+        elif len(self.fields) - 1 < layer:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        else:
+            data = {}
+            field = self.get_layer_field(layer)
+            tpl = self.get_choices(field)
+
+            for short, entry in tpl:
+                if layer > 0 and not (str(entry) in str(item) or str(item) in str(entry)):
+                    continue
+
+
+                key = str(entry)
+                translation.activate('en')      # this is a hack
+                krgs = {"layer":layer+1, "item":entry}
+
+                data[key] = {"link": reverse("{0}:{1}".format(self.app,self.name),
+                                             kwargs=krgs)}
+                translation.deactivate()
+
+            if data:
+                return  Response(data)
+
+            field = self.get_layer_field(layer-1)
+            tpl = self.get_choices(field)
+
+            translation.activate('en')
+            query = self.get_queryset().filter(**{field:self.get_search_abrev(tpl, item)})
+            translation.deactivate()
+
+            return Response(self.get_serializer(query, many=True).data)
+
+
+    def get_choices(self, field):
+        tpl = self.model._meta.get_field(field).choices
+        return tpl
+
+    def get_layer_field(self, layer):
+        return self.fields[layer]
+
+    def get_search_abrev(self, choices, item):
+        return dict((reversed(x) for x in choices))[item]
 
 
 # Api View for the Glossary

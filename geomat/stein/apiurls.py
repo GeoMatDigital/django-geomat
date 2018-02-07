@@ -109,11 +109,11 @@ urlpatterns = [
         FutureMineraltypeProfiles.as_view(),
         name=MineraltypeProfiles.name),
 
-    # url(
-    #     r'^profiles',
-    #     MineraltypeProfiles.as_view(),
-    #     name=MineraltypeProfiles.name
-    # ),
+    url(
+        r'^profiles',
+        MineraltypeProfiles.as_view(),
+        name=MineraltypeProfiles.name
+    ),
     # Glossary View
     url(
         r'^glossary',

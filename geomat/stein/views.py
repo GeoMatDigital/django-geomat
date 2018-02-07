@@ -263,8 +263,7 @@ class FutureMineraltypeProfiles(generics.RetrieveAPIView):
               1:"split_systematics",
               2:"sub_systematics"}
 
-    def get(self, request,layer, item=None, *args, **kwargs):
-
+    def get(self, request, layer, item=None, *args, **kwargs):
 
         if len(self.fields) == layer:
 
@@ -286,20 +285,25 @@ class FutureMineraltypeProfiles(generics.RetrieveAPIView):
             tpl = self.get_choices(field)
 
             for short, entry in tpl:
+                key = str(entry)
+                
+                translation.activate('en')
                 if layer > 0 and not (str(entry) in str(item) or str(item) in str(entry)):
+                    translation.deactivate()
                     continue
 
 
-                key = str(entry)
                 translation.activate('en')      # this is a hack
-                krgs = {"layer":layer+1, "item":entry}
+                krgs = {
+                    "layer": layer+1,
+                    "item": entry}
 
                 data[key] = {"link": reverse("{0}:{1}".format(self.app,self.name),
                                              kwargs=krgs)}
                 translation.deactivate()
 
             if data:
-                return  Response(data)
+                return Response(data)
 
             field = self.get_layer_field(layer-1)
             tpl = self.get_choices(field)

@@ -37,7 +37,7 @@ urlpatterns = [
         FeedBackView.as_view(),
         name='feedback'),
 
-    # Detail Views for Crystalsystems, Handpieces, Photographs, Mineraltypes and Classifications
+    # Detail Views for Crystalsystems, Handpieces, Photographs and Mineraltypes
 
     url(
         r'^crystalsystem/(?P<pk>[0-9]+)/$',

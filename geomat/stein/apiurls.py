@@ -1,10 +1,11 @@
 """URL definitions for REST framework"""
 from django.conf.urls import url, include
-from django.urls import path, re_path
 from rest_framework.urlpatterns import format_suffix_patterns
 from geomat.feedback.views import FeedBackView
 
 from geomat.stein.views import (
+    ClassificationDetail,
+    ClassificationList,
     CrystalsystemDetail,
     CrystalsystemList,
     FilterCrystalSystemList,
@@ -22,8 +23,7 @@ from geomat.stein.views import (
     QuizQuestionDetail,
     QuizAnswerDetail,
     MineraltypeProfiles,
-    GlossaryView,
-    FutureMineraltypeProfiles
+    GlossaryView
 )
 
 app_name = "api"
@@ -37,7 +37,7 @@ urlpatterns = [
         FeedBackView.as_view(),
         name='feedback'),
 
-    # Detail Views for Crystalsystems, Handpieces, Photographs and Mineraltypes
+    # Detail Views for Crystalsystems, Handpieces, Photographs, Mineraltypes and Classifications
 
     url(
         r'^crystalsystem/(?P<pk>[0-9]+)/$',
@@ -55,6 +55,11 @@ urlpatterns = [
         r'^mineraltype/(?P<pk>[0-9]+)/$',
         MineraltypeDetail.as_view(),
         name=MineraltypeDetail.name),
+    url(
+        r'^classification/(?P<pk>[0-9]+)/$',
+        ClassificationDetail.as_view(),
+        name=ClassificationDetail.name
+    ),
     url(
         r'^quizquestion/(?P<pk>[0-9]+)/$',
         QuizQuestionDetail.as_view(),
@@ -80,6 +85,9 @@ urlpatterns = [
         r'^mineraltype_list',
         MineraltypeList.as_view(),
         name=MineraltypeList.name),
+    url(r'^classification_list',
+        ClassificationList.as_view(),
+        name=ClassificationList.name),
     url(r"^quizquestion_list",
         QuizQuestionList.as_view(),
         name=QuizQuestionList.name),
@@ -105,10 +113,6 @@ urlpatterns = [
         FilterPhotographList.as_view(),
         name=FilterPhotographList.name),
     # Mineral Profiles View
-    path('profiles/<int:layer>/<str:item>',
-        FutureMineraltypeProfiles.as_view(),
-        name=MineraltypeProfiles.name),
-
     url(
         r'^profiles',
         MineraltypeProfiles.as_view(),

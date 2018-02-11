@@ -6,16 +6,11 @@ from django.db.models import Count
 from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.views.generic.list import ListView
-from django.urls import reverse
-from django.utils.translation import ugettext_lazy as _
-from django.utils import translation
-from django.utils.text import format_lazy
-from django.utils.translation import pgettext_lazy
-
-from rest_framework import generics, status
+from rest_framework import generics
 from rest_framework.response import Response
 
 from geomat.stein.models import (
+    Classification,
     CrystalSystem,
     GlossaryEntry,
     Handpiece,
@@ -25,6 +20,7 @@ from geomat.stein.models import (
     QuizQuestion
 )
 from geomat.stein.serializers import (
+    ClassificationSerializer,
     CrystalSystemFullSerializer,
     GlossaryEntrySerializer,
     HandpieceSerializer,
@@ -132,6 +128,12 @@ class PhotographDetail(generics.RetrieveAPIView):
     name = 'photograph'
 
 
+class ClassificationDetail(generics.RetrieveAPIView):
+    queryset = Classification.objects.all()
+    serializer_class = ClassificationSerializer
+    name = 'classification'
+
+
 class QuizQuestionDetail(generics.RetrieveAPIView):
     queryset = QuizQuestion.objects.all()
     serializer_class = QuizQuestionFullSerializer
@@ -179,6 +181,12 @@ class PhotographList(generics.ListAPIView):
     queryset = Photograph.objects.all()
     serializer_class = PhotographSerializer
     name = 'photograph-list'
+
+
+class ClassificationList(generics.ListAPIView):
+    queryset = Classification.objects.all()
+    serializer_class = ClassificationSerializer
+    name = 'classification-list'
 
 
 class QuizQuestionList(generics.ListAPIView):
@@ -243,87 +251,6 @@ class MineraltypeProfiles(generics.ListAPIView):
     queryset = MineralType.objects.all()
     serializer_class = MineralProfilesSerializer
     name = 'mineraltype-profiles'
-
-
-# FUTURE API View for the Mineraltype Profiles
-# processes a url looking like this :
-# profiles/<int:layer>/<str:item>
-
-class FutureMineraltypeProfiles(generics.RetrieveAPIView):
-    model = MineralType
-    queryset = model.objects.all()
-    serializer_class = MineralProfilesSerializer
-    name = 'mineraltype-profiles'
-    app = "api"
-    # layers = {0:MineralType.MINERAL_CATEGORIES,
-    #           1:MineralType.SPLIT_CHOICES,
-    #           2:MineralType.SUB_CHOICES}
-
-    fields = {0:"systematics",
-              1:"split_systematics",
-              2:"sub_systematics"}
-
-    def get(self, request, layer, item=None, *args, **kwargs):
-
-        if len(self.fields) == layer:
-
-            field = self.get_layer_field(layer - 1)
-            tpl = self.get_choices(field)
-
-            translation.activate('en')
-            query = self.get_queryset().filter(**{field: self.get_search_abrev(tpl, item)})
-            translation.deactivate()
-
-            return Response(self.get_serializer(query, many=True).data)
-
-        elif len(self.fields) - 1 < layer:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
-        else:
-            data = {}
-            field = self.get_layer_field(layer)
-            tpl = self.get_choices(field)
-
-            for short, entry in tpl:
-                key = str(entry)
-                
-                translation.activate('en')
-                if layer > 0 and not (str(entry) in str(item) or str(item) in str(entry)):
-                    translation.deactivate()
-                    continue
-
-
-                translation.activate('en')      # this is a hack
-                krgs = {
-                    "layer": layer+1,
-                    "item": entry}
-
-                data[key] = {"link": reverse("{0}:{1}".format(self.app,self.name),
-                                             kwargs=krgs)}
-                translation.deactivate()
-
-            if data:
-                return Response(data)
-
-            field = self.get_layer_field(layer-1)
-            tpl = self.get_choices(field)
-
-            translation.activate('en')
-            query = self.get_queryset().filter(**{field:self.get_search_abrev(tpl, item)})
-            translation.deactivate()
-
-            return Response(self.get_serializer(query, many=True).data)
-
-
-    def get_choices(self, field):
-        tpl = self.model._meta.get_field(field).choices
-        return tpl
-
-    def get_layer_field(self, layer):
-        return self.fields[layer]
-
-    def get_search_abrev(self, choices, item):
-        return dict((reversed(x) for x in choices))[item]
 
 
 # Api View for the Glossary

@@ -69,13 +69,14 @@ def gallery_view(request):
 
 
 class ListFilterAPIView(generics.ListAPIView):
-    """ A View which creates a filters dict and returns a List of objects matching alle given Filters.
-        View only for Retrieving Data."""
-    varchar_fields = (
-    )  # Tupel containing all modelfileds which are varcharfields
+    """
+    A View which creates a filters dict and returns a List of objects matching alle given Filters.
+    View only for Retrieving Data.
+
+    """
+    varchar_fields = ()  # Tupel containing all modelfileds which are varcharfields
     int_fields = ()  # Tupel containing all modelfileds which are integerfields
-    model_fields = (
-    )  # Tupel containing all modelfileds which are Model relation fields those are also ints
+    model_fields = ()  # Tupel containing all modelfileds which are Model relation fields those are also ints
 
     def get_filters(self):
         """ Method which creates the filters dict.
@@ -108,47 +109,110 @@ class ListFilterAPIView(generics.ListAPIView):
 
 
 # API Detail views
+# This section is for all ReadOnly Endpoints meaning they only define GET'able Endpoints.
+# To achieve this we utilize the ReadOnlyModelViewSet for DRF.
+
 
 class HandpieceEndpoint(ReadOnlyModelViewSet):
+    """
+    This Endpoint reflects the Databasetable of all existing Handpieces.
+    Therefor it's a GET only Endpoint.
+    The routing for the collection and the idividual resource is handled by the Viewset.
+    """
     queryset = Handpiece.objects.all()
     serializer_class = HandpieceSerializer
     name = 'handpiece'
 
 
 class CrystalsystemEndpoint(ReadOnlyModelViewSet):
+    """
+    This Endpoint reflects the Databasetable of all existing Crystalsystems.
+    Therefor it's a GET only Endpoint.
+    The routing for the collection and the idividual resource is handled by the Viewset.
+    """
     queryset = CrystalSystem.objects.all()
     serializer_class = CrystalSystemFullSerializer
     name = 'crystalsystem'
 
 
 class MineraltypeEndpoint(ReadOnlyModelViewSet):
+    """
+    This Endpoint reflects the Databasetable of all existing Handpieces.
+    Therefor it's a GET only Endpoint.
+    The routing for the collection and the idividual resource is handled by the Viewset.
+    """
     queryset = MineralType.objects.all()
     serializer_class = MineralTypeSerializer
     name = 'mineraltype'
 
 
 class PhotographEndpoint(ReadOnlyModelViewSet):
+    """
+    This Endpoint reflects the Databasetable of all existing Photographs.
+    Therefor it's a GET only Endpoint.
+    The routing for the collection and the idividual resource is handled by the Viewset.
+    """
     queryset = Photograph.objects.all()
     serializer_class = PhotographSerializer
     name = 'photograph'
 
 
 class QuizQuestionEndpoint(ReadOnlyModelViewSet):
+    """
+    This Endpoint reflects the Databasetable of all existing QuizQuestions.
+    Therefor it's a GET only Endpoint.
+    The routing for the collection and the idividual resource is handled by the Viewset.
+    """
     queryset = QuizQuestion.objects.all()
     serializer_class = QuizQuestionFullSerializer
     name = 'quizquestion'
 
 
 class QuizAnswerEndpoint(ReadOnlyModelViewSet):
+    """
+    This Endpoint reflects the Databasetable of all existing QuizAnswers.
+    Therefor it's a GET only Endpoint.
+    The routing for the collection and the idividual resource is handled by the Viewset.
+    """
     queryset = QuizAnswer.objects.all()
     serializer_class = QuizAnswerFullSerializer
     name = 'quizanswer'
 
 
 # Filter API Views
+# This is an Invention to retrieve resources or collections filtered according to the
+# Database fields and their values.
+# This Endpoints are also ReadOnly Endpoints and hence only GET'able
 
 
 class FilterMineraltypeList(ListFilterAPIView):
+    """
+    This is a Filter Endpoint. It allows to filter it's Resource according to the
+    databasefields an their values.
+    Providing a field and it's value to filter by just use the common GET syntax.
+    This Means :
+        * url\?\<first_fieldname\>\=value1\&\<second_fieldname\>\=value2
+    Resource:
+        * MineralType
+    Fields available for this Resource are:
+        trivial_name, systematics, variety, minerals,
+        mohs_scale, density, streak, normal_color,
+        fracture, cleavage, lustre, chemical_formula,
+        other, resource_mindat, resource_mineralienatlas
+    Note to filter for systematics one needs this 'translations':
+       * EL = Elements
+       * SF = Sulfides & Sulfosalts
+       * HG = Halogenides
+       * OH = Oxides and Hydroxides
+       * CN = Carbonates and Nitrates
+       * BR = Borates
+       * SL = Sulfates
+       * PV = Phosphates, Arsenates & Vanadates
+       * SG = Silicates & Germanates
+       * OC = Organic Compounds
+
+    """
+
     queryset = MineralType.objects.all()
     serializer_class = MineralTypeSerializer
     name = 'mineraltype-filter'
@@ -163,6 +227,26 @@ class FilterMineraltypeList(ListFilterAPIView):
 
 
 class FilterCrystalSystemList(ListFilterAPIView):
+    """
+    This is a Filter Endpoint. It allows to filter it's Resource according to the
+    databasefields an their values.
+    Providing a field and it's value to filter by just use the common GET syntax.
+
+    This Means :
+        * url\?\<first_fieldname\>\=value1\&\<second_fieldname\>\=value2
+
+    Resource:
+        * Crystalsystem
+
+    Fields available for this Resource are:
+        mineral_type, crystal_system, temperature,
+        pressure
+
+    Note to filter for mineral_type:
+    The value of those fields is the id of a MineralType Resource.
+
+    """
+
     queryset = CrystalSystem.objects.all()
     serializer_class = CrystalSystemFullSerializer
     name = 'crystalsystem-filter'
@@ -173,6 +257,25 @@ class FilterCrystalSystemList(ListFilterAPIView):
 
 
 class FilterHandpieceList(ListFilterAPIView):
+    """
+    This is a Filter Endpoint. It allows to filter it's Resource according to the
+    databasefields an their values.
+    Providing a field and it's value to filter by just use the common GET syntax.
+
+    This Means :
+        * url\?\<first_fieldname\>\=value1\&\<second_fieldname\>\=value2
+
+    Resource:
+        * Handpiece
+
+    Fields available for this Resource are:
+        name, mineral_type, finding_place,
+        current_location, old_inventory_number
+
+    Note to filter for mineral_type:
+    The value of those fields is the id of a MineralType Resource.
+
+    """
     queryset = Handpiece.objects.all()
     serializer_class = HandpieceSerializer
     name = 'handpiece-filter'
@@ -182,6 +285,25 @@ class FilterHandpieceList(ListFilterAPIView):
 
 
 class FilterPhotographList(ListFilterAPIView):
+    """
+    This is a Filter Endpoint. It allows to filter it's Resource according to the
+    databasefields an their values.
+    Providing a field and it's value to filter by just use the common GET syntax.
+
+    This Means :
+        * url\?\<first_fieldname\>\=value1\&\<second_fieldname\>\=value2
+
+    Resource:
+        * Handpiece
+
+    Fields available for this Resource are:
+        image_file, handpiece, orientation, shot_type,
+        online_status, created_at, last_modified
+
+    Note to filter for handpiece:
+    The value of those fields is the id of a Handpiece Resource.
+
+    """
     queryset = Photograph.objects.all()
     serializer_class = PhotographSerializer
     name = 'photograph-filter'

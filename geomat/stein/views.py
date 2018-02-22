@@ -7,13 +7,15 @@ from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.urls import reverse
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy
 from django.utils import translation
 from django.utils.text import format_lazy
 from django.utils.translation import pgettext_lazy
 
 from rest_framework import generics, status
 from rest_framework.response import Response
+from rest_framework.viewsets import ReadOnlyModelViewSet
+from rest_framework.mixins import RetrieveModelMixin, ListModelMixin
 
 from geomat.stein.models import (
     CrystalSystem,
@@ -107,90 +109,40 @@ class ListFilterAPIView(generics.ListAPIView):
 
 # API Detail views
 
-
-class HandpieceDetail(generics.RetrieveAPIView):
+class HandpieceEndpoint(ReadOnlyModelViewSet):
     queryset = Handpiece.objects.all()
     serializer_class = HandpieceSerializer
     name = 'handpiece'
 
 
-class CrystalsystemDetail(generics.RetrieveAPIView):
+class CrystalsystemEndpoint(ReadOnlyModelViewSet):
     queryset = CrystalSystem.objects.all()
     serializer_class = CrystalSystemFullSerializer
     name = 'crystalsystem'
 
 
-class MineraltypeDetail(generics.RetrieveAPIView):
+class MineraltypeEndpoint(ReadOnlyModelViewSet):
     queryset = MineralType.objects.all()
     serializer_class = MineralTypeSerializer
     name = 'mineraltype'
 
 
-class PhotographDetail(generics.RetrieveAPIView):
+class PhotographEndpoint(ReadOnlyModelViewSet):
     queryset = Photograph.objects.all()
     serializer_class = PhotographSerializer
     name = 'photograph'
 
 
-class QuizQuestionDetail(generics.RetrieveAPIView):
+class QuizQuestionEndpoint(ReadOnlyModelViewSet):
     queryset = QuizQuestion.objects.all()
     serializer_class = QuizQuestionFullSerializer
     name = 'quizquestion'
 
 
-class QuizAnswerDetail(generics.RetrieveAPIView):
+class QuizAnswerEndpoint(ReadOnlyModelViewSet):
     queryset = QuizAnswer.objects.all()
     serializer_class = QuizAnswerFullSerializer
     name = 'quizanswer'
-
-
-# API List views
-
-
-class HandpieceList(generics.ListAPIView):
-    queryset = Handpiece.objects.all()
-    serializer_class = HandpieceSerializer
-    name = 'handpiece-list'
-
-
-class CrystalsystemList(generics.ListAPIView):
-    """
-
-    This is a test
-
-    """
-    queryset = CrystalSystem.objects.all()
-    serializer_class = CrystalSystemFullSerializer
-    name = 'crystalsystem-list'
-
-    def list(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)
-
-
-class MineraltypeList(generics.ListAPIView):
-
-    #    queryset = MineralType.objects.annotate(handpiece_count=Count('handpiece')).all()
-    queryset = MineralType.objects.all()
-    serializer_class = MineralTypeSerializer
-    name = 'mineraltype-list'
-
-
-class PhotographList(generics.ListAPIView):
-    queryset = Photograph.objects.all()
-    serializer_class = PhotographSerializer
-    name = 'photograph-list'
-
-
-class QuizQuestionList(generics.ListAPIView):
-    queryset = QuizQuestion.objects.all()
-    serializer_class = QuizQuestionFullSerializer
-    name = 'quizquestion-list'
-
-
-class QuizAnswerList(generics.ListAPIView):
-    queryset = QuizAnswer.objects.all()
-    serializer_class = QuizAnswerFullSerializer
-    name = 'quizanswer-list'
 
 
 # Filter API Views
@@ -286,7 +238,7 @@ class FutureMineraltypeProfiles(generics.RetrieveAPIView):
 
             for short, entry in tpl:
                 key = str(entry)
-                
+
                 translation.activate('en')
                 if layer > 0 and not (str(entry) in str(item) or str(item) in str(entry)):
                     translation.deactivate()

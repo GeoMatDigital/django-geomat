@@ -17,7 +17,9 @@ from geomat.stein.views import (
     QuizQuestionEndpoint,
     QuizAnswerEndpoint,
     MineraltypeProfiles,
-    GlossaryView
+    GlossaryView,
+    FutureMineraltypeProfiles,
+    GalleryView
 )
 
 app_name = "api"
@@ -69,6 +71,11 @@ urlpatterns = [
         r'^glossary',
         GlossaryView.as_view(),
         name=GlossaryView.name
+    ),
+    url(
+        r'^gallery',
+        GalleryView.as_view(),
+        name=GalleryView.name
     ),
 ]
 

@@ -191,25 +191,28 @@ class FilterMineraltypeList(ListFilterAPIView):
     databasefields an their values.
     Providing a field and it's value to filter by just use the common GET syntax.
     This Means :
-        * url\?\<first_fieldname\>\=value1\&\<second_fieldname\>\=value2
-    Resource:
-        * MineralType
-    Fields available for this Resource are:
-        trivial_name, systematics, variety, minerals,
-        mohs_scale, density, streak, normal_color,
-        fracture, cleavage, lustre, chemical_formula,
-        other, resource_mindat, resource_mineralienatlas
-    Note to filter for systematics one needs this 'translations':
-       * EL = Elements
-       * SF = Sulfides & Sulfosalts
-       * HG = Halogenides
-       * OH = Oxides and Hydroxides
-       * CN = Carbonates and Nitrates
-       * BR = Borates
-       * SL = Sulfates
-       * PV = Phosphates, Arsenates & Vanadates
-       * SG = Silicates & Germanates
-       * OC = Organic Compounds
+    * url\?\<first_fieldname\>\=value1\&\<second_fieldname\>\=value2
+
+    Resource :
+    * MineralType
+
+    Fields available for this Resource are :
+    &nbsp;&nbsp;&nbsp;&nbsp;trivial_name, systematics, variety, minerals,
+    &nbsp;&nbsp;&nbsp;&nbsp;mohs_scale, density, streak, normal_color,
+    &nbsp;&nbsp;&nbsp;&nbsp;fracture, cleavage, lustre, chemical_formula,
+    &nbsp;&nbsp;&nbsp;&nbsp;other, resource_mindat, resource_mineralienatlas
+
+    Note to filter for systematics one needs this 'translations' :
+    * EL = Elements
+    * SF = Sulfides & Sulfosalts
+    * HG = Halogenides
+    * OH = Oxides and Hydroxides
+    * CN = Carbonates and Nitrates
+    * BR = Borates
+    * SL = Sulfates
+    * PV = Phosphates, Arsenates & Vanadates
+    * SG = Silicates & Germanates
+    * OC = Organic Compounds
 
     """
 
@@ -233,16 +236,16 @@ class FilterCrystalSystemList(ListFilterAPIView):
     Providing a field and it's value to filter by just use the common GET syntax.
 
     This Means :
-        * url\?\<first_fieldname\>\=value1\&\<second_fieldname\>\=value2
+    * url\?\<first_fieldname\>\=value1\&\<second_fieldname\>\=value2
 
-    Resource:
-        * Crystalsystem
+    Resource :
+    * Crystalsystem
 
-    Fields available for this Resource are:
-        mineral_type, crystal_system, temperature,
-        pressure
+    Fields available for this Resource are :
+    &nbsp;&nbsp;&nbsp;&nbsp;mineral_type, crystal_system, temperature,
+    &nbsp;&nbsp;&nbsp;&nbsp;pressure <br>
 
-    Note to filter for mineral_type:
+    Note to filter for mineral_type :
     The value of those fields is the id of a MineralType Resource.
 
     """
@@ -263,15 +266,14 @@ class FilterHandpieceList(ListFilterAPIView):
     Providing a field and it's value to filter by just use the common GET syntax.
 
     This Means :
-        * url\?\<first_fieldname\>\=value1\&\<second_fieldname\>\=value2
+    * url\?\<first_fieldname\>\=value1\&\<second_fieldname\>\=value2
 
-    Resource:
-        * Handpiece
+    Resource :
+    * Handpiece
 
     Fields available for this Resource are:
-        name, mineral_type, finding_place,
-        current_location, old_inventory_number
-
+    &nbsp;&nbsp;&nbsp;&nbsp;name, mineral_type, finding_place,
+    &nbsp;&nbsp;&nbsp;&nbsp;current_location, old_inventory_number <br>
     Note to filter for mineral_type:
     The value of those fields is the id of a MineralType Resource.
 
@@ -291,15 +293,14 @@ class FilterPhotographList(ListFilterAPIView):
     Providing a field and it's value to filter by just use the common GET syntax.
 
     This Means :
-        * url\?\<first_fieldname\>\=value1\&\<second_fieldname\>\=value2
+    * url\?\<first_fieldname\>\=value1\&\<second_fieldname\>\=value2
 
-    Resource:
-        * Handpiece
+    Resource :
+    * Handpiece
 
     Fields available for this Resource are:
-        image_file, handpiece, orientation, shot_type,
-        online_status, created_at, last_modified
-
+    &nbsp;&nbsp;&nbsp;&nbsp;image_file, handpiece, orientation, shot_type,
+    &nbsp;&nbsp;&nbsp;&nbsp;online_status, created_at, last_modified <br>
     Note to filter for handpiece:
     The value of those fields is the id of a Handpiece Resource.
 

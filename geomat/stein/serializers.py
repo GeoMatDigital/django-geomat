@@ -70,7 +70,11 @@ class CrystalSystemLessSerializer(serializers.ModelSerializer):
 
     def get_crystal_system(self, obj):
         choice_dict = dict(obj.CRYSTAL_SYSTEM_CHOICES)
-        return choice_dict[obj.crystal_system]
+        key = obj.crystal_system
+        if key:
+            return choice_dict[key]
+
+        return key
 
 
     class Meta:

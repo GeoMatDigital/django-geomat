@@ -67,7 +67,7 @@ class ApiViewTestCase(TestCase):
 
         handpiece = Handpiece.objects.get(name="testhandpiece")
         response = self.client.get(
-            reverse('api:handpiece', kwargs={'pk': handpiece.id}),
+            reverse('api:handpiece-detail', kwargs={'pk': handpiece.id}),
             kwargs={'pk': handpiece.id},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -79,7 +79,7 @@ class ApiViewTestCase(TestCase):
     def test_api_return_404_on_missing_handpiece_detail(self):
         """Test that the API returns 404 when requesting a non-existing Handpiece object."""
         response = self.client.get(
-            reverse('api:handpiece', kwargs={'pk': 123}),
+            reverse('api:handpiece-detail', kwargs={'pk': 123}),
             kwargs={'pk': 123},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -89,7 +89,7 @@ class ApiViewTestCase(TestCase):
 
         crystalsystem = CrystalSystem.objects.get(crystal_system="HG")
         response = self.client.get(
-            reverse('api:crystalsystem', kwargs={'pk': crystalsystem.id}),
+            reverse('api:crystalsystem-detail', kwargs={'pk': crystalsystem.id}),
             kwargs={'pk': crystalsystem.id},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -100,7 +100,7 @@ class ApiViewTestCase(TestCase):
     def test_api_return_404_on_missing_crystalsystem_detail(self):
         """Test that the API returns 404 when requesting a non-existing CrystalSystem object."""
         response = self.client.get(
-            reverse('api:crystalsystem', kwargs={'pk': 123}),
+            reverse('api:crystalsystem-detail', kwargs={'pk': 123}),
             kwargs={'pk': 123},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -111,7 +111,7 @@ class ApiViewTestCase(TestCase):
         handpiece = Handpiece.objects.get(name="testhandpiece")
         photograph = Photograph.objects.get(handpiece=handpiece)
         response = self.client.get(
-            reverse('api:photograph', kwargs={'pk': photograph.id}),
+            reverse('api:photograph-detail', kwargs={'pk': photograph.id}),
             kwargs={'pk': photograph.id},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -126,7 +126,7 @@ class ApiViewTestCase(TestCase):
     def test_api_return_404_on_missing_photograph_detail(self):
         """Test that the API returns 404 when requesting a non-existing Photograph object."""
         response = self.client.get(
-            reverse('api:photograph', kwargs={'pk': 123}),
+            reverse('api:photograph-detail', kwargs={'pk': 123}),
             kwargs={'pk': 123},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -136,7 +136,7 @@ class ApiViewTestCase(TestCase):
 
         mineraltype = MineralType.objects.get(trivial_name="testmineraltype")
         response = self.client.get(
-            reverse('api:mineraltype', kwargs={'pk': mineraltype.id}),
+            reverse('api:mineraltype-detail', kwargs={'pk': mineraltype.id}),
             kwargs={'pk': mineraltype.id},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -148,7 +148,7 @@ class ApiViewTestCase(TestCase):
     def test_api_return_404_on_missing_mineraltype_detail(self):
         """Test that the API returns 404 when requesting a non-existing mineraltype object."""
         response = self.client.get(
-            reverse('api:mineraltype', kwargs={'pk': 123}),
+            reverse('api:mineraltype-detail', kwargs={'pk': 123}),
             kwargs={'pk': 123},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -238,7 +238,7 @@ class ApiForbiddenMethodTestCase(TestCase):
         """Test if POST method is NOT allowed on handpiece detail view."""
         handpiece = Handpiece.objects.get(name="testhandpiece")
         response = self.client.post(
-            reverse('api:handpiece', kwargs={'pk': handpiece.id}),
+            reverse('api:handpiece-detail', kwargs={'pk': handpiece.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -247,7 +247,7 @@ class ApiForbiddenMethodTestCase(TestCase):
         """Test if POST method is NOT allowed on crystalsystem detail view."""
         crystalsystem = CrystalSystem.objects.get(crystal_system="HG")
         response = self.client.post(
-            reverse('api:crystalsystem', kwargs={'pk': crystalsystem.id}),
+            reverse('api:crystalsystem-detail', kwargs={'pk': crystalsystem.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -257,7 +257,7 @@ class ApiForbiddenMethodTestCase(TestCase):
         handpiece = Handpiece.objects.get(name="testhandpiece")
         photograph = Photograph.objects.get(handpiece=handpiece)
         response = self.client.post(
-            reverse('api:photograph', kwargs={'pk': photograph.id}),
+            reverse('api:photograph-detail', kwargs={'pk': photograph.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -267,7 +267,7 @@ class ApiForbiddenMethodTestCase(TestCase):
 
         mineraltype = MineralType.objects.get(trivial_name="testmineraltype")
         response = self.client.post(
-            reverse('api:mineraltype', kwargs={'pk': mineraltype.id}),
+            reverse('api:mineraltype-detail', kwargs={'pk': mineraltype.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -279,7 +279,7 @@ class ApiForbiddenMethodTestCase(TestCase):
         """Test if PUT method is NOT allowed on handpiece detail view."""
         handpiece = Handpiece.objects.get(name="testhandpiece")
         response = self.client.put(
-            reverse('api:handpiece', kwargs={'pk': handpiece.id}),
+            reverse('api:handpiece-detail', kwargs={'pk': handpiece.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -288,7 +288,7 @@ class ApiForbiddenMethodTestCase(TestCase):
         """Test if PUT method is NOT allowed on crystalsystem detail view."""
         crystalsystem = CrystalSystem.objects.get(crystal_system="HG")
         response = self.client.put(
-            reverse('api:crystalsystem', kwargs={'pk': crystalsystem.id}),
+            reverse('api:crystalsystem-detail', kwargs={'pk': crystalsystem.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -298,7 +298,7 @@ class ApiForbiddenMethodTestCase(TestCase):
         handpiece = Handpiece.objects.get(name="testhandpiece")
         photograph = Photograph.objects.get(handpiece=handpiece)
         response = self.client.put(
-            reverse('api:photograph', kwargs={'pk': photograph.id}),
+            reverse('api:photograph-detail', kwargs={'pk': photograph.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -308,7 +308,7 @@ class ApiForbiddenMethodTestCase(TestCase):
 
         mineraltype = MineralType.objects.get(trivial_name="testmineraltype")
         response = self.client.put(
-            reverse('api:mineraltype', kwargs={'pk': mineraltype.id}),
+            reverse('api:mineraltype-detail', kwargs={'pk': mineraltype.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -320,7 +320,7 @@ class ApiForbiddenMethodTestCase(TestCase):
         """Test if PATCH method is NOT allowed on handpiece detail view."""
         handpiece = Handpiece.objects.get(name="testhandpiece")
         response = self.client.patch(
-            reverse('api:handpiece', kwargs={'pk': handpiece.id}),
+            reverse('api:handpiece-detail', kwargs={'pk': handpiece.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -329,7 +329,7 @@ class ApiForbiddenMethodTestCase(TestCase):
         """Test if PATCH method is NOT allowed on crystalsystem detail view."""
         crystalsystem = CrystalSystem.objects.get(crystal_system="HG")
         response = self.client.patch(
-            reverse('api:crystalsystem', kwargs={'pk': crystalsystem.id}),
+            reverse('api:crystalsystem-detail', kwargs={'pk': crystalsystem.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -339,7 +339,7 @@ class ApiForbiddenMethodTestCase(TestCase):
         handpiece = Handpiece.objects.get(name="testhandpiece")
         photograph = Photograph.objects.get(handpiece=handpiece)
         response = self.client.patch(
-            reverse('api:photograph', kwargs={'pk': photograph.id}),
+            reverse('api:photograph-detail', kwargs={'pk': photograph.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -349,7 +349,7 @@ class ApiForbiddenMethodTestCase(TestCase):
 
         mineraltype = MineralType.objects.get(trivial_name="testmineraltype")
         response = self.client.patch(
-            reverse('api:mineraltype', kwargs={'pk': mineraltype.id}),
+            reverse('api:mineraltype-detail', kwargs={'pk': mineraltype.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -361,7 +361,7 @@ class ApiForbiddenMethodTestCase(TestCase):
         """Test if DELETE method is NOT allowed on handpiece detail view."""
         handpiece = Handpiece.objects.get(name="testhandpiece")
         response = self.client.delete(
-            reverse('api:handpiece', kwargs={'pk': handpiece.id}),
+            reverse('api:handpiece-detail', kwargs={'pk': handpiece.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -370,7 +370,7 @@ class ApiForbiddenMethodTestCase(TestCase):
         """Test if DELETE method is NOT allowed on crystalsystem detail view."""
         crystalsystem = CrystalSystem.objects.get(crystal_system="HG")
         response = self.client.delete(
-            reverse('api:crystalsystem', kwargs={'pk': crystalsystem.id}),
+            reverse('api:crystalsystem-detail', kwargs={'pk': crystalsystem.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -380,7 +380,7 @@ class ApiForbiddenMethodTestCase(TestCase):
         handpiece = Handpiece.objects.get(name="testhandpiece")
         photograph = Photograph.objects.get(handpiece=handpiece)
         response = self.client.delete(
-            reverse('api:photograph', kwargs={'pk': photograph.id}),
+            reverse('api:photograph-detail', kwargs={'pk': photograph.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -390,7 +390,7 @@ class ApiForbiddenMethodTestCase(TestCase):
 
         mineraltype = MineralType.objects.get(trivial_name="testmineraltype")
         response = self.client.delete(
-            reverse('api:mineraltype', kwargs={'pk': mineraltype.id}),
+            reverse('api:mineraltype-detail', kwargs={'pk': mineraltype.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)

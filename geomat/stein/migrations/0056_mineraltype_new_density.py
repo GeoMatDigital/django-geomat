@@ -4,7 +4,7 @@
 import django.contrib.postgres.fields.ranges
 from django.db import migrations
 
-def transform_to_new_density(apps, schmema_editor):
+def transform_to_new_density(apps, schema_editor):
     MineralType = apps.get_model("stein", "MineralType")
 
     for mineral in MineralType.objects.all():

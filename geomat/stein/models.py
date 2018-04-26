@@ -93,7 +93,7 @@ class MineralType(models.Model):
     minerals = models.CharField(
         max_length=100, blank=True, verbose_name=_("minerals"))
     mohs_scale = models.CharField(max_length=20, verbose_name=_("mohs scale"))
-    new_density = FloatRangeField(null=True, blank=True)
+    density = FloatRangeField(null=True, blank=True)
     streak = models.CharField(max_length=100, verbose_name=_("streak"))
     normal_color = models.CharField(
         max_length=100, verbose_name=_("normal color"))

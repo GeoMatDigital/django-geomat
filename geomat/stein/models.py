@@ -1,6 +1,7 @@
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.postgres.fields.ranges import FloatRangeField
 from geomat.stein.fields import ChoiceArrayField
 from stdimage.models import StdImageField
 
@@ -92,8 +93,7 @@ class MineralType(models.Model):
     minerals = models.CharField(
         max_length=100, blank=True, verbose_name=_("minerals"))
     mohs_scale = models.CharField(max_length=20, verbose_name=_("mohs scale"))
-    density = models.CharField(
-        max_length=20, default=0, verbose_name=_("density"))
+    density = FloatRangeField(null=True, blank=True)
     streak = models.CharField(max_length=100, verbose_name=_("streak"))
     normal_color = models.CharField(
         max_length=100, verbose_name=_("normal color"))

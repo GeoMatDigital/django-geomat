@@ -76,6 +76,7 @@ class ListFilterAPIView(generics.ListAPIView):
     """
     varchar_fields = ()  # Tupel containing all modelfileds which are varcharfields
     int_fields = ()  # Tupel containing all modelfileds which are integerfields
+    range_fields = () # Tuple containing all modelfields which are represented by rangefields
     model_fields = ()  # Tupel containing all modelfileds which are Model relation fields those are also ints
 
     def get_filters(self):
@@ -90,6 +91,11 @@ class ListFilterAPIView(generics.ListAPIView):
                         self.request.GET.get(field, None))
                 elif field in self.int_fields:  # Modelreferences are searched by pk
                     filters[field] = int(self.request.GET.get(field, None))
+
+                # We make the compromise that we only use float_fileds for ranges wich need to be filtered
+                # with __contains
+                elif field in self.range_fields:
+                    filters["{}__contains".format(field)] = float(self.request.GET.get(field, None))
                 elif field in self.model_fields:
                     filters[field] = int(self.request.GET.get(field, None))
                 else:
@@ -98,9 +104,9 @@ class ListFilterAPIView(generics.ListAPIView):
 
         return filters
 
-    def get_queryset(self):
+    def get_queryset(self,filters=None):
         """Method which returns the filtered Queryset."""
-        filters = self.get_filters()
+        filters =  filters if filters else self.get_filters()
         queryset = self.queryset
         if isinstance(queryset, QuerySet):
             queryset = queryset.all()
@@ -227,6 +233,7 @@ class FilterMineraltypeList(ListFilterAPIView):
         'fracture',
         'cleavage',
         'lustre', )
+    range_fields = ('density', )
 
 
 class FilterCrystalSystemList(ListFilterAPIView):

@@ -89,6 +89,7 @@ class MineralTypeSerializer(serializers.ModelSerializer):
     split_systematics = serializers.SerializerMethodField()
     fracture = serializers.SerializerMethodField()
     lustre = serializers.SerializerMethodField()
+    density =serializers.SerializerMethodField()
     crystal_system = CrystalSystemLessSerializer(many=True)
 
     class Meta:
@@ -128,6 +129,9 @@ class MineralTypeSerializer(serializers.ModelSerializer):
             for choice in obj.lustre:
                 lst.append(choice_dict.get(choice))
         return lst
+
+    def get_density(self,obj):
+        return "{0} - {1}".format(obj.density.lower, obj.density.upper).replace(".", ",")
 
 
 class MineralProfilesSerializer(MineralTypeSerializer):

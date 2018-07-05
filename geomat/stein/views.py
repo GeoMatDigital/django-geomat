@@ -232,7 +232,7 @@ class FilterMineraltypeList(ListFilterAPIView):
         'fracture',
         'cleavage',
         'lustre', )
-    range_fields = ('density', )
+    range_fields = ('density', 'mohs_scale')
 
 
 class FilterCrystalSystemList(ListFilterAPIView):

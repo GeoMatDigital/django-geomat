@@ -330,6 +330,7 @@ class FutureMineraltypeProfiles(generics.RetrieveAPIView):
     serializer_class = MineralProfilesSerializer
     name = 'mineraltype-profiles'
     app = "api"
+    root_layer = 0
     # layers = {0:MineralType.MINERAL_CATEGORIES,
     #           1:MineralType.SPLIT_CHOICES,
     #           2:MineralType.SUB_CHOICES}
@@ -340,7 +341,14 @@ class FutureMineraltypeProfiles(generics.RetrieveAPIView):
 
     def get(self, request, layer, item=None, *args, **kwargs):
 
-        if len(self.fields) == layer:
+        if layer == self.root_layer and not (item == "root"):
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        elif len(self.fields) - 1 < layer:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        elif len(self.fields) == layer:
+            # Case if we are at the last layer
 
             field = self.get_layer_field(layer - 1)
             tpl = self.get_choices(field)
@@ -350,11 +358,8 @@ class FutureMineraltypeProfiles(generics.RetrieveAPIView):
             translation.deactivate()
 
             return Response(self.get_serializer(query, many=True).data)
-
-        elif len(self.fields) - 1 < layer:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
         else:
+            # Normal Case
             data = {}
             field = self.get_layer_field(layer)
             tpl = self.get_choices(field)
@@ -363,8 +368,11 @@ class FutureMineraltypeProfiles(generics.RetrieveAPIView):
                 key = str(entry)
 
                 translation.activate('en')
-                if layer > 0 and not (str(entry) in str(item) or str(item) in str(entry)):
-                    translation.deactivate()
+
+                # we only want those fields which are included in
+                # possible compund Categories
+                if layer > 0 and not (str(entry) in str(item)):
+                    # translation.deactivate()
                     continue
 
 
@@ -383,14 +391,27 @@ class FutureMineraltypeProfiles(generics.RetrieveAPIView):
             field = self.get_layer_field(layer-1)
             tpl = self.get_choices(field)
 
-            translation.activate('en')
-            query = self.get_queryset().filter(**{field:self.get_search_abrev(tpl, item)})
-            translation.deactivate()
+            # translation.activate('en')
+
+            try:
+                search_abrev = self.get_search_abrev(tpl, item)
+            except KeyError:
+                return Response(status=status.HTTP_400_BAD_REQUEST, data={"text":"was here 2"})
+
+            query = self.get_queryset().filter(**{field:search_abrev})
+            # translation.deactivate()
 
             return Response(self.get_serializer(query, many=True).data)
 
 
     def get_choices(self, field):
+        """
+        Retrieve the choices for the provided fields.
+        Those are the new branches for the next leayer to view.
+        :param field:
+        :return:
+        """
+
         tpl = self.model._meta.get_field(field).choices
         return tpl
 
@@ -398,6 +419,13 @@ class FutureMineraltypeProfiles(generics.RetrieveAPIView):
         return self.fields[layer]
 
     def get_search_abrev(self, choices, item):
+        """
+        The fields values are abbreviations of reallife words. With this method
+        we retrieve the abreviations to filter afterwards
+        :param choices:
+        :param item:
+        :return:
+        """
         return dict((reversed(x) for x in choices))[item]
 
 

@@ -22,7 +22,7 @@ urlpatterns = [
     # REST framework
     url(r'^api-auth/',
         include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^api/', include("geomat.stein.apiurls", namespace="api")),
+    url(r'^', include("geomat.stein.apiurls", namespace="api")),
 
     # Let's fix this stupid issue with Google Chrome and make a redirect from '/favicon.ico' to our
     # 'common/images/favicon.ico' file!

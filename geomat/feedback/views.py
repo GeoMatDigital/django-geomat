@@ -19,9 +19,13 @@ class FeedBackView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         serializer = serializer.data
 
-        send_mail(subject=serializer["emailTitle"], from_email=serializer["userEmail"], message=serializer["emailContent"],
-                  recipient_list=["christian@elearning.physik.uni-frankfurt.de"], fail_silently=False)
-
-        return Response()
+        message = send_mail(subject=serializer["emailTitle"],
+                            from_email= "{0} <{1}>".format(serializer["username"],serializer["userEmail"]),
+                            message=serializer["emailContent"],
+                            recipient_list=["geomatdigital@dlist.uni-frankfurt.de"],
+                            fail_silently=False)
+        if not message:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(data=serializer)
 
 # Create your views here.

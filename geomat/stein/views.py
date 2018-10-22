@@ -168,7 +168,9 @@ class QuizQuestionEndpoint(ReadOnlyModelViewSet):
     Therefor it's a GET only Endpoint.
     The routing for the collection and the idividual resource is handled by the Viewset.
     """
-
+    queryset = QuizQuestion.objects.all()
+    serializer_class = QuizQuestionFullSerializer
+    name = 'quizquestion'
     
 class QuizAnswerEndpoint(ReadOnlyModelViewSet):
     """

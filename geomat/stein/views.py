@@ -6,8 +6,18 @@ from django.db.models import Count
 from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.views.generic.list import ListView
-from rest_framework import generics
+
+from django.urls import reverse
+from django.utils.translation import ugettext_lazy
+from django.utils import translation
+from django.utils.text import format_lazy
+from django.utils.translation import pgettext_lazy
+
+from rest_framework import generics, status
+
 from rest_framework.response import Response
+from rest_framework.viewsets import ReadOnlyModelViewSet
+from rest_framework.mixins import RetrieveModelMixin, ListModelMixin
 
 from geomat.stein.models import (
     Classification,
@@ -63,13 +73,14 @@ def gallery_view(request):
 
 
 class ListFilterAPIView(generics.ListAPIView):
-    """ A View which creates a filters dict and returns a List of objects matching alle given Filters.
-        View only for Retrieving Data."""
-    varchar_fields = (
-    )  # Tupel containing all modelfileds which are varcharfields
+    """
+    A View which creates a filters dict and returns a List of objects matching alle given Filters.
+    View only for Retrieving Data.
+
+    """
+    varchar_fields = ()  # Tupel containing all modelfileds which are varcharfields
     int_fields = ()  # Tupel containing all modelfileds which are integerfields
-    model_fields = (
-    )  # Tupel containing all modelfileds which are Model relation fields those are also ints
+    model_fields = ()  # Tupel containing all modelfileds which are Model relation fields those are also ints
 
     def get_filters(self):
         """ Method which creates the filters dict.
@@ -102,109 +113,110 @@ class ListFilterAPIView(generics.ListAPIView):
 
 
 # API Detail views
+# This section is for all ReadOnly Endpoints meaning they only define GET'able Endpoints.
+# To achieve this we utilize the ReadOnlyModelViewSet for DRF.
 
 
-class HandpieceDetail(generics.RetrieveAPIView):
+class HandpieceEndpoint(ReadOnlyModelViewSet):
+    """
+    This Endpoint reflects the Databasetable of all existing Handpieces.
+    Therefor it's a GET only Endpoint.
+    The routing for the collection and the idividual resource is handled by the Viewset.
+    """
     queryset = Handpiece.objects.all()
     serializer_class = HandpieceSerializer
     name = 'handpiece'
 
 
-class CrystalsystemDetail(generics.RetrieveAPIView):
+class CrystalsystemEndpoint(ReadOnlyModelViewSet):
+    """
+    This Endpoint reflects the Databasetable of all existing Crystalsystems.
+    Therefor it's a GET only Endpoint.
+    The routing for the collection and the idividual resource is handled by the Viewset.
+    """
     queryset = CrystalSystem.objects.all()
     serializer_class = CrystalSystemFullSerializer
     name = 'crystalsystem'
 
 
-class MineraltypeDetail(generics.RetrieveAPIView):
+class MineraltypeEndpoint(ReadOnlyModelViewSet):
+    """
+    This Endpoint reflects the Databasetable of all existing Handpieces.
+    Therefor it's a GET only Endpoint.
+    The routing for the collection and the idividual resource is handled by the Viewset.
+    """
     queryset = MineralType.objects.all()
     serializer_class = MineralTypeSerializer
     name = 'mineraltype'
 
 
-class PhotographDetail(generics.RetrieveAPIView):
+class PhotographEndpoint(ReadOnlyModelViewSet):
+    """
+    This Endpoint reflects the Databasetable of all existing Photographs.
+    Therefor it's a GET only Endpoint.
+    The routing for the collection and the idividual resource is handled by the Viewset.
+    """
     queryset = Photograph.objects.all()
     serializer_class = PhotographSerializer
     name = 'photograph'
 
 
-class ClassificationDetail(generics.RetrieveAPIView):
-    queryset = Classification.objects.all()
-    serializer_class = ClassificationSerializer
-    name = 'classification'
 
+class QuizQuestionEndpoint(ReadOnlyModelViewSet):
+    """
+    This Endpoint reflects the Databasetable of all existing QuizQuestions.
+    Therefor it's a GET only Endpoint.
+    The routing for the collection and the idividual resource is handled by the Viewset.
+    """
 
-class QuizQuestionDetail(generics.RetrieveAPIView):
-    queryset = QuizQuestion.objects.all()
-    serializer_class = QuizQuestionFullSerializer
-    name = 'quizquestion'
-
-
-class QuizAnswerDetail(generics.RetrieveAPIView):
+    
+class QuizAnswerEndpoint(ReadOnlyModelViewSet):
+    """
+    This Endpoint reflects the Databasetable of all existing QuizAnswers.
+    Therefor it's a GET only Endpoint.
+    The routing for the collection and the idividual resource is handled by the Viewset.
+    """
     queryset = QuizAnswer.objects.all()
     serializer_class = QuizAnswerFullSerializer
     name = 'quizanswer'
 
 
-# API List views
-
-
-class HandpieceList(generics.ListAPIView):
-    queryset = Handpiece.objects.all()
-    serializer_class = HandpieceSerializer
-    name = 'handpiece-list'
-
-
-class CrystalsystemList(generics.ListAPIView):
-    """
-
-    This is a test
-
-    """
-    queryset = CrystalSystem.objects.all()
-    serializer_class = CrystalSystemFullSerializer
-    name = 'crystalsystem-list'
-
-    def list(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)
-
-
-class MineraltypeList(generics.ListAPIView):
-
-    #    queryset = MineralType.objects.annotate(handpiece_count=Count('handpiece')).all()
-    queryset = MineralType.objects.all()
-    serializer_class = MineralTypeSerializer
-    name = 'mineraltype-list'
-
-
-class PhotographList(generics.ListAPIView):
-    queryset = Photograph.objects.all()
-    serializer_class = PhotographSerializer
-    name = 'photograph-list'
-
-
-class ClassificationList(generics.ListAPIView):
-    queryset = Classification.objects.all()
-    serializer_class = ClassificationSerializer
-    name = 'classification-list'
-
-
-class QuizQuestionList(generics.ListAPIView):
-    queryset = QuizQuestion.objects.all()
-    serializer_class = QuizQuestionFullSerializer
-    name = 'quizquestion-list'
-
-
-class QuizAnswerList(generics.ListAPIView):
-    queryset = QuizAnswer.objects.all()
-    serializer_class = QuizAnswerFullSerializer
-    name = 'quizanswer-list'
-
-
 # Filter API Views
+# This is an Invention to retrieve resources or collections filtered according to the
+# Database fields and their values.
+# This Endpoints are also ReadOnly Endpoints and hence only GET'able
 
 
 class FilterMineraltypeList(ListFilterAPIView):
+    """
+    This is a Filter Endpoint. It allows to filter it's Resource according to the
+    databasefields an their values.
+    Providing a field and it's value to filter by just use the common GET syntax.
+    This Means :
+    * url\?\<first_fieldname\>\=value1\&\<second_fieldname\>\=value2
+
+    Resource :
+    * MineralType
+
+    Fields available for this Resource are :
+    &nbsp;&nbsp;&nbsp;&nbsp;trivial_name, systematics, variety, minerals,
+    &nbsp;&nbsp;&nbsp;&nbsp;mohs_scale, density, streak, normal_color,
+    &nbsp;&nbsp;&nbsp;&nbsp;fracture, cleavage, lustre, chemical_formula,
+    &nbsp;&nbsp;&nbsp;&nbsp;other, resource_mindat, resource_mineralienatlas
+
+    Note to filter for systematics one needs this 'translations' :
+    * EL = Elements
+    * SF = Sulfides & Sulfosalts
+    * HG = Halogenides
+    * OH = Oxides and Hydroxides
+    * CN = Carbonates and Nitrates
+    * BR = Borates
+    * SL = Sulfates
+    * PV = Phosphates, Arsenates & Vanadates
+    * SG = Silicates & Germanates
+    * OC = Organic Compounds
+
+    """
     queryset = MineralType.objects.all()
     serializer_class = MineralTypeSerializer
     name = 'mineraltype-filter'
@@ -219,6 +231,26 @@ class FilterMineraltypeList(ListFilterAPIView):
 
 
 class FilterCrystalSystemList(ListFilterAPIView):
+    """
+    This is a Filter Endpoint. It allows to filter it's Resource according to the
+    databasefields an their values.
+    Providing a field and it's value to filter by just use the common GET syntax.
+
+    This Means :
+    * url\?\<first_fieldname\>\=value1\&\<second_fieldname\>\=value2
+
+    Resource :
+    * Crystalsystem
+
+    Fields available for this Resource are :
+    &nbsp;&nbsp;&nbsp;&nbsp;mineral_type, crystal_system, temperature,
+    &nbsp;&nbsp;&nbsp;&nbsp;pressure <br>
+
+    Note to filter for mineral_type :
+    The value of those fields is the id of a MineralType Resource.
+
+    """
+
     queryset = CrystalSystem.objects.all()
     serializer_class = CrystalSystemFullSerializer
     name = 'crystalsystem-filter'
@@ -229,6 +261,24 @@ class FilterCrystalSystemList(ListFilterAPIView):
 
 
 class FilterHandpieceList(ListFilterAPIView):
+    """
+    This is a Filter Endpoint. It allows to filter it's Resource according to the
+    databasefields an their values.
+    Providing a field and it's value to filter by just use the common GET syntax.
+
+    This Means :
+    * url\?\<first_fieldname\>\=value1\&\<second_fieldname\>\=value2
+
+    Resource :
+    * Handpiece
+
+    Fields available for this Resource are:
+    &nbsp;&nbsp;&nbsp;&nbsp;name, mineral_type, finding_place,
+    &nbsp;&nbsp;&nbsp;&nbsp;current_location, old_inventory_number <br>
+    Note to filter for mineral_type:
+    The value of those fields is the id of a MineralType Resource.
+
+    """
     queryset = Handpiece.objects.all()
     serializer_class = HandpieceSerializer
     name = 'handpiece-filter'
@@ -238,6 +288,24 @@ class FilterHandpieceList(ListFilterAPIView):
 
 
 class FilterPhotographList(ListFilterAPIView):
+    """
+    This is a Filter Endpoint. It allows to filter it's Resource according to the
+    databasefields an their values.
+    Providing a field and it's value to filter by just use the common GET syntax.
+
+    This Means :
+    * url\?\<first_fieldname\>\=value1\&\<second_fieldname\>\=value2
+
+    Resource :
+    * Handpiece
+
+    Fields available for this Resource are:
+    &nbsp;&nbsp;&nbsp;&nbsp;image_file, handpiece, orientation, shot_type,
+    &nbsp;&nbsp;&nbsp;&nbsp;online_status, created_at, last_modified <br>
+    Note to filter for handpiece:
+    The value of those fields is the id of a Handpiece Resource.
+
+    """
     queryset = Photograph.objects.all()
     serializer_class = PhotographSerializer
     name = 'photograph-filter'
@@ -251,6 +319,88 @@ class MineraltypeProfiles(generics.ListAPIView):
     queryset = MineralType.objects.all()
     serializer_class = MineralProfilesSerializer
     name = 'mineraltype-profiles'
+
+
+
+# FUTURE API View for the Mineraltype Profiles
+# processes a url looking like this :
+# profiles/<int:layer>/<str:item>
+
+class FutureMineraltypeProfiles(generics.RetrieveAPIView):
+    model = MineralType
+    queryset = model.objects.all()
+    serializer_class = MineralProfilesSerializer
+    name = 'mineraltype-profiles'
+    app = "api"
+    # layers = {0:MineralType.MINERAL_CATEGORIES,
+    #           1:MineralType.SPLIT_CHOICES,
+    #           2:MineralType.SUB_CHOICES}
+
+    fields = {0:"systematics",
+              1:"split_systematics",
+              2:"sub_systematics"}
+
+    def get(self, request, layer, item=None, *args, **kwargs):
+
+        if len(self.fields) == layer:
+
+            field = self.get_layer_field(layer - 1)
+            tpl = self.get_choices(field)
+
+            translation.activate('en')
+            query = self.get_queryset().filter(**{field: self.get_search_abrev(tpl, item)})
+            translation.deactivate()
+
+            return Response(self.get_serializer(query, many=True).data)
+
+        elif len(self.fields) - 1 < layer:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        else:
+            data = {}
+            field = self.get_layer_field(layer)
+            tpl = self.get_choices(field)
+
+            for short, entry in tpl:
+                key = str(entry)
+
+                translation.activate('en')
+                if layer > 0 and not (str(entry) in str(item) or str(item) in str(entry)):
+                    translation.deactivate()
+                    continue
+
+
+                translation.activate('en')      # this is a hack
+                krgs = {
+                    "layer": layer+1,
+                    "item": entry}
+
+                data[key] = {"link": reverse("{0}:{1}".format(self.app,self.name),
+                                             kwargs=krgs)}
+                translation.deactivate()
+
+            if data:
+                return Response(data)
+
+            field = self.get_layer_field(layer-1)
+            tpl = self.get_choices(field)
+
+            translation.activate('en')
+            query = self.get_queryset().filter(**{field:self.get_search_abrev(tpl, item)})
+            translation.deactivate()
+
+            return Response(self.get_serializer(query, many=True).data)
+
+
+    def get_choices(self, field):
+        tpl = self.model._meta.get_field(field).choices
+        return tpl
+
+    def get_layer_field(self, layer):
+        return self.fields[layer]
+
+    def get_search_abrev(self, choices, item):
+        return dict((reversed(x) for x in choices))[item]
 
 
 # Api View for the Glossary

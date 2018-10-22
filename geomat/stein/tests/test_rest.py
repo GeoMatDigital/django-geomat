@@ -9,8 +9,9 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from geomat.stein.models import Classification, CrystalSystem, Handpiece, MineralType, Photograph
-from geomat.stein.serializers import StdImageField
+
+from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph, Cleavage
+from geomat.stein.serializers import *
 
 # Helper functions
 
@@ -67,7 +68,7 @@ class ApiViewTestCase(TestCase):
 
         handpiece = Handpiece.objects.get(name="testhandpiece")
         response = self.client.get(
-            reverse('api:handpiece', kwargs={'pk': handpiece.id}),
+            reverse('api:handpiece-detail', kwargs={'pk': handpiece.id}),
             kwargs={'pk': handpiece.id},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -79,7 +80,7 @@ class ApiViewTestCase(TestCase):
     def test_api_return_404_on_missing_handpiece_detail(self):
         """Test that the API returns 404 when requesting a non-existing Handpiece object."""
         response = self.client.get(
-            reverse('api:handpiece', kwargs={'pk': 123}),
+            reverse('api:handpiece-detail', kwargs={'pk': 123}),
             kwargs={'pk': 123},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -89,7 +90,7 @@ class ApiViewTestCase(TestCase):
 
         crystalsystem = CrystalSystem.objects.get(crystal_system="HG")
         response = self.client.get(
-            reverse('api:crystalsystem', kwargs={'pk': crystalsystem.id}),
+            reverse('api:crystalsystem-detail', kwargs={'pk': crystalsystem.id}),
             kwargs={'pk': crystalsystem.id},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -100,7 +101,7 @@ class ApiViewTestCase(TestCase):
     def test_api_return_404_on_missing_crystalsystem_detail(self):
         """Test that the API returns 404 when requesting a non-existing CrystalSystem object."""
         response = self.client.get(
-            reverse('api:crystalsystem', kwargs={'pk': 123}),
+            reverse('api:crystalsystem-detail', kwargs={'pk': 123}),
             kwargs={'pk': 123},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -111,7 +112,7 @@ class ApiViewTestCase(TestCase):
         handpiece = Handpiece.objects.get(name="testhandpiece")
         photograph = Photograph.objects.get(handpiece=handpiece)
         response = self.client.get(
-            reverse('api:photograph', kwargs={'pk': photograph.id}),
+            reverse('api:photograph-detail', kwargs={'pk': photograph.id}),
             kwargs={'pk': photograph.id},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -126,7 +127,7 @@ class ApiViewTestCase(TestCase):
     def test_api_return_404_on_missing_photograph_detail(self):
         """Test that the API returns 404 when requesting a non-existing Photograph object."""
         response = self.client.get(
-            reverse('api:photograph', kwargs={'pk': 123}),
+            reverse('api:photograph-detail', kwargs={'pk': 123}),
             kwargs={'pk': 123},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -136,7 +137,7 @@ class ApiViewTestCase(TestCase):
 
         mineraltype = MineralType.objects.get(trivial_name="testmineraltype")
         response = self.client.get(
-            reverse('api:mineraltype', kwargs={'pk': mineraltype.id}),
+            reverse('api:mineraltype-detail', kwargs={'pk': mineraltype.id}),
             kwargs={'pk': mineraltype.id},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -148,7 +149,7 @@ class ApiViewTestCase(TestCase):
     def test_api_return_404_on_missing_mineraltype_detail(self):
         """Test that the API returns 404 when requesting a non-existing mineraltype object."""
         response = self.client.get(
-            reverse('api:mineraltype', kwargs={'pk': 123}),
+            reverse('api:mineraltype-detail', kwargs={'pk': 123}),
             kwargs={'pk': 123},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
@@ -238,7 +239,7 @@ class ApiForbiddenMethodTestCase(TestCase):
         """Test if POST method is NOT allowed on handpiece detail view."""
         handpiece = Handpiece.objects.get(name="testhandpiece")
         response = self.client.post(
-            reverse('api:handpiece', kwargs={'pk': handpiece.id}),
+            reverse('api:handpiece-detail', kwargs={'pk': handpiece.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -247,7 +248,7 @@ class ApiForbiddenMethodTestCase(TestCase):
         """Test if POST method is NOT allowed on crystalsystem detail view."""
         crystalsystem = CrystalSystem.objects.get(crystal_system="HG")
         response = self.client.post(
-            reverse('api:crystalsystem', kwargs={'pk': crystalsystem.id}),
+            reverse('api:crystalsystem-detail', kwargs={'pk': crystalsystem.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -257,7 +258,7 @@ class ApiForbiddenMethodTestCase(TestCase):
         handpiece = Handpiece.objects.get(name="testhandpiece")
         photograph = Photograph.objects.get(handpiece=handpiece)
         response = self.client.post(
-            reverse('api:photograph', kwargs={'pk': photograph.id}),
+            reverse('api:photograph-detail', kwargs={'pk': photograph.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -267,7 +268,7 @@ class ApiForbiddenMethodTestCase(TestCase):
 
         mineraltype = MineralType.objects.get(trivial_name="testmineraltype")
         response = self.client.post(
-            reverse('api:mineraltype', kwargs={'pk': mineraltype.id}),
+            reverse('api:mineraltype-detail', kwargs={'pk': mineraltype.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -279,7 +280,7 @@ class ApiForbiddenMethodTestCase(TestCase):
         """Test if PUT method is NOT allowed on handpiece detail view."""
         handpiece = Handpiece.objects.get(name="testhandpiece")
         response = self.client.put(
-            reverse('api:handpiece', kwargs={'pk': handpiece.id}),
+            reverse('api:handpiece-detail', kwargs={'pk': handpiece.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -288,7 +289,7 @@ class ApiForbiddenMethodTestCase(TestCase):
         """Test if PUT method is NOT allowed on crystalsystem detail view."""
         crystalsystem = CrystalSystem.objects.get(crystal_system="HG")
         response = self.client.put(
-            reverse('api:crystalsystem', kwargs={'pk': crystalsystem.id}),
+            reverse('api:crystalsystem-detail', kwargs={'pk': crystalsystem.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -298,7 +299,7 @@ class ApiForbiddenMethodTestCase(TestCase):
         handpiece = Handpiece.objects.get(name="testhandpiece")
         photograph = Photograph.objects.get(handpiece=handpiece)
         response = self.client.put(
-            reverse('api:photograph', kwargs={'pk': photograph.id}),
+            reverse('api:photograph-detail', kwargs={'pk': photograph.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -308,7 +309,7 @@ class ApiForbiddenMethodTestCase(TestCase):
 
         mineraltype = MineralType.objects.get(trivial_name="testmineraltype")
         response = self.client.put(
-            reverse('api:mineraltype', kwargs={'pk': mineraltype.id}),
+            reverse('api:mineraltype-detail', kwargs={'pk': mineraltype.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -320,7 +321,7 @@ class ApiForbiddenMethodTestCase(TestCase):
         """Test if PATCH method is NOT allowed on handpiece detail view."""
         handpiece = Handpiece.objects.get(name="testhandpiece")
         response = self.client.patch(
-            reverse('api:handpiece', kwargs={'pk': handpiece.id}),
+            reverse('api:handpiece-detail', kwargs={'pk': handpiece.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -329,7 +330,7 @@ class ApiForbiddenMethodTestCase(TestCase):
         """Test if PATCH method is NOT allowed on crystalsystem detail view."""
         crystalsystem = CrystalSystem.objects.get(crystal_system="HG")
         response = self.client.patch(
-            reverse('api:crystalsystem', kwargs={'pk': crystalsystem.id}),
+            reverse('api:crystalsystem-detail', kwargs={'pk': crystalsystem.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -339,7 +340,7 @@ class ApiForbiddenMethodTestCase(TestCase):
         handpiece = Handpiece.objects.get(name="testhandpiece")
         photograph = Photograph.objects.get(handpiece=handpiece)
         response = self.client.patch(
-            reverse('api:photograph', kwargs={'pk': photograph.id}),
+            reverse('api:photograph-detail', kwargs={'pk': photograph.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -349,7 +350,7 @@ class ApiForbiddenMethodTestCase(TestCase):
 
         mineraltype = MineralType.objects.get(trivial_name="testmineraltype")
         response = self.client.patch(
-            reverse('api:mineraltype', kwargs={'pk': mineraltype.id}),
+            reverse('api:mineraltype-detail', kwargs={'pk': mineraltype.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -361,7 +362,7 @@ class ApiForbiddenMethodTestCase(TestCase):
         """Test if DELETE method is NOT allowed on handpiece detail view."""
         handpiece = Handpiece.objects.get(name="testhandpiece")
         response = self.client.delete(
-            reverse('api:handpiece', kwargs={'pk': handpiece.id}),
+            reverse('api:handpiece-detail', kwargs={'pk': handpiece.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -370,7 +371,7 @@ class ApiForbiddenMethodTestCase(TestCase):
         """Test if DELETE method is NOT allowed on crystalsystem detail view."""
         crystalsystem = CrystalSystem.objects.get(crystal_system="HG")
         response = self.client.delete(
-            reverse('api:crystalsystem', kwargs={'pk': crystalsystem.id}),
+            reverse('api:crystalsystem-detail', kwargs={'pk': crystalsystem.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -380,7 +381,7 @@ class ApiForbiddenMethodTestCase(TestCase):
         handpiece = Handpiece.objects.get(name="testhandpiece")
         photograph = Photograph.objects.get(handpiece=handpiece)
         response = self.client.delete(
-            reverse('api:photograph', kwargs={'pk': photograph.id}),
+            reverse('api:photograph-detail', kwargs={'pk': photograph.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -390,13 +391,13 @@ class ApiForbiddenMethodTestCase(TestCase):
 
         mineraltype = MineralType.objects.get(trivial_name="testmineraltype")
         response = self.client.delete(
-            reverse('api:mineraltype', kwargs={'pk': mineraltype.id}),
+            reverse('api:mineraltype-detail', kwargs={'pk': mineraltype.id}),
             kwargs={'id': 300},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
 
-@pytest.mark.skip(reason="does not run on windows")
+
 class FilterApiViewTestCase(TestCase):
     maxDiff = None
 
@@ -404,16 +405,10 @@ class FilterApiViewTestCase(TestCase):
         # we need at least 2 objects of each  model to be sure that it actually filters
 
         self.client = APIClient()
-        self.classification_one = Classification.objects.create(
-            classification_name="classi one")
-        self.classification_one_dict = {
-            'classification_name': "classi one",
-        }
-        self.classification_two = Classification.objects.create(
-            classification_name="classi two")
-        self.classification_two_dict = {
-            'classification_name': "classi two",
-        }
+
+        self.cleavage_one = Cleavage.objects.create(
+            cleavage='PE'
+        )
 
         self.mineraltype_one = MineralType.objects.create(
             trivial_name="testmineral one",
@@ -425,52 +420,18 @@ class FilterApiViewTestCase(TestCase):
             streak="streak one",
             normal_color="color one",
             fracture=["HF"],
-            cleavage=["PE"],
             lustre=["AM"],
             chemical_formula="CHEMONE",
             other="other one",
             resource_mindat="mindat one",
             resource_mineralienatlas="atlas one", )
-        self.mineraltype_one.classification = self.classification_one
-        self.mineraltype_one.save()
-        self.mineraltype_one_dict = {
-            'id':
-            self.mineraltype_one.pk,
-            'trivial_name':
-            "testmineral one",
-            'systematics':
-            "HG",
-            'variety':
-            "many one",
-            'minerals':
-            "minerals one",
-            'mohs_scale':
-            "mohs one",
-            'density':
-            "hard one",
-            'streak':
-            "streak one",
-            'normal_color':
-            "color one",
-            'fracture': ["HF"],
-            'cleavage': ["PE"],
-            'lustre': ["AM"],
-            'chemical_formula':
-            "`CHEMONE`",
-            'other':
-            "other one",
-            'resource_mindat':
-            "mindat one",
-            'resource_mineralienatlas':
-            "atlas one",
-            'created_at':
-            self.mineraltype_one.created_at.isoformat().replace('+00:00', 'Z'),
-            'last_modified':
-            self.mineraltype_one.last_modified.isoformat().replace(
-                '+00:00', 'Z'),
-            "classification":
-            self.classification_one_dict
-        }
+
+        self.mineraltype_one.cleavage.set([self.cleavage_one])
+
+        self.cleavage_two = Cleavage.objects.create(
+            cleavage='DI'
+        )
+
         self.mineraltype_two = MineralType.objects.create(
             trivial_name="testmineral two",
             systematics="HT",
@@ -481,177 +442,63 @@ class FilterApiViewTestCase(TestCase):
             streak="streak two",
             normal_color="color two",
             fracture=["CF"],
-            cleavage=["DI"],
             lustre=["DL"],
             chemical_formula="CHEMTWO",
             other="other two",
             resource_mindat="mindat two",
             resource_mineralienatlas="atlas two")
-        self.mineraltype_two.classification = self.classification_two
-        self.mineraltype_two.save()
-        self.mineraltype_two_dict = {
-            'id':
-            self.mineraltype_two.pk,
-            'trivial_name':
-            "testmineral two",
-            'systematics': ["HT"],
-            'variety':
-            "many two",
-            'minerals':
-            "minerals two",
-            'mohs_scale':
-            "mohs two",
-            'density':
-            "hard two",
-            'streak':
-            "streak two",
-            'normal_color':
-            "color two",
-            'fracture': ["CF"],
-            'cleavage': ["DI"],
-            'lustre': ["DL"],
-            'chemical_formula':
-            "`CHEMTWO`",
-            'other':
-            "other two",
-            'resource_mindat':
-            "mindat two",
-            'resource_mineralienatlas':
-            "atlas two",
-            'created_at':
-            self.mineraltype_two.created_at.isoformat().replace('+00:00', 'Z'),
-            'last_modified':
-            self.mineraltype_two.last_modified.isoformat().replace(
-                '+00:00', 'Z'),
-            "classification":
-            self.classification_two_dict
-        }
+
+        self.mineraltype_two.cleavage.set([self.cleavage_two])
 
         self.crystalsystem_one = CrystalSystem.objects.create(
             mineral_type=self.mineraltype_one,
             crystal_system="TC",
             temperature=90,
             pressure=80)
-        self.crystalsystem_one_dict = {
-            'id': self.crystalsystem_one.pk,
-            'mineral_type': self.mineraltype_one_dict,
-            'crystal_system': "TC",
-            'temperature': 90,
-            'pressure': 80,
-        }
         self.crystalsystem_two = CrystalSystem.objects.create(
             mineral_type=self.mineraltype_two,
-            crystal_system="TF",
+            crystal_system="OR",
             temperature=92,
             pressure=82)
-        self.crystalsystem_two_dict = {
-            'id': self.crystalsystem_two.pk,
-            'mineral_type': self.mineraltype_two_dict,
-            'crystal_system': "TF",
-            'temperature': 92,
-            'pressure': 82,
-        }
 
         self.handpiece_one = Handpiece.objects.create(
             name="handpiece one",
             finding_place="nowhere one",
             current_location="here one",
             old_inventory_number="inven one")
-        self.handpiece_one.mineral_type = [
-            self.mineraltype_one,
-        ]
-        self.handpiece_one_dict = {
-            'id':
-            self.handpiece_one.pk,
-            'name':
-            "handpiece one",
-            'mineral_type': [
-                self.mineraltype_one_dict,
-            ],
-            'finding_place':
-            "nowhere one",
-            'current_location':
-            "here one",
-            'old_inventory_number':
-            "inven one",
-            'created_at':
-            self.handpiece_one.created_at.isoformat().replace('+00:00', 'Z'),
-            'last_modified':
-            self.handpiece_one.last_modified.isoformat().replace(
-                '+00:00', 'Z')
-        }
+        self.handpiece_one.mineral_type.set([self.mineraltype_one])
         self.handpiece_two = Handpiece.objects.create(
             name="handpiece two",
             finding_place="nowhere two",
             current_location="here two",
             old_inventory_number="inven two")
-        self.handpiece_two.mineral_type = [
-            self.mineraltype_two,
-        ]
-        self.handpiece_two_dict = {
-            'id':
-            self.handpiece_two.pk,
-            'name':
-            "handpiece two",
-            'mineral_type': [
-                self.mineraltype_two_dict,
-            ],
-            'finding_place':
-            "nowhere two",
-            'current_location':
-            "here two",
-            'old_inventory_number':
-            "inven two",
-            'created_at':
-            self.handpiece_two.created_at.isoformat().replace('+00:00', 'Z'),
-            'last_modified':
-            self.handpiece_two.last_modified.isoformat().replace(
-                '+00:00', 'Z')
-        }
+        self.handpiece_two.mineral_type.set([self.mineraltype_two])
         self.photograph_one = Photograph.objects.create(
-            image_file="image_one.jpg",
             handpiece=self.handpiece_one,
+            image_file="image_one.jpg",
             orientation="T",
             shot_type="MA")
-        self.photograph_one_dict = {
-            'id':
-            self.photograph_one.pk,
-            'image_file':
-            StdImageField().to_native(self.photograph_one.image_file),
-            'handpiece':
-            self.handpiece_one_dict,
-            'orientation':
-            "T",
-            'shot_type':
-            "MA",
-            'created_at':
-            self.photograph_one.created_at.isoformat().replace('+00:00', 'Z'),
-            'last_modified':
-            self.photograph_one.last_modified.isoformat().replace(
-                '+00:00', 'Z'),
-        }
         self.photograph_two = Photograph.objects.create(
-            image_file="image_two.jpg",
             handpiece=self.handpiece_two,
+            image_file="image_two.jpg",
             orientation="S",
             shot_type="MI")
-        self.photograph_two_dict = {
-            'id':
-            self.photograph_two.pk,
-            'image_file':
-            StdImageField().to_native(self.photograph_two.image_file),
-            'handpiece':
-            self.handpiece_two_dict,
-            'orientation':
-            "S",
-            'shot_type':
-            "MI",
-            'created_at':
-            self.photograph_two.created_at.isoformat().replace('+00:00', 'Z'),
-            'last_modified':
-            self.photograph_two.last_modified.isoformat().replace(
-                '+00:00', 'Z'),
-        }
+
+        self.photograph_one_dict = PhotographSerializer(self.photograph_one).data
+
+        self.photograph_two_dict = PhotographSerializer(self.photograph_two).data
+
+        self.mineraltype_one_dict = MineralTypeSerializer(self.mineraltype_one).data
+
+        self.mineraltype_two_dict = MineralTypeSerializer(self.mineraltype_two).data
+
+        self.crystalsystem_one_dict = CrystalSystemFullSerializer(self.crystalsystem_one).data
+
+        self.crystalsystem_two_dict = CrystalSystemFullSerializer(self.crystalsystem_two).data
+
+        self.handpiece_one_dict = HandpieceSerializer(self.handpiece_one).data
+
+        self.handpiece_two_dict = HandpieceSerializer(self.handpiece_two).data
 
     def test_can_filter_trivial_name(self):
         response = self.client.get(
@@ -659,7 +506,7 @@ class FilterApiViewTestCase(TestCase):
             {'trivial_name': "testmineral one"})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        assert self.mineraltype_one_dict == response_dict[0]
+        assert self.mineraltype_one_dict in response_dict
         assert len(response_dict) == 1
 
     def test_can_filter_systematics(self):
@@ -728,7 +575,7 @@ class FilterApiViewTestCase(TestCase):
 
     def test_can_filter_cleavage(self):
         response = self.client.get(
-            reverse('api:mineraltype-filter'), {'cleavage': str(["PE"])})
+            reverse('api:mineraltype-filter'), {'cleavage': self.cleavage_one.pk})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.mineraltype_one_dict in response_dict

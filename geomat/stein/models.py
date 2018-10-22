@@ -7,6 +7,22 @@ from stdimage.models import StdImageField
 
 # Mostly all fields are defined as CharFields, so the input is easier.
 # The max_length is a total arbitrary value that I defined in the beginning.
+class Classification(models.Model):
+    """
+    Defines a classification field which can be added as a ForeignKey to the MineralType class.
+    """
+    # mineral_type = models.ForeignKey(
+    #     MineralType, null=True, verbose_name=_('mineral type'), related_name="classification")
+    classification_name = models.CharField(
+        max_length=100, null=True, verbose_name=_("classification"))
+
+    class Meta:
+        verbose_name = _("classification")
+        verbose_name_plural = _("classifications")
+
+    def __str__(self):
+        return self.classification_name
+
 
 class MineralType(models.Model):
     """
@@ -25,26 +41,6 @@ class MineralType(models.Model):
         ('PV', _("Phosphates, Arsenates & Vanadates")),
         ('SG', _("Silicates & Germanates")),
         ('OC', _("Organic Compounds")), )
-    SPLIT_CHOICES = (
-        ('SU', _('Sulfides')),
-        ('SS', _('Sulfosalts')),
-        ('CA', _('Carbonates')),
-        ('NI', _('Nitrates')),
-        ('PH', _('Phosphates')),
-        ('AR', _('Arsenates')),
-        ('VA', _('Vanadates')),
-        ('SI', _('Silicates')),
-        ('GE', _('Germanates')),
-        ("OX", _("Oxides")),
-        ("HY", _("Hydroxides")), )
-    SUB_CHOICES=(
-        ("IS", _("Island Silicates")),
-        ("GS", _("Group Silicates")),
-        ("CS", _("Chain Silicates")),
-        ("DS", _("Double Chain Silicates")),
-        ("CC", _("Cyclo Silicates")),
-        ("PS", _("Phyllo Silicates")),
-        ("FS", _("Framework Silicates")), )
     CLEAVAGE_CHOICES = (
         ('PE', _("perfect")),
         ('LP', _("less perfect")),
@@ -76,17 +72,6 @@ class MineralType(models.Model):
         choices=MINERAL_CATEGORIES,
         default="EL",
         verbose_name=_("systematics"))
-    split_systematics = models.CharField(
-        max_length=2,
-        choices=SPLIT_CHOICES,
-        blank=True,
-        verbose_name=_("splitted systematics"))
-    sub_systematics = models.CharField(
-        max_length=2,
-        choices=SUB_CHOICES,
-        blank=True,
-        verbose_name=_("subsystematics")
-    )
     variety = models.CharField(
         max_length=100, blank=True, verbose_name=_("variety"))
     minerals = models.CharField(
@@ -121,6 +106,13 @@ class MineralType(models.Model):
         auto_now_add=True, verbose_name=_("created at"))
     last_modified = models.DateTimeField(
         auto_now=True, verbose_name=_("last modified"))
+    classification = models.ForeignKey(
+        Classification,
+        null=True,
+        blank=True,
+        verbose_name=_('classification'),
+        related_name="mineral_type",
+        on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = _("mineral type")

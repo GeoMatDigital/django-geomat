@@ -6,6 +6,7 @@ from django.db.models import Count
 from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.views.generic.list import ListView
+
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy
 from django.utils import translation
@@ -13,11 +14,13 @@ from django.utils.text import format_lazy
 from django.utils.translation import pgettext_lazy
 
 from rest_framework import generics, status
+
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.mixins import RetrieveModelMixin, ListModelMixin
 
 from geomat.stein.models import (
+    Classification,
     CrystalSystem,
     GlossaryEntry,
     Handpiece,
@@ -27,6 +30,7 @@ from geomat.stein.models import (
     QuizQuestion
 )
 from geomat.stein.serializers import (
+    ClassificationSerializer,
     CrystalSystemFullSerializer,
     GlossaryEntrySerializer,
     HandpieceSerializer,
@@ -157,17 +161,15 @@ class PhotographEndpoint(ReadOnlyModelViewSet):
     name = 'photograph'
 
 
+
 class QuizQuestionEndpoint(ReadOnlyModelViewSet):
     """
     This Endpoint reflects the Databasetable of all existing QuizQuestions.
     Therefor it's a GET only Endpoint.
     The routing for the collection and the idividual resource is handled by the Viewset.
     """
-    queryset = QuizQuestion.objects.all()
-    serializer_class = QuizQuestionFullSerializer
-    name = 'quizquestion'
 
-
+    
 class QuizAnswerEndpoint(ReadOnlyModelViewSet):
     """
     This Endpoint reflects the Databasetable of all existing QuizAnswers.
@@ -215,7 +217,6 @@ class FilterMineraltypeList(ListFilterAPIView):
     * OC = Organic Compounds
 
     """
-
     queryset = MineralType.objects.all()
     serializer_class = MineralTypeSerializer
     name = 'mineraltype-filter'
@@ -318,6 +319,7 @@ class MineraltypeProfiles(generics.ListAPIView):
     queryset = MineralType.objects.all()
     serializer_class = MineralProfilesSerializer
     name = 'mineraltype-profiles'
+
 
 
 # FUTURE API View for the Mineraltype Profiles

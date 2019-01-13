@@ -2,10 +2,11 @@
 """Views file for stein app"""
 import ast
 
-from django.db.models import Count
+from django.db.models import Count, Case, When
 from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.views.generic.list import ListView
+
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy
 from django.utils import translation
@@ -13,11 +14,13 @@ from django.utils.text import format_lazy
 from django.utils.translation import pgettext_lazy
 
 from rest_framework import generics, status
+
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.mixins import RetrieveModelMixin, ListModelMixin
 
 from geomat.stein.models import (
+    Classification,
     CrystalSystem,
     GlossaryEntry,
     Handpiece,
@@ -27,6 +30,7 @@ from geomat.stein.models import (
     QuizQuestion
 )
 from geomat.stein.serializers import (
+    ClassificationSerializer,
     CrystalSystemFullSerializer,
     GlossaryEntrySerializer,
     HandpieceSerializer,
@@ -157,6 +161,7 @@ class PhotographEndpoint(ReadOnlyModelViewSet):
     name = 'photograph'
 
 
+
 class QuizQuestionEndpoint(ReadOnlyModelViewSet):
     """
     This Endpoint reflects the Databasetable of all existing QuizQuestions.
@@ -166,8 +171,7 @@ class QuizQuestionEndpoint(ReadOnlyModelViewSet):
     queryset = QuizQuestion.objects.all()
     serializer_class = QuizQuestionFullSerializer
     name = 'quizquestion'
-
-
+    
 class QuizAnswerEndpoint(ReadOnlyModelViewSet):
     """
     This Endpoint reflects the Databasetable of all existing QuizAnswers.
@@ -215,7 +219,6 @@ class FilterMineraltypeList(ListFilterAPIView):
     * OC = Organic Compounds
 
     """
-
     queryset = MineralType.objects.all()
     serializer_class = MineralTypeSerializer
     name = 'mineraltype-filter'
@@ -318,6 +321,28 @@ class MineraltypeProfiles(generics.ListAPIView):
     queryset = MineralType.objects.all()
     serializer_class = MineralProfilesSerializer
     name = 'mineraltype-profiles'
+
+
+class GalleryView(generics.ListAPIView):
+    queryset = Photograph.objects.all()
+    serializer_class = PhotographSerializer
+    name = 'gallery'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        #  do our sorting here
+        pk_list= (34, 29, 31, 32, 35, 144, 99, 38, 44, 40, 39, 98, 46, 41, 42, 36, 139,
+         37, 47, 48, 151, 152, 153, 131, 97, 132, 133, 134, 135, 113, 126, 117,
+         118, 122, 140, 74, 127, 49, 46, 50, 54, 55, 52, 53, 51, 150, 58, 56,
+         154, 59, 60, 61, 62, 63, 64, 67, 148, 65, 66, 68, 76, 77, 78, 79, 80,
+         75, 69, 70, 71, 143, 123, 72, 73, 124, 100, 101, 137, 136, 142, 141,
+         103, 102, 83, 82, 147, 81, 125, 84, 85, 145, 112, 104, 138, 108, 110,
+         111, 114, 115, 149, 106, 107, 119, 120, 116, 130, 129, 109, 105, 128)
+
+        preserved = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(pk_list)])
+        queryset = queryset.filter(pk__in=pk_list).order_by(preserved)
+
+        return queryset
 
 
 # FUTURE API View for the Mineraltype Profiles

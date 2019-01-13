@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('stein', '0055_delete_classification_model'),
+        ('stein', '0050_auto_20180123_1203'),
     ]
 
     operations = [

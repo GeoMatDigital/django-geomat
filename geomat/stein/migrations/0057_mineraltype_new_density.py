@@ -25,7 +25,7 @@ def revert(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('stein', '0055_delete_classification_model'),
+        ('stein', '0056_larger_comments_mintype'),
     ]
 
     operations = [

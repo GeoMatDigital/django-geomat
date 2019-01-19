@@ -7,7 +7,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('stein', '0056_mineraltype_new_density'),
+        ('stein', '0057_mineraltype_new_density'),
     ]
 
     operations = [

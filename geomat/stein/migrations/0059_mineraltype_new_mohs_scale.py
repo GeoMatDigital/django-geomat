@@ -39,7 +39,7 @@ def revert(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('stein', '0057_remove_mineraltype_density'),
+        ('stein', '0058_remove_mineraltype_density'),
     ]
 
     operations = [

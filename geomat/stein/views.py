@@ -6,7 +6,6 @@ from django.db.models import Count, Case, When
 from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.views.generic.list import ListView
-
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy
 from django.utils import translation
@@ -14,13 +13,11 @@ from django.utils.text import format_lazy
 from django.utils.translation import pgettext_lazy
 
 from rest_framework import generics, status
-
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from rest_framework.mixins import RetrieveModelMixin, ListModelMixin
 
 from geomat.stein.models import (
-    Classification,
     CrystalSystem,
     GlossaryEntry,
     Handpiece,
@@ -30,7 +27,6 @@ from geomat.stein.models import (
     QuizQuestion
 )
 from geomat.stein.serializers import (
-    ClassificationSerializer,
     CrystalSystemFullSerializer,
     GlossaryEntrySerializer,
     HandpieceSerializer,
@@ -161,7 +157,6 @@ class PhotographEndpoint(ReadOnlyModelViewSet):
     name = 'photograph'
 
 
-
 class QuizQuestionEndpoint(ReadOnlyModelViewSet):
     """
     This Endpoint reflects the Databasetable of all existing QuizQuestions.
@@ -171,7 +166,7 @@ class QuizQuestionEndpoint(ReadOnlyModelViewSet):
     queryset = QuizQuestion.objects.all()
     serializer_class = QuizQuestionFullSerializer
     name = 'quizquestion'
-    
+
 class QuizAnswerEndpoint(ReadOnlyModelViewSet):
     """
     This Endpoint reflects the Databasetable of all existing QuizAnswers.
@@ -219,6 +214,7 @@ class FilterMineraltypeList(ListFilterAPIView):
     * OC = Organic Compounds
 
     """
+
     queryset = MineralType.objects.all()
     serializer_class = MineralTypeSerializer
     name = 'mineraltype-filter'
@@ -321,6 +317,7 @@ class MineraltypeProfiles(generics.ListAPIView):
     queryset = MineralType.objects.all()
     serializer_class = MineralProfilesSerializer
     name = 'mineraltype-profiles'
+
 
 
 class GalleryView(generics.ListAPIView):

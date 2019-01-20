@@ -132,13 +132,14 @@ class MineralTypeSerializer(serializers.ModelSerializer):
         return lst
 
     def get_density(self,obj):
+        if float(obj.density.upper) == float(obj.density.lower) + 0.001:
+            return "{}".format(obj.density.lower).replace(".", ",")
         return "{0} - {1}".format(obj.density.lower, obj.density.upper).replace(".", ",")
 
     def get_mohs_scale(self, obj):
         if float(obj.mohs_scale.upper) == float(obj.mohs_scale.lower) + 0.001:
             return "{}".format(obj.mohs_scale.lower).replace(".", ",")
-        else:
-            return "{0} - {1}".format(obj.mohs_scale.lower, obj.mohs_scale.upper).replace(".", ",")
+        return "{0} - {1}".format(obj.mohs_scale.lower, obj.mohs_scale.upper).replace(".", ",")
 
 
 class MineralProfilesSerializer(MineralTypeSerializer):

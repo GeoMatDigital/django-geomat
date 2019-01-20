@@ -4,12 +4,23 @@
 import django.contrib.postgres.fields.ranges
 from django.db import migrations
 
+
 def transform_to_new_density(apps, schema_editor):
     MineralType = apps.get_model("stein", "MineralType")
 
     for mineral in MineralType.objects.all():
-        mineral.new_density = tuple(float(x) for x in mineral.density.replace(",", ".").split("-"))
+        tpl = ()
+        density = mineral.density
+
+        if not("-"in density):
+            dns = float(density.replace(",", "."))
+            tpl = (dns, dns+0.001)
+        else:
+            tpl = tuple(float(x) for x in mineral.density.replace(",", ".").split("-"))
+
+        mineral.new_density = tpl
         mineral.save()
+
 
 def revert(apps, schema_editor):
 
@@ -17,8 +28,13 @@ def revert(apps, schema_editor):
 
     for mineral in MineralType.objects.all():
         new_density = mineral.new_denisty
-        dens_string = "-".join((str(new_density.lower), str(new_density.upper))).replace(".", "-")
-        mineral.density = dens_string
+
+        if float(mineral.new_mohs_scale.upper) == float(mineral.new_mohs_scale.lower) + 0.001:
+            mineral.density = "{}".format(mineral.new_density.lower).replace(".", ",")
+        else:
+            mineral.density = "{0}-{1}".format(mineral.new_density.lower,
+                                               mineral.new_density.upper).replace(".", ",")
+
         mineral.save()
 
 

@@ -8,10 +8,11 @@ from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
-
+from psycopg2.extras import NumericRange
 
 from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph, Cleavage
 from geomat.stein.serializers import *
+
 
 # Helper functions
 
@@ -58,17 +59,18 @@ class ApiViewTestCase(TestCase):
             handpiece=self.handpiece_two, image_file=image, online_status=True)
 
         self.mineraltype_one = MineralType.objects.create(
-            trivial_name="testmineraltype", minerals="many minerals")
+            trivial_name="testmineraltype", minerals="many minerals", mohs_scale=(3.0, 3.001), density=(4.1, 5.7))
         # Second test mineraltype since we also test ListViews
         self.mineraltype_two = MineralType.objects.create(
-            trivial_name="testmineraltype two", minerals="many minerals two")
+            trivial_name="testmineraltype two", minerals="many minerals two",
+            mohs_scale=(4.0, 4.001), density=(1.1, 2.7))
 
     def test_api_can_retrieve_handpiece_detail(self):
         """Test retrieval of a Handpiece object with the REST framework."""
 
         handpiece = Handpiece.objects.get(name="testhandpiece")
         response = self.client.get(
-            reverse('api:handpiece-detail', kwargs={'pk': handpiece.id}),
+            reverse('api:handpiece-detail', args=[handpiece.id]),
             kwargs={'pk': handpiece.id},
             format="json")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -230,7 +232,8 @@ class ApiForbiddenMethodTestCase(TestCase):
             handpiece=self.handpiece_one, online_status=True)
 
         self.mineraltype_one = MineralType.objects.create(
-            trivial_name="testmineraltype", minerals="many minerals")
+            trivial_name="testmineraltype", minerals="many minerals",
+            mohs_scale=(3.0, 3.001), density=(4.1, 5.7))
 
     # Check wether the Views accept POST method
     # We expect a 403 - Forbidden, since we want a GET only API
@@ -405,18 +408,16 @@ class FilterApiViewTestCase(TestCase):
         # we need at least 2 objects of each  model to be sure that it actually filters
 
         self.client = APIClient()
-
         self.cleavage_one = Cleavage.objects.create(
             cleavage='PE'
         )
-
         self.mineraltype_one = MineralType.objects.create(
             trivial_name="testmineral one",
             systematics="HG",
             variety="many one",
             minerals="minerals one",
-            mohs_scale="mohs one",
-            density="hard one",
+            mohs_scale=NumericRange(3.0, 3.001),
+            density=NumericRange(4.1, 5.7),
             streak="streak one",
             normal_color="color one",
             fracture=["HF"],
@@ -424,21 +425,19 @@ class FilterApiViewTestCase(TestCase):
             chemical_formula="CHEMONE",
             other="other one",
             resource_mindat="mindat one",
-            resource_mineralienatlas="atlas one", )
-
+            resource_mineralienatlas="atlas one")
         self.mineraltype_one.cleavage.set([self.cleavage_one])
 
         self.cleavage_two = Cleavage.objects.create(
             cleavage='DI'
         )
-
         self.mineraltype_two = MineralType.objects.create(
             trivial_name="testmineral two",
             systematics="HT",
             variety="many two",
             minerals="minerals two",
-            mohs_scale="mohs two",
-            density="hard two",
+            mohs_scale=NumericRange(4.0, 4.001),
+            density=NumericRange(1.1, 2.7),
             streak="streak two",
             normal_color="color two",
             fracture=["CF"],
@@ -447,7 +446,6 @@ class FilterApiViewTestCase(TestCase):
             other="other two",
             resource_mindat="mindat two",
             resource_mineralienatlas="atlas two")
-
         self.mineraltype_two.cleavage.set([self.cleavage_two])
 
         self.crystalsystem_one = CrystalSystem.objects.create(
@@ -535,7 +533,7 @@ class FilterApiViewTestCase(TestCase):
 
     def test_can_filter_mohs_scale(self):
         response = self.client.get(
-            reverse('api:mineraltype-filter'), {'mohs_scale': "mohs one"})
+            reverse('api:mineraltype-filter'), {'mohs_scale': 3.0})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.mineraltype_one_dict in response_dict
@@ -543,7 +541,7 @@ class FilterApiViewTestCase(TestCase):
 
     def test_can_filter_density(self):
         response = self.client.get(
-            reverse('api:mineraltype-filter'), {'density': "hard one"})
+            reverse('api:mineraltype-filter'), {'density': 4.1})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.mineraltype_one_dict in response_dict

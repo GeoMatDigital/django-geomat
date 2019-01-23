@@ -1,7 +1,7 @@
 """Serializers for REST framework"""
 from rest_framework import serializers
 
-from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph, Classification, QuizQuestion,\
+from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph, QuizQuestion,\
     QuizAnswer, Cleavage, GlossaryEntry
 
 
@@ -50,18 +50,6 @@ class StdImageField(serializers.ImageField):
         return return_object
 
 
-class ClassificationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Classification
-        fields = ('classification_name', 'mineral_type')
-
-
-class NameClassificationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Classification
-        fields = ('classification_name',)
-
-
 class CleavageSerializer(serializers.ModelSerializer):
     cleavage = serializers.SerializerMethodField()
 
@@ -96,11 +84,13 @@ class CrystalSystemLessSerializer(serializers.ModelSerializer):
 
 
 class MineralTypeSerializer(serializers.ModelSerializer):
-    classification = NameClassificationSerializer()
     systematics = serializers.SerializerMethodField()
+    sub_systematics = serializers.SerializerMethodField()
+    split_systematics = serializers.SerializerMethodField()
     fracture = serializers.SerializerMethodField()
-    cleavage = CleavageSerializer(many=True)
     lustre = serializers.SerializerMethodField()
+    density =serializers.SerializerMethodField()
+    mohs_scale = serializers.SerializerMethodField()
     crystal_system = CrystalSystemLessSerializer(many=True)
 
     class Meta:
@@ -110,6 +100,12 @@ class MineralTypeSerializer(serializers.ModelSerializer):
 
     def get_systematics(self, obj):
         return obj.get_systematics_display()
+
+    def get_sub_systematics(self, obj):
+        return obj.get_sub_systematics_display()
+
+    def get_split_systematics(self, obj):
+        return obj.get_split_systematics_display()
 
     def get_fracture(self, obj):
         lst = []
@@ -134,6 +130,16 @@ class MineralTypeSerializer(serializers.ModelSerializer):
             for choice in obj.lustre:
                 lst.append(choice_dict.get(choice))
         return lst
+
+    def get_density(self,obj):
+        if float(obj.density.upper) == float(obj.density.lower) + 0.001:
+            return "{}".format(obj.density.lower).replace(".", ",")
+        return "{0} - {1}".format(obj.density.lower, obj.density.upper).replace(".", ",")
+
+    def get_mohs_scale(self, obj):
+        if float(obj.mohs_scale.upper) == float(obj.mohs_scale.lower) + 0.001:
+            return "{}".format(obj.mohs_scale.lower).replace(".", ",")
+        return "{0} - {1}".format(obj.mohs_scale.lower, obj.mohs_scale.upper).replace(".", ",")
 
 
 class MineralProfilesSerializer(MineralTypeSerializer):

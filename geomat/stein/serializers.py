@@ -95,6 +95,7 @@ class MineralTypeSerializer(serializers.ModelSerializer):
     density =serializers.SerializerMethodField()
     mohs_scale = serializers.SerializerMethodField()
     crystal_system = CrystalSystemLessSerializer(many=True)
+    cleavage = CleavageSerializer(many=True)
 
     class Meta:
         model = MineralType

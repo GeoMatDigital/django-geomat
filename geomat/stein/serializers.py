@@ -162,7 +162,7 @@ class MineralProfilesSerializer(MineralTypeSerializer):
             photo_pk = MineralProfilesSerializer.IMAGE_DICT[obj.pk]
             photo = Photograph.objects.only("image_file").get(pk=photo_pk)
             return StdImageField().to_representation(obj=photo.image_file)
-        return {}
+        return None
 
 
 class CrystalSystemFullSerializer(serializers.ModelSerializer):

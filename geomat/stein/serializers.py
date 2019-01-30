@@ -4,6 +4,8 @@ from rest_framework import serializers
 from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph, QuizQuestion,\
     QuizAnswer, Cleavage, GlossaryEntry
 
+from drf_yasg.utils import swagger_serializer_method
+
 
 class StdImageField(serializers.ImageField):
     """
@@ -51,6 +53,7 @@ class StdImageField(serializers.ImageField):
 
 
 class CleavageSerializer(serializers.ModelSerializer):
+
     cleavage = serializers.SerializerMethodField()
 
     class Meta:
@@ -107,28 +110,22 @@ class MineralTypeSerializer(serializers.ModelSerializer):
     def get_split_systematics(self, obj):
         return obj.get_split_systematics_display()
 
+    @swagger_serializer_method(serializer_or_field=serializers.ListField)
     def get_fracture(self, obj):
         lst = []
         choice_dict = dict(obj.FRACTURE_CHOICES)
-        if obj.lustre:
-            for choice in obj.fracture:
-                lst.append(choice_dict.get(choice))
+        fracture = obj.fracture
+        if fracture:
+            lst = [choice_dict.get(choice) for choice in fracture]
         return lst
 
-    def get_cleavage(self, obj):
-        lst = []
-        choice_dict = dict(obj.CLEAVAGE_CHOICES)
-        if obj.cleavage:
-            for choice in obj.cleavage:
-                lst.append(choice_dict.get(choice))
-        return lst
-
+    @swagger_serializer_method(serializer_or_field=serializers.ListField)
     def get_lustre(self, obj):
         lst = []
         choice_dict = dict(obj.LUSTRE_CHOICES)
-        if obj.lustre:
-            for choice in obj.lustre:
-                lst.append(choice_dict.get(choice))
+        lustre = obj.lustre
+        if lustre:
+            lst = [choice_dict.get(choice) for choice in lustre]
         return lst
 
     def get_density(self,obj):

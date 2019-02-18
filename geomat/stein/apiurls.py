@@ -32,6 +32,7 @@ router.register(r'photograph', PhotographEndpoint)
 router.register(r'mineraltype', MineraltypeEndpoint)
 router.register(r'quizquestion', QuizQuestionEndpoint)
 router.register(r'quizanswer', QuizAnswerEndpoint)
+router.register(r"profiles", FutureMineraltypeProfiles)
 
 urlpatterns = [
     # Api Documentation
@@ -61,15 +62,15 @@ urlpatterns = [
         FilterPhotographList.as_view(),
         name=FilterPhotographList.name),
     # Mineral Profiles View
-    path('profiles/<int:layer>/<str:item>',
-        FutureMineraltypeProfiles.as_view(),
-        name=MineraltypeProfiles.name),
+    # path('profiles/<int:layer>/<str:item>',
+    #     FutureMineraltypeProfiles.as_view(),
+    #     name=MineraltypeProfiles.name),
 
-    url(
-        r'^profiles',
-        MineraltypeProfiles.as_view(),
-        name=MineraltypeProfiles.name
-    ),
+    # url(
+    #     r'^profiles',
+    #     MineraltypeProfiles.as_view(),
+    #     name=MineraltypeProfiles.name
+    # ),
     # Glossary View
     url(
         r'^glossary',

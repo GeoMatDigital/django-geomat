@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-07 11:14+0100\n"
-"PO-Revision-Date: 2018-02-07 11:27+0053\n"
+"PO-Revision-Date: 2019-02-18 12:34+0053\n"
 "Last-Translator: b'  <>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Translated-Using: django-rosetta 0.8.1\n"
+"X-Translated-Using: django-rosetta 0.9.1\n"
 
 #: config/settings/common.py:126
 msgid "German"
@@ -83,7 +83,7 @@ msgstr "Sulfide"
 #: geomat/stein/models.py:30
 #| msgid "Sulfates"
 msgid "Sulfosalts"
-msgstr "Sulfatsalze"
+msgstr "Sulfosalze"
 
 #: geomat/stein/models.py:31
 #| msgid "Carbonates and Nitrates"

@@ -14,7 +14,7 @@ from django.utils.translation import pgettext_lazy
 
 from rest_framework import generics, status
 from rest_framework.response import Response
-from rest_framework.viewsets import ReadOnlyModelViewSet
+from rest_framework.viewsets import ReadOnlyModelViewSet, GenericViewSet
 from rest_framework.mixins import RetrieveModelMixin, ListModelMixin
 
 from geomat.stein.models import (
@@ -353,7 +353,7 @@ class GalleryView(generics.ListAPIView):
 # processes a url looking like this :
 # profiles/<int:layer>/<str:item>
 
-class FutureMineraltypeProfiles(generics.RetrieveAPIView):
+class FutureMineraltypeProfiles(GenericViewSet):
     model = MineralType
     queryset = model.objects.all()
     serializer_class = MineralProfilesSerializer
@@ -363,71 +363,64 @@ class FutureMineraltypeProfiles(generics.RetrieveAPIView):
     #           1:MineralType.SPLIT_CHOICES,
     #           2:MineralType.SUB_CHOICES}
 
-    fields = {0:"systematics",
-              1:"split_systematics",
-              2:"sub_systematics"}
+    layers = {
+        0:"systematics",
+        1:"split_systematics",
+        2:"sub_systematics",
+    }
 
-    def get(self, request, layer, item=None, *args, **kwargs):
+    def list(self, request, *args, **kwargs):
+        translation.activate('de')
+        data = {}
 
-        if len(self.fields) == layer:
+        for sys_abrev, sys_name in self.get_choices("systematics"):
+            data[str(sys_name)] = {}
 
-            field = self.get_layer_field(layer - 1)
-            tpl = self.get_choices(field)
+            for split_abrev, split_name in self.get_choices("split_systematics"):
+                if str(split_name) in sys_name:
+                    data[str(sys_name)][str(split_name)] = {}
 
-            translation.activate('en')
-            query = self.get_queryset().filter(**{field: self.get_search_abrev(tpl, item)})
-            translation.deactivate()
+                    for sub_abrev, sub_name in self.get_choices("sub_systematics"):
+                        if str(split_name).lower() in sub_name:
+                            # Final layer
+                            krgs = {
+                                "sub_systematics": sub_abrev
+                            }
+                            query = self.get_queryset().filter(**krgs)
+                            seri = self.get_serializer(query, many=True)
+                            data[str(sys_name)][str(split_name)][str(sub_name)] = seri.data
 
-            return Response(self.get_serializer(query, many=True).data)
+                    if not data[str(sys_name)][str(split_name)]:
+                        krgs = {
+                            "split_systematics": split_abrev
+                        }
+                        query = self.get_queryset().filter(**krgs)
+                        seri = self.get_serializer(query, many=True)
+                        data[str(sys_name)][str(split_name)] = seri.data
 
-        elif len(self.fields) - 1 < layer:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
-        else:
-            data = {}
-            field = self.get_layer_field(layer)
-            tpl = self.get_choices(field)
-
-            for short, entry in tpl:
-                key = str(entry)
-
-                translation.activate('en')
-                if layer > 0 and not (str(entry) in str(item) or str(item) in str(entry)):
-                    translation.deactivate()
-                    continue
-
-
-                translation.activate('en')      # this is a hack
+            if not data[str(sys_name)]:
                 krgs = {
-                    "layer": layer+1,
-                    "item": entry}
+                    "systematics": sys_abrev
+                }
+                query = self.get_queryset().filter(**krgs)
+                seri = self.get_serializer(query, many=True)
+                data[str(sys_name)] = seri.data
 
-                data[key] = {"link": reverse("{0}:{1}".format(self.app,self.name),
-                                             kwargs=krgs)}
-                translation.deactivate()
-
-            if data:
-                return Response(data)
-
-            field = self.get_layer_field(layer-1)
-            tpl = self.get_choices(field)
-
-            translation.activate('en')
-            query = self.get_queryset().filter(**{field:self.get_search_abrev(tpl, item)})
-            translation.deactivate()
-
-            return Response(self.get_serializer(query, many=True).data)
-
+        return Response(data)
 
     def get_choices(self, field):
+        """
+        This method retrieves the Choices Tuple for the Provided field.
+        systematics --> MINERAL_CATEGORIES
+        split_systematics --> SPLIT_CHOICES
+        sub_systematics --> SUB_CHOICES
+        :param field:
+        :return:
+        """
         tpl = self.model._meta.get_field(field).choices
         return tpl
 
-    def get_layer_field(self, layer):
-        return self.fields[layer]
 
-    def get_search_abrev(self, choices, item):
-        return dict((reversed(x) for x in choices))[item]
 
 
 # Api View for the Glossary

@@ -1,12 +1,9 @@
 [[source]]
-
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
-
 [packages]
-
 Django = "*"
 django-environ = "*"
 whitenoise = "*"
@@ -31,11 +28,10 @@ gunicorn = "*"
 django-anymail = "*"
 raven = "*"
 ipython_genutils = "*"
-drf-yasg = "*"
-
+drf-yasg = "==1.13.0"
+django-rosetta = "*"
 
 [dev-packages]
-
 coverage = "*"
 django_coverage_plugin = "*"
 Sphinx = "*"

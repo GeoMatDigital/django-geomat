@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
+from django.utils.html import format_html, format_html_join
 
 from geomat.stein.forms import GlossaryEntryModelForm, MineralTypeAdminForm
 from geomat.stein.models import (
@@ -14,6 +15,7 @@ from geomat.stein.models import (
     QuizQuestion
 )
 from geomat.stein.admin_forms import QuizQuestionAdminForm, QuizAnswerAdminForm
+
 
 class CleavageInline(admin.TabularInline):
     model = Cleavage
@@ -52,8 +54,8 @@ class HandpieceAdmin(admin.ModelAdmin):
         for mt in mineral_types:
             url = reverse("admin:stein_mineraltype_change", args=[mt.pk])
 
-            l.append('<a href="{}">{}</a>'.format(url, mt.trivial_name))
-        return ', '.join(l)
+            l.append((url, mt.trivial_name))
+        return format_html_join(', ', '<a href="{}">{}</a>', l)
 
     link_mineral_types.allow_tags = True
     link_mineral_types.short_description = _('mineral type(s)')
@@ -111,8 +113,7 @@ class QuizAnswerAdmin(admin.ModelAdmin):
 
         url = reverse("admin:stein_mineraltype_change", args=[question.pk])
 
-        element = '<a href="{}">{}</a>'.format(url, question.pk)
-        return element
+        return format_html('<a href="{}">{}</a>', url, question.pk)
 
     link_question.allow_tags = True
     link_question.short_description = _('question')

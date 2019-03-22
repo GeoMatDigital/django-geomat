@@ -29,6 +29,7 @@ django-anymail = "*"
 raven = "*"
 ipython_genutils = "*"
 drf-yasg = "==1.13.0"
+django-rosetta = "*"
 
 [dev-packages]
 coverage = "*"

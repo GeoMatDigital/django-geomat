@@ -226,9 +226,11 @@ class QuizQuestionFullSerializer(serializers.ModelSerializer):
     qtype = serializers.SerializerMethodField()
     answers = QuizAnswerLessSerializer(many=True)
 
+
     class Meta:
         model = QuizQuestion
         fields = '__all__'
+        ordering = ("pk",)
 
     def get_qtype(self, obj):
         choice_dict = dict(obj.QTYPE_CHOICES)

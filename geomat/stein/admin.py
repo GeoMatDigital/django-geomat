@@ -13,7 +13,7 @@ from geomat.stein.models import (
     QuizAnswer,
     QuizQuestion
 )
-
+from geomat.stein.admin_forms import QuizQuestionAdminForm, QuizAnswerAdminForm
 
 class CleavageInline(admin.TabularInline):
     model = Cleavage
@@ -99,6 +99,7 @@ admin.site.register(GlossaryEntry, GlossaryEntryAdmin)
 
 class QuizAnswerAdmin(admin.ModelAdmin):
     list_display = ('id', 'link_question', 'correct', 'atext')
+    form = QuizAnswerAdminForm
 
     def link_question(self, obj):
         """
@@ -127,6 +128,7 @@ admin.site.register(QuizAnswer, QuizAnswerAdmin)
 class QuizQuestionAdmin(admin.ModelAdmin):
     list_display = ('id', 'tags', 'difficulty', 'qtype')
     inlines = [QuizAnswerInline]
+    form = QuizQuestionAdminForm
 
 
 admin.site.register(QuizQuestion, QuizQuestionAdmin)

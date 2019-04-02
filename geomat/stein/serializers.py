@@ -92,7 +92,7 @@ class MineralTypeSerializer(serializers.ModelSerializer):
     split_systematics = serializers.SerializerMethodField()
     fracture = serializers.SerializerMethodField()
     lustre = serializers.SerializerMethodField()
-    density =serializers.SerializerMethodField()
+    density = serializers.SerializerMethodField()
     mohs_scale = serializers.SerializerMethodField()
     crystal_system = CrystalSystemLessSerializer(many=True)
     cleavage = CleavageSerializer(many=True)

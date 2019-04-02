@@ -436,7 +436,6 @@
         },
         "regex": {
             "hashes": [
-<<<<<<< HEAD
                 "sha256:0306149889c1a1bec362511f737bc446245ddfcdbe4b556abdfc506ed46dfa47",
                 "sha256:4b08704a5939c698d2d5950b5dc950597613216cc8c01048efc0da860a0c3db9",
                 "sha256:6ba0eb777ada6887062c2620e6d644b011078d5d3dc09119ae7107285f6f95e9",
@@ -448,19 +447,6 @@
                 "sha256:dfd89b642fe71f4e8a9906455d4147d453061377b650e6233ddd9ea822971360"
             ],
             "version": "==2019.3.12"
-=======
-                "sha256:204eb661cae77f060ec8133e5b96ba47d1531b75ff0f9ee43a0b8841467f3bfe",
-                "sha256:4aa0fc3724b47c84121cc779be4da542d0b09cf648423d62d52c8cce1397d476",
-                "sha256:91af69ec1b09db8bf384508dc5108c164b4e020f857aa5c124334c078d387baf",
-                "sha256:9e0cce32ac5dc3a8d1ed7f302f4e0b29c22f4c0c1130e7e73f4e13aa73207599",
-                "sha256:a6d4ac6c806ea918659a9eae6f4356ffc58b400ee8856d8b4019ff7df02d25ff",
-                "sha256:beb4110192b1aec2923e86d991dbff4bd599de4aee732d1197aba9bb9cbb4b29",
-                "sha256:eb471ab4e82f1883c7e1001a81be06ff1271ac54fa73c38ca1f198d4892c1132",
-                "sha256:eee9f554a6119d8de098510a2ce243edda9d69bd13b4a1ba5cd94018a3222078",
-                "sha256:f39b7e56ad5b194eec5d22cac95d0feebeea43d5967bd8bfbefef402c0821c8c"
-            ],
-            "version": "==2019.2.18"
->>>>>>> Updated drf-yasg, Implemented new way of MineralProfiles which displays the whole 'Tree' at once. Needs refinement, first version done.
         },
         "requests": {
             "hashes": [
@@ -478,32 +464,6 @@
         },
         "ruamel.yaml": {
             "hashes": [
-<<<<<<< HEAD
-                "sha256:0ae64b150ec39667ce2815227271207d27a6218bc501b73e70a7403f2cf987ee",
-                "sha256:0e6aa488ec65fcaf7cca609d83a2b0e13d429a6080dd6ef3fd89dcbf67f13c1d",
-                "sha256:1085219e373381c8a4ac911be2f167d2c67485af82199db0abee11cfe06283d5",
-                "sha256:181aeecf6d037e34c325c191b0a14188921964dd02c34a4d01bf7881060c22d0",
-                "sha256:1bafe5773c559ef8e06d53f35bfcaad0510ef069db8b3fb50bf9816b3c531633",
-                "sha256:20bc4549b86f7e5a558c06e51c97821d8b7658d4b01d3e21713a53db6f45779a",
-                "sha256:325b5b1df1b29ecaaa3dab6745ee0a35d51e58aa19b90cab8ba11c498d438cb7",
-                "sha256:3e89d657a11fee61120d304efcab92409ea4a21c9629626cbb7aabbac7b713d9",
-                "sha256:551142c578813ee25e4952dda820701f0201d0292e8807e8fb5490d19bab8181",
-                "sha256:6d8bf658b64ebeccb67bccccd01833cdbe5369c1436365d41052d23e5cbf716f",
-                "sha256:76aadb21b3186599057c8874104c8467270307e12faed124dc5ee1cfcd4e240f",
-                "sha256:86d034aa9e2ab3eacc5f75f5cd6a469a2af533b6d9e60ea92edbba540d21b9b7",
-                "sha256:aa4bfa597c58f2efcae98add337ada85ded45288936a15ddc2d29ff3f5ce3ddf",
-                "sha256:b76a4cf08e9392765cf6a25eae63a12fb27c6cc4a8ee5416a49cd54627151f46",
-                "sha256:bd9976f13d14f6cb6da1748c7678198b6f9346cbbe0ad18eb74c024a7a2c0d08",
-                "sha256:c3c1af293b9e6a84b5da3954f4ae81b30d07a626717cfb6f099ffe0901ff1eac",
-                "sha256:c64ae6da2da174fce281a088d7634c6e545db5fb989a3cecec2aa9cef2634a92",
-                "sha256:ca742877ea6948cb80c70aaf5d76011694eb072d98264a704b04ffc2d4c0d440",
-                "sha256:cfefc391d5a3a7e8b1c6195f364d2f11f898f07eef277ef8e93a4e3ccafbd7c2",
-                "sha256:f004249eb8b873c4f48361dc814450e47dab53b5312334cff0a9d381a4589f03",
-                "sha256:fc6a2b2f4453944ab8bbe4d6d2eba0c864c098baa8487b08e4340a93a1f811c7",
-                "sha256:fffc4dd4097451c0ae1c6cb89bbff1a8248fda6366adb08d1c7bbc4ea2e6a637"
-            ],
-            "version": "==0.15.89"
-=======
                 "sha256:0289a685479d059b94683cd6cb47ffb790c05c20a6c4da395361025d52493d0a",
                 "sha256:0adf1d9b8e88dc6b151a3199b1dd7be0c8ee10d6c2ebd2a9e2a13224f4481cdf",
                 "sha256:13657c26780bba5824764cddb0f2933217fd59cfcca0e2ee1b2f759e7e58ef8e",
@@ -528,7 +488,6 @@
                 "sha256:fd5f09c399cdc92586b54ee28f68f23f1d5649177d7ceb22ec975b5e69e1b722"
             ],
             "version": "==0.15.88"
->>>>>>> Updated drf-yasg, Implemented new way of MineralProfiles which displays the whole 'Tree' at once. Needs refinement, first version done.
         },
         "six": {
             "hashes": [
@@ -703,17 +662,10 @@
         },
         "django-rosetta": {
             "hashes": [
-<<<<<<< HEAD
                 "sha256:1ab55a8aaf36bf9c86e83474bb5d479dcd036327615d0c7abf06039ccabb0b96"
             ],
             "index": "pypi",
             "version": "==0.9.2"
-=======
-                "sha256:bcb98f5452662e74ed038d4c78c16de0e6e4b3ed58ec3cb58dfb37ed318318cf"
-            ],
-            "index": "pypi",
-            "version": "==0.9.1"
->>>>>>> Updated drf-yasg, Implemented new way of MineralProfiles which displays the whole 'Tree' at once. Needs refinement, first version done.
         },
         "django-test-plus": {
             "hashes": [
@@ -928,17 +880,10 @@
         },
         "pytest": {
             "hashes": [
-<<<<<<< HEAD
                 "sha256:592eaa2c33fae68c7d75aacf042efc9f77b27c08a6224a4f59beab8d9a420523",
                 "sha256:ad3ad5c450284819ecde191a654c09b0ec72257a2c711b9633d677c71c9850c4"
             ],
             "version": "==4.3.1"
-=======
-                "sha256:80cfd9c8b9e93f419abcc0400e9f595974a98e44b6863a77d3e1039961bfc9c4",
-                "sha256:c2396a15726218a2dfef480861c4ba37bd3952ebaaa5b0fede3fc23fddcd7f8c"
-            ],
-            "version": "==4.2.1"
->>>>>>> Updated drf-yasg, Implemented new way of MineralProfiles which displays the whole 'Tree' at once. Needs refinement, first version done.
         },
         "pytest-cov": {
             "hashes": [

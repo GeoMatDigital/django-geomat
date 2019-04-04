@@ -75,7 +75,7 @@ admin.site.register(CrystalSystem, CrystallSystemAdmin)
 
 class MineralTypeAdmin(admin.ModelAdmin):
     form = MineralTypeAdminForm
-    list_display = ('trivial_name', 'systematics', 'split_systematics', 'sub_systematics', 'variety',
+    list_display = ('trivial_name', 'variety',
                     'minerals', 'created_at', 'last_modified',
                     'id')
 

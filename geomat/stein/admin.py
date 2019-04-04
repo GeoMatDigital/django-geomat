@@ -12,7 +12,8 @@ from geomat.stein.models import (
     MineralType,
     Photograph,
     QuizAnswer,
-    QuizQuestion
+    QuizQuestion,
+    TreeNode
 )
 from geomat.stein.admin_forms import QuizQuestionAdminForm, QuizAnswerAdminForm
 
@@ -133,3 +134,8 @@ class QuizQuestionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(QuizQuestion, QuizQuestionAdmin)
+
+class TreeNodeAdmin(admin.ModelAdmin):
+    list_display = ("id", "node_name", "is_top_level")
+
+admin.site.register(TreeNode, TreeNodeAdmin)

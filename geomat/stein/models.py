@@ -349,3 +349,24 @@ class QuizAnswer(models.Model):
         verbose_name=_("question"),
         related_name="answers",
         on_delete=models.CASCADE)
+
+
+class TreeNode(models.Model):
+    node_name = models.CharField(
+        max_length=200, verbose_name=_("node name"), unique=True
+    )
+    leaf_nodes = models.ManyToManyField(
+        "self"
+    )
+    info_text = models.TextField(
+        max_length=500, blank=True
+    )
+    is_top_level = models.BooleanField(default=False)
+    image = models.OneToOneField("Photograph", null=True, on_delete=models.DO_NOTHING, related_name="+")
+
+    class Meta:
+        verbose_name = _("Tree Node")
+        verbose_name_plural = _("Tree Nodes")
+
+    def __str__(self):
+        return self.node_name

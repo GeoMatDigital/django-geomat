@@ -100,9 +100,9 @@ class ListFilterAPIView(generics.ListAPIView):
 
         return filters
 
-    def get_queryset(self,filters=None):
+    def get_queryset(self, filters=None):
         """Method which returns the filtered Queryset."""
-        filters =  filters if filters else self.get_filters()
+        filters = filters if filters else self.get_filters()
         queryset = self.queryset
         if isinstance(queryset, QuerySet):
             queryset = queryset.all()
@@ -229,6 +229,7 @@ class FilterMineraltypeList(ListFilterAPIView):
         'cleavage',
         'lustre', )
     range_fields = ('density', 'mohs_scale')
+    model_fields = ("systematics",)
 
 
 class FilterCrystalSystemList(ListFilterAPIView):

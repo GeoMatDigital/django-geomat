@@ -108,7 +108,10 @@ class MineralTypeSerializer(serializers.ModelSerializer):
         depth = 2
 
     def get_systematics(self, obj):
-        return obj.systematics.node_name
+        systematic = obj.systematics
+        if systematic:
+            return systematic.node_name
+        return None
 
     @swagger_serializer_method(serializer_or_field=serializers.ListField)
     def get_fracture(self, obj):

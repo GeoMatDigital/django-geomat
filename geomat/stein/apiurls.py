@@ -32,7 +32,7 @@ router.register(r'photograph', PhotographEndpoint)
 router.register(r'mineraltype', MineraltypeEndpoint)
 router.register(r'quizquestion', QuizQuestionEndpoint)
 router.register(r'quizanswer', QuizAnswerEndpoint)
-router.register(r"profiles", FutureMineraltypeProfiles, basename="profiles")
+router.register(r"profiles", FutureMineraltypeProfiles, base_name="profiles")
 
 urlpatterns = [
     # Api Documentation

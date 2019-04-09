@@ -247,7 +247,7 @@ class GlossaryEntrySerializer(serializers.ModelSerializer):
 
 
 class TreeNodeSerializer(serializers.ModelSerializer):
-    mineraltypes = MineralTypeSerializer(many=True)
+    mineraltypes = MineralProfilesSerializer(many=True)
     image = PhotographSerializer()
     leaf_nodes = RecursiveField(many=True)
 

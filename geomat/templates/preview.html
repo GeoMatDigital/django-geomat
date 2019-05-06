@@ -1,7 +1,7 @@
-{% extends 'base.html' %}
-{% load static %}
+<!-- extends 'base.html' -->
+<!-- load static -->
 
-{% block content %}
+<!-- block content -->
     <header>
         <div class="header-content">
             <div class="header-content-inner">
@@ -55,11 +55,12 @@
         <div class="container text-center" id="gallery">
             <h2>Galerie-Vorschau</h2>
             <hr class="light">
-            {% for list in photograph_dict %}
+            <!-- for list in photograph_dict -->
 
+            <!--a href="#" id="gallery-button{{ forloop.counter }}" class="btn btn-default btn-xl wow tada">Galerie{{ forloop.counter }} &ouml;ffnen</a-->
             <a href="#" id="gallery-button{{ forloop.counter }}" class="btn btn-default btn-xl wow tada">Galerie{{ forloop.counter }} &ouml;ffnen</a>
 
-            {% endfor %}
+            <!-- endfor -->
         </div>
     </aside>
     <aside id="best-helper" class="bg-primary">
@@ -119,7 +120,7 @@
             <div class="row no-gutter">
                 <div class="col-lg-4 col-sm-6">
                     <a href="#showcase" class="portfolio-box">
-                        <img src="{% static 'common/images/portfolio/Vermessen_650x462.jpg' %}" class="img-responsive" alt="">
+                        <img src="<!-- static 'common/images/portfolio/Vermessen_650x462.jpg' -->" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
@@ -134,7 +135,7 @@
                 </div>
                 <div class="col-lg-4 col-sm-6">
                     <a href="#showcase" class="portfolio-box">
-                        <img src="{% static 'common/images/portfolio/Phone_650x462.jpg' %}" class="img-responsive" alt="">
+                        <img src="<!-- static 'common/images/portfolio/Phone_650x462.jpg' -->" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
@@ -149,7 +150,7 @@
                 </div>
                 <div class="col-lg-4 col-sm-6">
                     <a href="#showcase" class="portfolio-box">
-                        <img src="{% static 'common/images/portfolio/MobileSynopsis_650x462.png' %}" class="img-responsive" alt="">
+                        <img src="<!-- static 'common/images/portfolio/MobileSynopsis_650x462.png' -->" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
@@ -164,7 +165,7 @@
                 </div>
                 <div class="col-lg-4 col-sm-6">
                     <a href="#showcase" class="portfolio-box">
-                        <img src="{% static 'common/images/portfolio/blau_650x462.jpg' %}" class="img-responsive" alt="">
+                        <img src="<!-- static 'common/images/portfolio/blau_650x462.jpg' -->" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
@@ -179,7 +180,7 @@
                 </div>
                 <div class="col-lg-4 col-sm-6">
                     <a href="#showcase" class="portfolio-box">
-                        <img src="{% static 'common/images/portfolio/Kristalle_650x462.jpg' %}" class="img-responsive" alt="">
+                        <img src="<!-- static 'common/images/portfolio/Kristalle_650x462.jpg' -->" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
@@ -194,7 +195,7 @@
                 </div>
                 <div class="col-lg-4 col-sm-6">
                     <a href="#showcase" class="portfolio-box">
-                        <img src="{% static 'common/images/portfolio/Aufschluss_650x462.jpg' %}" class="img-responsive" alt="">
+                        <img src="<!-- static 'common/images/portfolio/Aufschluss_650x462.jpg' -->" class="img-responsive" alt="">
                         <div class="portfolio-box-caption">
                             <div class="portfolio-box-caption-content">
                                 <div class="project-category text-faded">
@@ -248,4 +249,4 @@
         </div>
     </section>
 
-{% endblock %}
+<!-- endblock -->

@@ -58,9 +58,9 @@
                     <li>
                         <a class="page-scroll" href="#features">Features</a>
                     </li>
-                    <!--li>
-                        <a class="page-scroll" href="#portfolio">Showcase</a>
-                    </li-->
+                    <li>
+                        <a class="page-scroll" href="#technical">Technik</a>
+                    </li>
                     <li>
                         <a class="page-scroll" href="#contact">Kontakt</a>
                     </li>
@@ -88,25 +88,6 @@
     <!-- Custom Theme JavaScript -->
     <script src="{% static 'common/js/creative.js' %}"></script>
 
-    <script type="text/javascript">
-        {% for name, list in photograph_dict.items %}
-
-        $(document).ready(function() {
-            $('#gallery-button{{ forloop.counter }}').click(function(e) {
-                e.preventDefault();
-                $.swipebox([
-                    {% for photograph in list %}
-                    {
-                        href: "{{ photograph.image_file.large.url }}",
-                        title: '{{ photograph.handpiece.name }}'
-                    },
-                    {% endfor %}
-                ],
-                {useSVG: false});
-            });
-        });
-        {% endfor %}
-    </script>
-</body>
+    </body>
 
 </html>

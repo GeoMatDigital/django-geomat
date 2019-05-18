@@ -479,14 +479,12 @@ class FilterApiViewTestCase(TestCase):
         cls.handpiece_two.mineral_type.set([cls.mineraltype_two])
         cls.photograph_one = Photograph.objects.create(
             handpiece=cls.handpiece_one,
-            image_file="image_one.jpg",
-            orientation="T",
-            shot_type="MA")
+            image_file="image_one.jpg"
+        )
         cls.photograph_two = Photograph.objects.create(
             handpiece=cls.handpiece_two,
-            image_file="image_two.jpg",
-            orientation="S",
-            shot_type="MI")
+            image_file="image_two.jpg"
+        )
 
         cls.photograph_one_dict = PhotographSerializer(cls.photograph_one).data
 
@@ -730,33 +728,6 @@ class FilterApiViewTestCase(TestCase):
             reverse('api:photograph-filter'),
             {'handpiece': self.handpiece_one.id})
         response_dict = json.loads(response.content)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        assert self.photograph_one_dict in response_dict
-        assert len(response_dict) == 1
-
-    @pytest.mark.skip(
-        reason=
-        "The given output of the StdImageField, contains full server url of the image files.The dict does NOT contain them, to besolved in future process"
-    )
-    def test_can_filter_orientation(self):
-        response = self.client.get(
-            reverse('api:photograph-filter'), {'orientation': "T"})
-        response_dict = json.loads(response.content)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        assert self.photograph_one_dict in response_dict
-        assert len(response_dict) == 1
-
-    @pytest.mark.skip(
-        reason=
-        "The given output of the StdImageField, contains full server url of the image files. The dict does NOT contain them, to besolved in future process"
-    )
-    def test_can_filter_shot_type(self):
-        response = self.client.get(
-            reverse('api:photograph-filter'), {'shot_type': "MA"})
-        response_dict = json.loads(response.content)
-        pprint(response_dict)
-        pprint(self.photograph_one_dict)
-
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.photograph_one_dict in response_dict
         assert len(response_dict) == 1

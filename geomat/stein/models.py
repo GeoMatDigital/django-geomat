@@ -206,11 +206,11 @@ class Photograph(models.Model):
         },
         db_index=True)
 
-    orig_heigth = models.IntegerField(verbose_name=_("original height"), default=0)
+    orig_height = models.IntegerField(verbose_name=_("original height"), default=0)
     orig_width = models.IntegerField(verbose_name=_("original width"), default=0)
     description = models.TextField(verbose_name=_("description"), default="")
-    audio_file = models.FileField(verbose_name=_("audio file"), upload_to="/audio", null=True)
-    
+    audio_file = models.FileField(verbose_name=_("audio file"), upload_to="audio", null=True)
+
     handpiece = models.ForeignKey(
         Handpiece, related_name="photograph", on_delete=models.CASCADE)
     online_status = models.BooleanField(

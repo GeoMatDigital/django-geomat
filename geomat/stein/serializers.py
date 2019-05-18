@@ -193,7 +193,7 @@ class PhotographSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Photograph
-        fields = ('id', 'image_file', 'handpiece', 'orientation', 'shot_type',
+        fields = ('id', 'image_file', 'handpiece', 'orig_height', 'orig_width', 'audio_file', 'description',
                   'online_status', 'created_at', 'last_modified')
 
 

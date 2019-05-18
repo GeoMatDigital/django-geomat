@@ -2,7 +2,7 @@
 from rest_framework import serializers
 
 from geomat.stein.models import CrystalSystem, Handpiece, MineralType, Photograph, QuizQuestion,\
-    QuizAnswer, Cleavage, GlossaryEntry
+    QuizAnswer, Cleavage, GlossaryEntry, TreeNode
 
 from drf_yasg.utils import swagger_serializer_method
 
@@ -52,6 +52,13 @@ class StdImageField(serializers.ImageField):
         return return_object
 
 
+class RecursiveField(serializers.Serializer):
+
+    def to_representation(self, instance):
+        serializer = self.parent.parent.__class__(instance, context=self.context)
+        return serializer.data
+
+
 class CleavageSerializer(serializers.ModelSerializer):
 
     cleavage = serializers.SerializerMethodField()
@@ -88,11 +95,9 @@ class CrystalSystemLessSerializer(serializers.ModelSerializer):
 
 class MineralTypeSerializer(serializers.ModelSerializer):
     systematics = serializers.SerializerMethodField()
-    sub_systematics = serializers.SerializerMethodField()
-    split_systematics = serializers.SerializerMethodField()
     fracture = serializers.SerializerMethodField()
     lustre = serializers.SerializerMethodField()
-    density =serializers.SerializerMethodField()
+    density = serializers.SerializerMethodField()
     mohs_scale = serializers.SerializerMethodField()
     crystal_system = CrystalSystemLessSerializer(many=True)
     cleavage = CleavageSerializer(many=True)
@@ -103,13 +108,10 @@ class MineralTypeSerializer(serializers.ModelSerializer):
         depth = 2
 
     def get_systematics(self, obj):
-        return obj.get_systematics_display()
-
-    def get_sub_systematics(self, obj):
-        return obj.get_sub_systematics_display()
-
-    def get_split_systematics(self, obj):
-        return obj.get_split_systematics_display()
+        systematic = obj.systematics
+        if systematic:
+            return systematic.node_name
+        return None
 
     @swagger_serializer_method(serializer_or_field=serializers.ListField)
     def get_fracture(self, obj):
@@ -242,3 +244,13 @@ class GlossaryEntrySerializer(serializers.ModelSerializer):
     class Meta:
         model = GlossaryEntry
         fields = '__all__'
+
+
+class TreeNodeSerializer(serializers.ModelSerializer):
+    mineraltypes = MineralProfilesSerializer(many=True)
+    image = PhotographSerializer()
+    leaf_nodes = RecursiveField(many=True)
+
+    class Meta:
+        model = TreeNode
+        fields = ("node_name", "leaf_nodes", "info_text", "image", "mineraltypes")

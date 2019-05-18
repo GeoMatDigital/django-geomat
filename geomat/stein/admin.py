@@ -12,7 +12,8 @@ from geomat.stein.models import (
     MineralType,
     Photograph,
     QuizAnswer,
-    QuizQuestion
+    QuizQuestion,
+    TreeNode
 )
 from geomat.stein.admin_forms import QuizQuestionAdminForm, QuizAnswerAdminForm
 
@@ -74,7 +75,7 @@ admin.site.register(CrystalSystem, CrystallSystemAdmin)
 
 class MineralTypeAdmin(admin.ModelAdmin):
     form = MineralTypeAdminForm
-    list_display = ('trivial_name', 'systematics', 'split_systematics', 'sub_systematics', 'variety',
+    list_display = ('trivial_name', 'variety',
                     'minerals', 'created_at', 'last_modified',
                     'id')
 
@@ -133,3 +134,8 @@ class QuizQuestionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(QuizQuestion, QuizQuestionAdmin)
+
+class TreeNodeAdmin(admin.ModelAdmin):
+    list_display = ("id", "node_name", "is_top_level")
+
+admin.site.register(TreeNode, TreeNodeAdmin)

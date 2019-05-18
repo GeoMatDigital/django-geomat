@@ -6,16 +6,10 @@ from django.db.models import Count, Case, When
 from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.views.generic.list import ListView
-from django.urls import reverse
-from django.utils.translation import ugettext_lazy
-from django.utils import translation
-from django.utils.text import format_lazy
-from django.utils.translation import pgettext_lazy
+
 
 from rest_framework import generics, status
-from rest_framework.response import Response
-from rest_framework.viewsets import ReadOnlyModelViewSet
-from rest_framework.mixins import RetrieveModelMixin, ListModelMixin
+from rest_framework.viewsets import ReadOnlyModelViewSet, GenericViewSet
 
 from geomat.stein.models import (
     CrystalSystem,
@@ -24,7 +18,8 @@ from geomat.stein.models import (
     MineralType,
     Photograph,
     QuizAnswer,
-    QuizQuestion
+    QuizQuestion,
+    TreeNode
 )
 from geomat.stein.serializers import (
     CrystalSystemFullSerializer,
@@ -34,7 +29,8 @@ from geomat.stein.serializers import (
     MineralTypeSerializer,
     PhotographSerializer,
     QuizAnswerFullSerializer,
-    QuizQuestionFullSerializer
+    QuizQuestionFullSerializer,
+    TreeNodeSerializer
 )
 
 
@@ -104,9 +100,9 @@ class ListFilterAPIView(generics.ListAPIView):
 
         return filters
 
-    def get_queryset(self,filters=None):
+    def get_queryset(self, filters=None):
         """Method which returns the filtered Queryset."""
-        filters =  filters if filters else self.get_filters()
+        filters = filters if filters else self.get_filters()
         queryset = self.queryset
         if isinstance(queryset, QuerySet):
             queryset = queryset.all()
@@ -233,6 +229,7 @@ class FilterMineraltypeList(ListFilterAPIView):
         'cleavage',
         'lustre', )
     range_fields = ('density', 'mohs_scale')
+    model_fields = ("systematics",)
 
 
 class FilterCrystalSystemList(ListFilterAPIView):
@@ -335,13 +332,13 @@ class GalleryView(generics.ListAPIView):
     def get_queryset(self):
         queryset = super().get_queryset()
         #  do our sorting here
-        pk_list= (34, 29, 31, 32, 35, 144, 99, 38, 44, 40, 39, 98, 46, 41, 42, 36, 139,
-         37, 47, 48, 151, 152, 153, 131, 97, 132, 133, 134, 135, 113, 126, 117,
-         118, 122, 140, 74, 127, 49, 46, 50, 54, 55, 52, 53, 51, 150, 58, 56,
-         154, 59, 60, 61, 62, 63, 64, 67, 148, 65, 66, 68, 76, 77, 78, 79, 80,
-         75, 69, 70, 71, 143, 123, 72, 73, 124, 100, 101, 137, 136, 142, 141,
-         103, 102, 83, 82, 147, 81, 125, 84, 85, 145, 112, 104, 138, 108, 110,
-         111, 114, 115, 149, 106, 107, 119, 120, 116, 130, 129, 109, 105, 128)
+        pk_list = (34, 29, 31, 32, 35, 144, 99, 38, 44, 40, 39, 98, 46, 41, 42, 36, 139,
+                   37, 47, 48, 151, 152, 153, 131, 97, 132, 133, 134, 135, 113, 126, 117,
+                   118, 122, 140, 74, 127, 49, 46, 50, 54, 55, 52, 53, 51, 150, 58, 56,
+                   154, 59, 60, 61, 62, 63, 64, 67, 148, 65, 66, 68, 76, 77, 78, 79, 80,
+                   75, 69, 70, 71, 143, 123, 72, 73, 124, 100, 101, 137, 136, 142, 141,
+                   103, 102, 83, 82, 147, 81, 125, 84, 85, 145, 112, 104, 138, 108, 110,
+                   111, 114, 115, 149, 106, 107, 119, 120, 116, 130, 129, 109, 105, 128)
 
         preserved = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(pk_list)])
         queryset = queryset.filter(pk__in=pk_list).order_by(preserved)
@@ -353,81 +350,79 @@ class GalleryView(generics.ListAPIView):
 # processes a url looking like this :
 # profiles/<int:layer>/<str:item>
 
-class FutureMineraltypeProfiles(generics.RetrieveAPIView):
-    model = MineralType
+class FutureMineraltypeProfiles(ReadOnlyModelViewSet):
+    model = TreeNode
     queryset = model.objects.all()
-    serializer_class = MineralProfilesSerializer
-    name = 'mineraltype-profiles'
+    serializer_class = TreeNodeSerializer
+    name = 'profiles'
     app = "api"
-    # layers = {0:MineralType.MINERAL_CATEGORIES,
-    #           1:MineralType.SPLIT_CHOICES,
-    #           2:MineralType.SUB_CHOICES}
 
-    fields = {0:"systematics",
-              1:"split_systematics",
-              2:"sub_systematics"}
+    def get_queryset(self):
+        queryset = super(FutureMineraltypeProfiles, self).get_queryset()
+        return queryset.filter(is_top_level=True)
 
-    def get(self, request, layer, item=None, *args, **kwargs):
+    # # layers = {0:MineralType.MINERAL_CATEGORIES,
+    # #           1:MineralType.SPLIT_CHOICES,
+    # #           2:MineralType.SUB_CHOICES}
+    #
+    # layers = {
+    #     0:"systematics",
+    #     1:"split_systematics",
+    #     2:"sub_systematics",
+    # }
+    #
+    # def list(self, request, *args, **kwargs):
+    #     translation.activate('de')
+    #     data = {}
+    #
+    #     for sys_abrev, sys_name in self.get_choices("systematics"):
+    #         data[str(sys_name)] = {}
+    #
+    #         for split_abrev, split_name in self.get_choices("split_systematics"):
+    #             if str(split_name) in sys_name:
+    #                 data[str(sys_name)][str(split_name)] = {}
+    #
+    #                 for sub_abrev, sub_name in self.get_choices("sub_systematics"):
+    #                     if str(split_name).lower() in sub_name:
+    #                         # Final layer
+    #                         krgs = {
+    #                             "sub_systematics": sub_abrev
+    #                         }
+    #                         query = self.get_queryset().filter(**krgs)
+    #                         seri = self.get_serializer(query, many=True)
+    #                         data[str(sys_name)][str(split_name)][str(sub_name)] = seri.data
+    #
+    #                 if not data[str(sys_name)][str(split_name)]:
+    #                     krgs = {
+    #                         "split_systematics": split_abrev
+    #                     }
+    #                     query = self.get_queryset().filter(**krgs)
+    #                     seri = self.get_serializer(query, many=True)
+    #                     data[str(sys_name)][str(split_name)] = seri.data
+    #
+    #         if not data[str(sys_name)]:
+    #             krgs = {
+    #                 "systematics": sys_abrev
+    #             }
+    #             query = self.get_queryset().filter(**krgs)
+    #             seri = self.get_serializer(query, many=True)
+    #             data[str(sys_name)] = seri.data
+    #
+    #     return Response(data)
 
-        if len(self.fields) == layer:
-
-            field = self.get_layer_field(layer - 1)
-            tpl = self.get_choices(field)
-
-            translation.activate('en')
-            query = self.get_queryset().filter(**{field: self.get_search_abrev(tpl, item)})
-            translation.deactivate()
-
-            return Response(self.get_serializer(query, many=True).data)
-
-        elif len(self.fields) - 1 < layer:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
-        else:
-            data = {}
-            field = self.get_layer_field(layer)
-            tpl = self.get_choices(field)
-
-            for short, entry in tpl:
-                key = str(entry)
-
-                translation.activate('en')
-                if layer > 0 and not (str(entry) in str(item) or str(item) in str(entry)):
-                    translation.deactivate()
-                    continue
+    # def get_choices(self, field):
+    #     """
+    #     This method retrieves the Choices Tuple for the Provided field.
+    #     systematics --> MINERAL_CATEGORIES
+    #     split_systematics --> SPLIT_CHOICES
+    #     sub_systematics --> SUB_CHOICES
+    #     :param field:
+    #     :return:
+    #     """
+    #     tpl = self.model._meta.get_field(field).choices
+    #     return tpl
 
 
-                translation.activate('en')      # this is a hack
-                krgs = {
-                    "layer": layer+1,
-                    "item": entry}
-
-                data[key] = {"link": reverse("{0}:{1}".format(self.app,self.name),
-                                             kwargs=krgs)}
-                translation.deactivate()
-
-            if data:
-                return Response(data)
-
-            field = self.get_layer_field(layer-1)
-            tpl = self.get_choices(field)
-
-            translation.activate('en')
-            query = self.get_queryset().filter(**{field:self.get_search_abrev(tpl, item)})
-            translation.deactivate()
-
-            return Response(self.get_serializer(query, many=True).data)
-
-
-    def get_choices(self, field):
-        tpl = self.model._meta.get_field(field).choices
-        return tpl
-
-    def get_layer_field(self, layer):
-        return self.fields[layer]
-
-    def get_search_abrev(self, choices, item):
-        return dict((reversed(x) for x in choices))[item]
 
 
 # Api View for the Glossary

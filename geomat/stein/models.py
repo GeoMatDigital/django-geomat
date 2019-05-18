@@ -14,38 +14,6 @@ class MineralType(models.Model):
     Defines the mineral type model. This model is used as a
     ManyToMany-field inside the Handpiece model.
     """
-
-    MINERAL_CATEGORIES = (
-        ('EL', _("Elements")),
-        ('SF', _("Sulfides & Sulfosalts")),
-        ('HG', _("Halogenides")),
-        ('OH', _("Oxides and Hydroxides")),
-        ('CN', _("Carbonates and Nitrates")),
-        ('BR', _("Borates")),
-        ('SL', _("Sulfates")),
-        ('PV', _("Phosphates, Arsenates & Vanadates")),
-        ('SG', _("Silicates & Germanates")),
-        ('OC', _("Organic Compounds")), )
-    SPLIT_CHOICES = (
-        ('SU', _('Sulfides')),
-        ('SS', _('Sulfosalts')),
-        ('CA', _('Carbonates')),
-        ('NI', _('Nitrates')),
-        ('PH', _('Phosphates')),
-        ('AR', _('Arsenates')),
-        ('VA', _('Vanadates')),
-        ('SI', _('Silicates')),
-        ('GE', _('Germanates')),
-        ("OX", _("Oxides")),
-        ("HY", _("Hydroxides")), )
-    SUB_CHOICES=(
-        ("IS", _("Island Silicates")),
-        ("GS", _("Group Silicates")),
-        ("CS", _("Chain Silicates")),
-        ("DS", _("Double Chain Silicates")),
-        ("CC", _("Cyclo Silicates")),
-        ("PS", _("Phyllo Silicates")),
-        ("FS", _("Framework Silicates")), )
     CLEAVAGE_CHOICES = (
         ('PE', _("perfect")),
         ('LP', _("less perfect")),
@@ -72,21 +40,8 @@ class MineralType(models.Model):
 
     trivial_name = models.CharField(
         max_length=100, blank=True, verbose_name=_("trivial name"))
-    systematics = models.CharField(
-        max_length=2,
-        choices=MINERAL_CATEGORIES,
-        default="EL",
-        verbose_name=_("systematics"))
-    split_systematics = models.CharField(
-        max_length=2,
-        choices=SPLIT_CHOICES,
-        blank=True,
-        verbose_name=_("splitted systematics"))
-    sub_systematics = models.CharField(
-        max_length=2,
-        choices=SUB_CHOICES,
-        blank=True,
-        verbose_name=_("subsystematics")
+    systematics = models.ForeignKey(
+        "TreeNode", related_name="mineraltypes", on_delete=models.DO_NOTHING, null=True
     )
     variety = models.CharField(
         max_length=100, blank=True, verbose_name=_("variety"))
@@ -349,3 +304,24 @@ class QuizAnswer(models.Model):
         verbose_name=_("question"),
         related_name="answers",
         on_delete=models.CASCADE)
+
+
+class TreeNode(models.Model):
+    node_name = models.CharField(
+        max_length=200, verbose_name=_("node name"), unique=True
+    )
+    leaf_nodes = models.ManyToManyField(
+        "self"
+    )
+    info_text = models.TextField(
+        max_length=500, blank=True
+    )
+    is_top_level = models.BooleanField(default=False)
+    image = models.OneToOneField("Photograph", null=True, on_delete=models.DO_NOTHING, related_name="+")
+
+    class Meta:
+        verbose_name = _("Tree Node")
+        verbose_name_plural = _("Tree Nodes")
+
+    def __str__(self):
+        return self.node_name

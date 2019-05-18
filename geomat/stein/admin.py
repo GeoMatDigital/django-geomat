@@ -87,8 +87,7 @@ admin.site.register(MineralType, MineralTypeAdmin)
 
 
 class PhotographAdmin(admin.ModelAdmin):
-    list_display = ('handpiece', 'orientation', 'shot_type', 'created_at',
-                    'last_modified', 'id')
+    list_display = ('handpiece',  'created_at', 'last_modified', 'id')
 
 
 admin.site.register(Photograph, PhotographAdmin)

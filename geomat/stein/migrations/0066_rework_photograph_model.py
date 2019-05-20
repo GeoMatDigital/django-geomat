@@ -10,6 +10,18 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.AlterField(
+            model_name='photograph',
+            name='orientation',
+            field=models.CharField(max_length=1, default="", verbose_name='orientation', choices=[('T', 'Top'), ('B', 'Bottom'), ('S', 'Side')]),
+            preserve_default=True,
+        ),
+        migrations.AlterField(
+            model_name='photograph',
+            name='shot_type',
+            field=models.CharField(max_length=2, default="", verbose_name='shot type', choices=[('MI', 'Micro'), ('MA', 'Macro'), ('FE', 'Fisheye'), ('TL', 'Tele')]),
+            preserve_default=True,
+        ),
         migrations.RemoveField(
             model_name='photograph',
             name='orientation',

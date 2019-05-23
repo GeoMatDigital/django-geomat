@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.postgres.fields.ranges import FloatRangeField
 from geomat.stein.fields import ChoiceArrayField
 from stdimage.models import StdImageField
+from mptt.models import MPTTModel, TreeForeignKey
 
 
 # Mostly all fields are defined as CharFields, so the input is easier.
@@ -306,13 +307,12 @@ class QuizAnswer(models.Model):
         on_delete=models.CASCADE)
 
 
-class TreeNode(models.Model):
+class TreeNode(MPTTModel):
     node_name = models.CharField(
         max_length=200, verbose_name=_("node name"), unique=True
     )
-    leaf_nodes = models.ManyToManyField(
-        "self"
-    )
+    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='leaf_nodes')
+
     info_text = models.TextField(
         max_length=500, blank=True
     )

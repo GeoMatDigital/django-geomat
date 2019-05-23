@@ -352,77 +352,10 @@ class GalleryView(generics.ListAPIView):
 
 class FutureMineraltypeProfiles(ReadOnlyModelViewSet):
     model = TreeNode
-    queryset = model.objects.all()
+    queryset = model.objects.root_nodes()
     serializer_class = TreeNodeSerializer
     name = 'profiles'
     app = "api"
-
-    def get_queryset(self):
-        queryset = super(FutureMineraltypeProfiles, self).get_queryset()
-        return queryset.filter(is_top_level=True)
-
-    # # layers = {0:MineralType.MINERAL_CATEGORIES,
-    # #           1:MineralType.SPLIT_CHOICES,
-    # #           2:MineralType.SUB_CHOICES}
-    #
-    # layers = {
-    #     0:"systematics",
-    #     1:"split_systematics",
-    #     2:"sub_systematics",
-    # }
-    #
-    # def list(self, request, *args, **kwargs):
-    #     translation.activate('de')
-    #     data = {}
-    #
-    #     for sys_abrev, sys_name in self.get_choices("systematics"):
-    #         data[str(sys_name)] = {}
-    #
-    #         for split_abrev, split_name in self.get_choices("split_systematics"):
-    #             if str(split_name) in sys_name:
-    #                 data[str(sys_name)][str(split_name)] = {}
-    #
-    #                 for sub_abrev, sub_name in self.get_choices("sub_systematics"):
-    #                     if str(split_name).lower() in sub_name:
-    #                         # Final layer
-    #                         krgs = {
-    #                             "sub_systematics": sub_abrev
-    #                         }
-    #                         query = self.get_queryset().filter(**krgs)
-    #                         seri = self.get_serializer(query, many=True)
-    #                         data[str(sys_name)][str(split_name)][str(sub_name)] = seri.data
-    #
-    #                 if not data[str(sys_name)][str(split_name)]:
-    #                     krgs = {
-    #                         "split_systematics": split_abrev
-    #                     }
-    #                     query = self.get_queryset().filter(**krgs)
-    #                     seri = self.get_serializer(query, many=True)
-    #                     data[str(sys_name)][str(split_name)] = seri.data
-    #
-    #         if not data[str(sys_name)]:
-    #             krgs = {
-    #                 "systematics": sys_abrev
-    #             }
-    #             query = self.get_queryset().filter(**krgs)
-    #             seri = self.get_serializer(query, many=True)
-    #             data[str(sys_name)] = seri.data
-    #
-    #     return Response(data)
-
-    # def get_choices(self, field):
-    #     """
-    #     This method retrieves the Choices Tuple for the Provided field.
-    #     systematics --> MINERAL_CATEGORIES
-    #     split_systematics --> SPLIT_CHOICES
-    #     sub_systematics --> SUB_CHOICES
-    #     :param field:
-    #     :return:
-    #     """
-    #     tpl = self.model._meta.get_field(field).choices
-    #     return tpl
-
-
 
 
 # Api View for the Glossary

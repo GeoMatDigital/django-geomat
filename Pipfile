@@ -30,6 +30,7 @@ raven = "*"
 ipython_genutils = "*"
 drf-yasg = "==1.13.0"
 django-rosetta = "*"
+django-mptt = "*"
 
 [dev-packages]
 coverage = "*"

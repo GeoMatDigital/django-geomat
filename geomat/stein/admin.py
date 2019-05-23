@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import format_html, format_html_join
+from mptt.admin import MPTTModelAdmin, DraggableMPTTAdmin
 
 from geomat.stein.forms import GlossaryEntryModelForm, MineralTypeAdminForm
 from geomat.stein.models import (
@@ -135,7 +136,5 @@ class QuizQuestionAdmin(admin.ModelAdmin):
 
 admin.site.register(QuizQuestion, QuizQuestionAdmin)
 
-class TreeNodeAdmin(admin.ModelAdmin):
-    list_display = ("id", "node_name", "is_top_level")
 
-admin.site.register(TreeNode, TreeNodeAdmin)
+admin.site.register(TreeNode, MPTTModelAdmin)

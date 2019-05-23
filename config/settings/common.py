@@ -43,7 +43,9 @@ THIRD_PARTY_APPS = (
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
     'stdimage',  # standardized image field
-    'corsheaders', )
+    'corsheaders',
+    'mptt'
+)
 
 # Apps specific for this project go here.
 LOCAL_APPS = (

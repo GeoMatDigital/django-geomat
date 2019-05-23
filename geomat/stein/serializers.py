@@ -247,10 +247,17 @@ class GlossaryEntrySerializer(serializers.ModelSerializer):
 
 
 class TreeNodeSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
     mineraltypes = MineralProfilesSerializer(many=True)
-    image = PhotographSerializer()
-    leaf_nodes = RecursiveField(many=True)
+    leaf_nodes = serializers.SerializerMethodField()
 
     class Meta:
+        depth = 1
         model = TreeNode
-        fields = ("node_name", "leaf_nodes", "info_text", "image", "mineraltypes")
+        fields = ("node_name", "image", "mineraltypes", "leaf_nodes")
+
+    def get_leaf_nodes(self, obj):
+        return TreeNodeSerializer(obj.get_children(), many=True).data
+
+    def get_image(self, obj):
+        return StdImageField().to_representation(obj.image.image_file)

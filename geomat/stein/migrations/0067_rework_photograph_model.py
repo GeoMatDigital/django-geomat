@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('stein', '0065_delete_old_systematics_fields'),
+        ('stein', '0066_auto_20190521_1707'),
     ]
 
     operations = [
@@ -33,12 +33,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='photograph',
             name='audio_file',
-            field=models.FileField(null=True, upload_to='audio', verbose_name='audio file'),
+            field=models.FileField(null=True, blank=True, upload_to='audio', verbose_name='audio file'),
         ),
         migrations.AddField(
             model_name='photograph',
             name='description',
-            field=models.TextField(default='', verbose_name='description'),
+            field=models.TextField(default='', blank=True, verbose_name='description'),
         ),
         migrations.AddField(
             model_name='photograph',

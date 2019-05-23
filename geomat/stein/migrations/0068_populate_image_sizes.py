@@ -35,7 +35,7 @@ def revert(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('stein', '0066_rework_photograph_model'),
+        ('stein', '0067_rework_photograph_model'),
     ]
 
     operations = [

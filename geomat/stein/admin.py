@@ -3,6 +3,7 @@ from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import format_html, format_html_join
 from mptt.admin import MPTTModelAdmin, DraggableMPTTAdmin
+from mutagen.mp3 import MP3
 
 from geomat.stein.forms import GlossaryEntryModelForm, MineralTypeAdminForm
 from geomat.stein.models import (
@@ -87,8 +88,14 @@ admin.site.register(MineralType, MineralTypeAdmin)
 
 
 class PhotographAdmin(admin.ModelAdmin):
-    list_display = ('handpiece', 'orientation', 'shot_type', 'created_at',
-                    'last_modified', 'id')
+    list_display = ('handpiece',  'created_at', 'last_modified', 'id')
+    readonly_fields = ('audio_duration',)
+
+    def save_model(self, request, obj, form, change):
+        super(PhotographAdmin, self).save_model(request, obj, form, change)
+        if obj.audio_file:
+            obj.audio_duration = MP3(obj.audio_file).info.length
+            obj.save()
 
 
 admin.site.register(Photograph, PhotographAdmin)

@@ -3,7 +3,7 @@ ENV PYTHONBUFFERED=1
 
 # Add new user to run the whole thing as non-root
 RUN addgroup -S app \
-    && adduser -G app -h /app -D app
+    && adduser -G app -h /app -D app -u 32767
 
 # Install build dependencies
 RUN apk update \

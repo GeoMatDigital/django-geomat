@@ -311,7 +311,6 @@ class TreeNode(MPTTModel):
         max_length=500, blank=True
     )
     is_top_level = models.BooleanField(default=False)
-    image = models.OneToOneField("Photograph", null=True, on_delete=models.DO_NOTHING, related_name="+")
 
     class Meta:
         verbose_name = _("Tree Node")

@@ -75,8 +75,9 @@ admin.site.register(CrystalSystem, CrystallSystemAdmin)
 
 
 class MineralTypeAdmin(admin.ModelAdmin):
-    list_display = ('trivial_name', 'variety',
-                    'minerals', 'created_at', 'last_modified',
+
+    list_display = ('minerals', 'variety',
+                    'trivial_name', 'created_at', 'last_modified',
                     'id')
 
     inlines = [CrystalSystemInline, CleavageInline]

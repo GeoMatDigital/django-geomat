@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.postgres.fields.ranges import FloatRangeField
 from geomat.stein.fields import ChoiceArrayField
 from stdimage.models import StdImageField
+from mptt.models import MPTTModel, TreeForeignKey
 
 
 # Mostly all fields are defined as CharFields, so the input is easier.
@@ -14,38 +15,6 @@ class MineralType(models.Model):
     Defines the mineral type model. This model is used as a
     ManyToMany-field inside the Handpiece model.
     """
-
-    MINERAL_CATEGORIES = (
-        ('EL', _("Elements")),
-        ('SF', _("Sulfides & Sulfosalts")),
-        ('HG', _("Halogenides")),
-        ('OH', _("Oxides and Hydroxides")),
-        ('CN', _("Carbonates and Nitrates")),
-        ('BR', _("Borates")),
-        ('SL', _("Sulfates")),
-        ('PV', _("Phosphates, Arsenates & Vanadates")),
-        ('SG', _("Silicates & Germanates")),
-        ('OC', _("Organic Compounds")), )
-    SPLIT_CHOICES = (
-        ('SU', _('Sulfides')),
-        ('SS', _('Sulfosalts')),
-        ('CA', _('Carbonates')),
-        ('NI', _('Nitrates')),
-        ('PH', _('Phosphates')),
-        ('AR', _('Arsenates')),
-        ('VA', _('Vanadates')),
-        ('SI', _('Silicates')),
-        ('GE', _('Germanates')),
-        ("OX", _("Oxides")),
-        ("HY", _("Hydroxides")), )
-    SUB_CHOICES=(
-        ("IS", _("Island Silicates")),
-        ("GS", _("Group Silicates")),
-        ("CS", _("Chain Silicates")),
-        ("DS", _("Double Chain Silicates")),
-        ("CC", _("Cyclo Silicates")),
-        ("PS", _("Phyllo Silicates")),
-        ("FS", _("Framework Silicates")), )
     CLEAVAGE_CHOICES = (
         ('PE', _("perfect")),
         ('LP', _("less perfect")),
@@ -72,21 +41,8 @@ class MineralType(models.Model):
 
     trivial_name = models.CharField(
         max_length=100, blank=True, verbose_name=_("trivial name"))
-    systematics = models.CharField(
-        max_length=2,
-        choices=MINERAL_CATEGORIES,
-        default="EL",
-        verbose_name=_("systematics"))
-    split_systematics = models.CharField(
-        max_length=2,
-        choices=SPLIT_CHOICES,
-        blank=True,
-        verbose_name=_("splitted systematics"))
-    sub_systematics = models.CharField(
-        max_length=2,
-        choices=SUB_CHOICES,
-        blank=True,
-        verbose_name=_("subsystematics")
+    systematics = models.ForeignKey(
+        "TreeNode", related_name="mineraltypes", on_delete=models.DO_NOTHING, null=True
     )
     variety = models.CharField(
         max_length=100, blank=True, verbose_name=_("variety"))
@@ -241,16 +197,6 @@ class Photograph(models.Model):
     the handpieces.
     """
 
-    ORIENTATION_CHOICES = (
-        ('T', _("Top")),
-        ('B', _("Bottom")),
-        ('S', _("Side")), )
-    SHOT_TYPE_CHOICES = (
-        ('MI', _("Micro")),
-        ('MA', _("Macro")),
-        ('FE', _("Fisheye")),
-        ('TL', _("Tele")), )
-
     image_file = StdImageField(
         variations={
             'large': (1200, 800),
@@ -259,14 +205,18 @@ class Photograph(models.Model):
             'thumbnail': (100, 100, True),
         },
         db_index=True)
+
+    orig_height = models.IntegerField(verbose_name=_("original height"), default=0)
+    orig_width = models.IntegerField(verbose_name=_("original width"), default=0)
+    description = models.TextField(verbose_name=_("description"), default="", blank=True)
+    audio_file = models.FileField(verbose_name=_("audio file"), upload_to="audio", null=True, blank=True)
+    audio_duration = models.FloatField(verbose_name=_("duration of audio file"), default=0)
+
+    scale_factor = models.FloatField(verbose_name=_("World to pixel scale"), default=0.0, blank=True)
+    overlay = models.TextField(verbose_name=_("overlay"), default="", blank=True)
+
     handpiece = models.ForeignKey(
         Handpiece, related_name="photograph", on_delete=models.CASCADE)
-    orientation = models.CharField(
-        max_length=1,
-        choices=ORIENTATION_CHOICES,
-        verbose_name=_("orientation"))
-    shot_type = models.CharField(
-        max_length=2, choices=SHOT_TYPE_CHOICES, verbose_name=_("shot type"))
     online_status = models.BooleanField(
         default=False, verbose_name=_("active photograph?"))
     created_at = models.DateTimeField(
@@ -349,3 +299,22 @@ class QuizAnswer(models.Model):
         verbose_name=_("question"),
         related_name="answers",
         on_delete=models.CASCADE)
+
+
+class TreeNode(MPTTModel):
+    node_name = models.CharField(
+        max_length=200, verbose_name=_("node name"), unique=True
+    )
+    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='leaf_nodes')
+
+    info_text = models.TextField(
+        max_length=500, blank=True
+    )
+    is_top_level = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = _("Tree Node")
+        verbose_name_plural = _("Tree Nodes")
+
+    def __str__(self):
+        return self.node_name

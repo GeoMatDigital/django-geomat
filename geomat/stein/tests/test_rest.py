@@ -400,20 +400,26 @@ class ApiForbiddenMethodTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
 
-
 class FilterApiViewTestCase(TestCase):
     maxDiff = None
 
-    def setUp(self):
+    @classmethod
+    def setUpTestData(cls):
         # we need at least 2 objects of each  model to be sure that it actually filters
 
-        self.client = APIClient()
-        self.cleavage_one = Cleavage.objects.create(
+        cls.client = APIClient()
+        cls.cleavage_one = Cleavage.objects.create(
             cleavage='PE'
         )
-        self.mineraltype_one = MineralType.objects.create(
+        cls.systematic_one = TreeNode.objects.create(
+            node_name="Elemente_1"
+        )
+        cls.systematic_two = TreeNode.objects.create(
+            node_name="Halogenide_1"
+        )
+        cls.mineraltype_one = MineralType.objects.create(
             trivial_name="testmineral one",
-            systematics="HG",
+            systematics=cls.systematic_one,
             variety="many one",
             minerals="minerals one",
             mohs_scale=NumericRange(3.0, 3.001),
@@ -426,14 +432,14 @@ class FilterApiViewTestCase(TestCase):
             other="other one",
             resource_mindat="mindat one",
             resource_mineralienatlas="atlas one")
-        self.mineraltype_one.cleavage.set([self.cleavage_one])
+        cls.mineraltype_one.cleavage.set([cls.cleavage_one])
 
-        self.cleavage_two = Cleavage.objects.create(
+        cls.cleavage_two = Cleavage.objects.create(
             cleavage='DI'
         )
-        self.mineraltype_two = MineralType.objects.create(
+        cls.mineraltype_two = MineralType.objects.create(
             trivial_name="testmineral two",
-            systematics="HT",
+            systematics=cls.systematic_two,
             variety="many two",
             minerals="minerals two",
             mohs_scale=NumericRange(4.0, 4.001),
@@ -446,57 +452,55 @@ class FilterApiViewTestCase(TestCase):
             other="other two",
             resource_mindat="mindat two",
             resource_mineralienatlas="atlas two")
-        self.mineraltype_two.cleavage.set([self.cleavage_two])
+        cls.mineraltype_two.cleavage.set([cls.cleavage_two])
 
-        self.crystalsystem_one = CrystalSystem.objects.create(
-            mineral_type=self.mineraltype_one,
+        cls.crystalsystem_one = CrystalSystem.objects.create(
+            mineral_type=cls.mineraltype_one,
             crystal_system="TC",
             temperature=90,
             pressure=80)
-        self.crystalsystem_two = CrystalSystem.objects.create(
-            mineral_type=self.mineraltype_two,
+        cls.crystalsystem_two = CrystalSystem.objects.create(
+            mineral_type=cls.mineraltype_two,
             crystal_system="OR",
             temperature=92,
             pressure=82)
 
-        self.handpiece_one = Handpiece.objects.create(
+        cls.handpiece_one = Handpiece.objects.create(
             name="handpiece one",
             finding_place="nowhere one",
             current_location="here one",
             old_inventory_number="inven one")
-        self.handpiece_one.mineral_type.set([self.mineraltype_one])
-        self.handpiece_two = Handpiece.objects.create(
+        cls.handpiece_one.mineral_type.set([cls.mineraltype_one])
+        cls.handpiece_two = Handpiece.objects.create(
             name="handpiece two",
             finding_place="nowhere two",
             current_location="here two",
             old_inventory_number="inven two")
-        self.handpiece_two.mineral_type.set([self.mineraltype_two])
-        self.photograph_one = Photograph.objects.create(
-            handpiece=self.handpiece_one,
-            image_file="image_one.jpg",
-            orientation="T",
-            shot_type="MA")
-        self.photograph_two = Photograph.objects.create(
-            handpiece=self.handpiece_two,
-            image_file="image_two.jpg",
-            orientation="S",
-            shot_type="MI")
+        cls.handpiece_two.mineral_type.set([cls.mineraltype_two])
+        cls.photograph_one = Photograph.objects.create(
+            handpiece=cls.handpiece_one,
+            image_file="image_one.jpg"
+        )
+        cls.photograph_two = Photograph.objects.create(
+            handpiece=cls.handpiece_two,
+            image_file="image_two.jpg"
+        )
 
-        self.photograph_one_dict = PhotographSerializer(self.photograph_one).data
+        cls.photograph_one_dict = PhotographSerializer(cls.photograph_one).data
 
-        self.photograph_two_dict = PhotographSerializer(self.photograph_two).data
+        cls.photograph_two_dict = PhotographSerializer(cls.photograph_two).data
 
-        self.mineraltype_one_dict = MineralTypeSerializer(self.mineraltype_one).data
+        cls.mineraltype_one_dict = MineralTypeSerializer(cls.mineraltype_one).data
 
-        self.mineraltype_two_dict = MineralTypeSerializer(self.mineraltype_two).data
+        cls.mineraltype_two_dict = MineralTypeSerializer(cls.mineraltype_two).data
 
-        self.crystalsystem_one_dict = CrystalSystemFullSerializer(self.crystalsystem_one).data
+        cls.crystalsystem_one_dict = CrystalSystemFullSerializer(cls.crystalsystem_one).data
 
-        self.crystalsystem_two_dict = CrystalSystemFullSerializer(self.crystalsystem_two).data
+        cls.crystalsystem_two_dict = CrystalSystemFullSerializer(cls.crystalsystem_two).data
 
-        self.handpiece_one_dict = HandpieceSerializer(self.handpiece_one).data
+        cls.handpiece_one_dict = HandpieceSerializer(cls.handpiece_one).data
 
-        self.handpiece_two_dict = HandpieceSerializer(self.handpiece_two).data
+        cls.handpiece_two_dict = HandpieceSerializer(cls.handpiece_two).data
 
     def test_can_filter_trivial_name(self):
         response = self.client.get(
@@ -509,7 +513,7 @@ class FilterApiViewTestCase(TestCase):
 
     def test_can_filter_systematics(self):
         response = self.client.get(
-            reverse('api:mineraltype-filter'), {'systematics': "HG"})
+            reverse('api:mineraltype-filter'), {'systematics': self.systematic_one.pk})
         response_dict = json.loads(response.content)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.mineraltype_one_dict in response_dict
@@ -724,33 +728,6 @@ class FilterApiViewTestCase(TestCase):
             reverse('api:photograph-filter'),
             {'handpiece': self.handpiece_one.id})
         response_dict = json.loads(response.content)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        assert self.photograph_one_dict in response_dict
-        assert len(response_dict) == 1
-
-    @pytest.mark.skip(
-        reason=
-        "The given output of the StdImageField, contains full server url of the image files.The dict does NOT contain them, to besolved in future process"
-    )
-    def test_can_filter_orientation(self):
-        response = self.client.get(
-            reverse('api:photograph-filter'), {'orientation': "T"})
-        response_dict = json.loads(response.content)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        assert self.photograph_one_dict in response_dict
-        assert len(response_dict) == 1
-
-    @pytest.mark.skip(
-        reason=
-        "The given output of the StdImageField, contains full server url of the image files. The dict does NOT contain them, to besolved in future process"
-    )
-    def test_can_filter_shot_type(self):
-        response = self.client.get(
-            reverse('api:photograph-filter'), {'shot_type': "MA"})
-        response_dict = json.loads(response.content)
-        pprint(response_dict)
-        pprint(self.photograph_one_dict)
-
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         assert self.photograph_one_dict in response_dict
         assert len(response_dict) == 1

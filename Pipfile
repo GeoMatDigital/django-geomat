@@ -11,7 +11,6 @@ django-braces = "*"
 django-crispy-forms = "*"
 django-model-utils = "*"
 django-allauth = "*"
-psycopg2 = "*"
 awesome-slugify = "*"
 pytz = "*"
 django-stdimage = "*"
@@ -32,6 +31,8 @@ django-rosetta = "*"
 django-mptt = "*"
 mutagen = "*"
 drf-yasg = "*"
+psycopg2-binary = "*"
+
 
 [dev-packages]
 coverage = "*"

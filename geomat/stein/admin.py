@@ -5,7 +5,6 @@ from django.utils.html import format_html, format_html_join
 from mptt.admin import MPTTModelAdmin, DraggableMPTTAdmin
 from mutagen.mp3 import MP3
 
-from geomat.stein.forms import GlossaryEntryModelForm, MineralTypeAdminForm
 from geomat.stein.models import (
     Cleavage,
     CrystalSystem,
@@ -76,7 +75,6 @@ admin.site.register(CrystalSystem, CrystallSystemAdmin)
 
 
 class MineralTypeAdmin(admin.ModelAdmin):
-    form = MineralTypeAdminForm
     list_display = ('trivial_name', 'variety',
                     'minerals', 'created_at', 'last_modified',
                     'id')

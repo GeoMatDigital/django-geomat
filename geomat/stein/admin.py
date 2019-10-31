@@ -143,4 +143,4 @@ class QuizQuestionAdmin(admin.ModelAdmin):
 admin.site.register(QuizQuestion, QuizQuestionAdmin)
 
 
-admin.site.register(TreeNode, MPTTModelAdmin)
+admin.site.register(TreeNode, DraggableMPTTAdmin)
